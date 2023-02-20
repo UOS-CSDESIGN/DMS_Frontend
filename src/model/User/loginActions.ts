@@ -1,7 +1,7 @@
 import User from "./User";
 import axios from "axios";
 import { Action, handleActions } from 'redux-actions';
-import { initalState, UserState } from "./initialState";
+import { initalState, UserState } from "./userState";
 
 const LOGIN_REQUSET = 'User/LOGIN_REQUEST';
 const LOGIN_SUCCESS = 'User/LOGIN_SUCCESS';
