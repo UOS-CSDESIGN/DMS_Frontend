@@ -7,7 +7,9 @@ import {
   Text,
   TextInput,
   View,
-  ScrollView
+  ScrollView,
+  Image,
+  Button
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
@@ -15,6 +17,7 @@ import Config from 'react-native-config';
 import axios, {AxiosError} from 'axios';
 import BirthComponent from './BirthComponent';
 import GenderComponent from './genderComponent';
+import Picture from './PictureComponent';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -241,8 +244,12 @@ function SignUp({navigation}: SignUpScreenProps) {
           clearButtonMode = "while-editing"
           blurOnSubmit = {false}/>
       </View>
-      <View>
-        
+      <View style = {styles.wrapper}>
+        <Text style = {styles.text}>사진</Text>
+        <Image
+        source = {require/>
+        <Button title = "사진 선택"
+          onPress = {Picture}></Button>
       </View>
       <View style = {styles.button}>
         <Pressable
