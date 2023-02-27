@@ -1,4 +1,4 @@
-import { combineReducers, createStore, applyMiddleware } from "@reduxjs/toolkit";
+import { combineReducers, createStore, applyMiddleware} from 'redux'
 import thunk from "redux-thunk";
 import loginActions from "./User/loginActions";
 import signupActions from "./User/signupActions";
