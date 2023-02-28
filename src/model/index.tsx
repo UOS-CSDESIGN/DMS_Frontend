@@ -1,15 +1,8 @@
-import { combineReducers, createStore, applyMiddleware} from 'redux'
-import thunk from "redux-thunk";
-import loginActions from "./User/loginActions";
-import signupActions from "./User/signupActions";
+import { configureStore } from '@reduxjs/toolkit';
+import loginReducer from './User/loginSlice';
 
-const rootReducer = combineReducers({
-    loginActions,
-    signupActions
+export const store = configureStore({
+    reducer: {
+        login: loginReducer
+    }
 });
-
-const store = createStore(
-    rootReducer, applyMiddleware(thunk)
-);
-
-export default store;
