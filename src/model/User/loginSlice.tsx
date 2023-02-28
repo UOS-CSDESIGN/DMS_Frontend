@@ -1,8 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-export type loginState = {
-    accessToekn: string,
-    loading: boolean
-}
+
 const loginSlice = createSlice({
     name: 'login',
     initialState: {
@@ -15,7 +12,7 @@ const loginSlice = createSlice({
         },
         loginSuccess: (state, action) => {
             state.loading = false;
-            state.accessToken = action.payload
+            state.accessToken = action.payload;
         },
         loginFailure: (state) => {
             state.loading = false;
