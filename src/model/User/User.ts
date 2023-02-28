@@ -31,7 +31,7 @@ class User{
         this.addressDetail = addressDetail;
         this.memberImage = memberImage;
     }
-    get formData() {
+    get signupData() {
         let data: FormData = new FormData();
         data.append("userId", this.userId);
         data.append("password", this.password);
