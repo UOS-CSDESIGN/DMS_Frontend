@@ -10,13 +10,14 @@ class User{
     zipCode: number;
     street: string;
     addressDetail: string;
-    memberImage: string;
+    imageUrl: string;
+    imageName: string;
     
     constructor(
         userId: string, username: string, password: string,
         nickname: string, birth: number, email: string,
         phoneNo: string, isSocial: boolean, zipCode: number,
-        street: string, addressDetail: string, memberImage: string
+        street: string, addressDetail: string, imageUrl: string, imageName: string
     ) {
         this.userId = userId;
         this.username = username;
@@ -29,16 +30,32 @@ class User{
         this.zipCode = zipCode;
         this.street = street;
         this.addressDetail = addressDetail;
-        this.memberImage = memberImage;
+        this.imageUrl = imageUrl;
+        this.imageName = imageName;
     }
     get signupData() {
+
         let data: FormData = new FormData();
+        let file = {};
+
         data.append("userId", this.userId);
         data.append("password", this.password);
         data.append("username", this.username);
         data.append("nickname", this.nickname);
         data.append("email", this.email);
         data.append("phoneNo", this.phoneNo);
+        if (this.imageUrl !== "" && this.imageName !=="") {
+            file = {
+                uri: this.imageUrl,
+                type: 'multipart/form-data',
+                name: this.imageName
+            }
+            data.append("memberImage", file);
+        }
+        else {
+            data.append("memberImage", null);
+        }
+        
         return data;
     }
     get loginData() {
