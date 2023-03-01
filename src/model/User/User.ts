@@ -3,6 +3,7 @@ class User{
     username: string;
     password: string;
     nickname: string;
+    gender: number;
     birth: number;
     email: string;
     phoneNo: string;
@@ -15,7 +16,7 @@ class User{
     
     constructor(
         userId: string, username: string, password: string,
-        nickname: string, birth: number, email: string,
+        nickname: string, gender:number, birth: number, email: string,
         phoneNo: string, isSocial: boolean, zipCode: number,
         street: string, addressDetail: string, imageUrl: string, imageName: string
     ) {
@@ -23,6 +24,7 @@ class User{
         this.username = username;
         this.password = password;
         this.nickname = nickname;
+        this.gender = gender;
         this.birth = birth;
         this.email = email;
         this.phoneNo = phoneNo;
