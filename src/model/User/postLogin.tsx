@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "..";
-import { loginFailure, loginRequest, loginSuccess } from "./loginSlice";
+import { loginFailure, loginRequest, loginSuccess } from "./slice/loginSlice";
 import User from "./User";
 
 const postLogin = async (user: User) => {
@@ -9,9 +9,10 @@ const postLogin = async (user: User) => {
     const dispatch = useDispatch();
     dispatch(loginRequest());
     try {
-        const res:AxiosResponse = await axios.post("http://25.15.132.100:8080/member/login",
+        const res: AxiosResponse = await axios.post("http://25.15.132.100:8080/member/login",
             user.loginData,
             {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Access-Control-Allow-Origin': 'http://25.15.132.100:8080',
@@ -21,7 +22,7 @@ const postLogin = async (user: User) => {
                 },
             }
         )
-        dispatch(loginSuccess(res.data));
+        dispatch(loginSuccess(res));
     } catch (e) {
         dispatch(loginFailure());
         throw e;
