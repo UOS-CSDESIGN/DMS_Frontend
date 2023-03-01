@@ -62,7 +62,6 @@ function Picture(){
               const localUri = result.assets[0].uri;
               const uriPath = localUri.split("//").pop();
               const imageName = localUri.split("/").pop();
-              const picture = imageName;
             }
           },
         ],

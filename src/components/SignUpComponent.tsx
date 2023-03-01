@@ -12,12 +12,13 @@ import {
   Button
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../App';
+import { RootStackParamList } from '../AppInner';
 import Config from 'react-native-config';
 import axios, {AxiosError} from 'axios';
 import BirthComponent from './BirthComponent';
 import GenderComponent from './genderComponent';
 import Picture from './PictureComponent';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -82,7 +83,8 @@ function SignUp({navigation}: SignUpScreenProps) {
       zipcode : zipcode,
       street : street,
       addressDetail : addressDetail,
-      memberImage : memberImage
+      localUri : 
+      imageName : 
     }
     if(loading){
       return
@@ -152,7 +154,7 @@ function SignUp({navigation}: SignUpScreenProps) {
 
   const canGoNext = userId && password && nickname && email && phoneNo && zipcode && street && addressDetail;
   return (
-    <ScrollView>
+    <ScrollView style = {styles.SignUpPage}>
       <View style={styles.wrapper}>
         <Text style={styles.text}>아이디</Text>
         <TextInput
@@ -180,6 +182,17 @@ function SignUp({navigation}: SignUpScreenProps) {
           blurOnSubmit = {false}/>
       </View>
       <View style = {styles.wrapper}>
+        <Text style = {styles.text}>비밀번호 확인</Text>
+        <TextInput
+          style = {styles.textInput}
+          onChangeText = {onChangePassword}
+          secureTextEntry = {true}
+          value = {password}
+          returnKeyType = "next"
+          clearButtonMode = "while-editing"
+          blurOnSubmit = {false}/>
+      </View>
+      <View style = {styles.wrapper}>
         <Text style = {styles.text}>이름</Text>
         <TextInput
           style = {styles.textInput}
@@ -197,7 +210,9 @@ function SignUp({navigation}: SignUpScreenProps) {
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>생년월일</Text>
-        <BirthComponent/>
+        <Pressable onPress = {BirthComponent}>
+          <Icon name = 'calendar'/>
+        </Pressable>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>이메일</Text>
@@ -209,6 +224,7 @@ function SignUp({navigation}: SignUpScreenProps) {
           value = {email}
           returnKeyType = "next"
           clearButtonMode = "while-editing"
+          keyboardType = "email-address"
           blurOnSubmit = {false}/>
       </View>
       <View style = {styles.wrapper}>
@@ -216,6 +232,7 @@ function SignUp({navigation}: SignUpScreenProps) {
         <TextInput
           style = {styles.textInput}
           onChangeText = {onChangePhoneNo}
+          placeholder = "- 없이 입력"
           placeholderTextColor = "#666"
           value = {phoneNo}
           returnKeyType = "next"
@@ -246,10 +263,11 @@ function SignUp({navigation}: SignUpScreenProps) {
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>사진</Text>
-        <Image
-        source = {require/>
-        <Button title = "사진 선택"
-          onPress = {Picture}></Button>
+        <Pressable
+          style = {styles.photoZone}
+          onPress = {Picture}>
+          <Text style = {styles.photo}>사진 가져오기</Text>
+        </Pressable>
       </View>
       <View style = {styles.button}>
         <Pressable
@@ -265,22 +283,40 @@ function SignUp({navigation}: SignUpScreenProps) {
 }
 
 const styles = StyleSheet.create({
+  SignUpPage : {
+    backgroundColor : 'snow',
+    paddingVertical : '5%',
+  },
   wrapper: {
-    padding: 5,
-    flexDirection : 'row',
+    paddingLeft : 10,
+    marginVertical : 5,
+    paddingTop : 5,
   },
   textInput: {
-    fontWeight : 'bold',
-    fontSize : 12,
+    marginTop : 5,
+    marginRight : 30,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    backgroundColor : 'white',
   },
   text: {
     fontWeight: 'bold',
-    fontSize: 16,
-    marginVertical : 15,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    fontSize: 15,
+    paddingTop : 3,
   },
   button : {
     alignItems : 'center',
+  },
+  photoZone : {
+    alignItems : "center",
+    justifyContent : "center",
+    marginRight : 250,
+    height : 30,
+    backgroundColor : "gray",
+  },
+  photo : {
+    fontSize : 15,
   },
   signUpButton : {
     backgroundColor : 'gray',
