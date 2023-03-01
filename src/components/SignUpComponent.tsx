@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   Alert,
   Platform,
@@ -13,12 +13,12 @@ import {
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
-import Config from 'react-native-config';
-import axios, {AxiosError} from 'axios';
 import BirthComponent from './BirthComponent';
-import GenderComponent from './genderComponent';
 import Picture from './PictureComponent';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import postLogin from '../model/User/postLogin';
+import User from '../model/User/User';
+import CheckBox from '@react-native-community/checkbox';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -26,15 +26,17 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [nickname, setNickname] = useState('');
   const [gender, setGender] = useState(0);
-  const [birth, setBirth] = useState('');
+  const [birth, setBirth] = useState(0);
   const [email, setEmail] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
   const [zipcode, setZipcode] = useState('');
   const [street, setStreet] = useState('');
   const [addressDetail, setAddressDetail] = useState('');
-  const [memberImage, setMemberImage] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [imageName, setImageNmae] = useState('');
 
   const onChangeUserId = useCallback((text:string) => {
     setUserId(text.trim());
@@ -42,14 +44,14 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangePassword = useCallback((text:string) => {
     setPassword(text.trim());
   }, []);
+  const onChangeUsername = useCallback((text : string) => {
+    setUsername(text.trim());
+  }, []);
   const onChangeNickname = useCallback((text:string) => {
     setNickname(text.trim());
   }, []);
-  const onChangeGender = useCallback((text:number) => {
-    setGender(text);
-  }, []);
-  const onChangeBirth = useCallback((text:string) => {
-    setBirth(text.trim());
+  const onChangeBirth = useCallback((text:number) => {
+    setBirth(text);
   }, []);
   const onChangeEmail = useCallback((text:string) => {
     setEmail(text.trim());
@@ -66,26 +68,32 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangeAddressDetail = useCallback((text:string)=> {
     setAddressDetail(text.trim());
   }, []);
-  const onChangeMemberImage = useCallback((text:string)=> {
-    setMemberImage(text.trim());
-  }, []);
+  const onChangeImage = useCallback(()=>{
+    const res = Picture();
+    setImageUrl(res.imageUrl);
+    setImageNmae(res.imageName);
+  },[]);
 
   const [token, setToken] = useState('');
   const onSubmit = useCallback(async () => {
-    const user = {
-      userId : userId,
-      password : password,
-      nickname : nickname,
-      gender : gender,
-      birth : birth,
-      email : email,
-      phoneNo : phoneNo,
-      zipcode : zipcode,
-      street : street,
-      addressDetail : addressDetail,
-      localUri : 
-      imageName : 
-    }
+    // const user = {
+    //   userId : userId,
+    //   password : password,
+    //   nickname : nickname,
+    //   gender : gender,
+    //   birth : birth,
+    //   email : email,
+    //   phoneNo : phoneNo,
+    //   zipCode : zipcode,
+    //   street : street,
+    //   addressDetail : addressDetail,
+    //   imageUrl : imageUrl,
+    //   imageName : imageName
+    // }
+    const user  = new User(
+      userId, password, username, nickname, gender, birth, email, phoneNo, false, zipcode, 
+      street, addressDetail, imageUrl, imageName
+    );
     if(loading){
       return
     }
@@ -101,7 +109,7 @@ function SignUp({navigation}: SignUpScreenProps) {
     if (!gender) {
         return Alert.alert('알림', '성별을 선택해주세요.');
       }
-    if (!birth || !birth.trim()) {
+    if (!birth) {
         return Alert.alert('알림', '생년월일을 입력해주세요.');
     }
     if (!email || !email.trim()) {
@@ -119,9 +127,6 @@ function SignUp({navigation}: SignUpScreenProps) {
     if (!addressDetail|| !addressDetail.trim()) {
         return Alert.alert('알림', '상세주소를 입력해주세요.');
     }
-    if (!memberImage || !memberImage.trim()) {
-        return Alert.alert('알림', '사진을 입력해주세요.');
-    }
 
     if (
       !/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(
@@ -136,21 +141,8 @@ function SignUp({navigation}: SignUpScreenProps) {
         '비밀번호는 영문,숫자,특수문자($@^!%*#?&)를 모두 포함하여 8자 이상 입력해야합니다.',
       );
     }
-    try {
-        setLoading(true);
-        const response = await axios.post(`http://25.15.132.100:8080/member/Signup`, user)
-        .then((response) => (response)=>{
-          console.log(response.data);
-          setToken(JSON.stringify(response.data));
-          Alert.alert('알림', '회원가입 되었습니다.');
-          navigation.navigate('Login');
-        })
-        .catch((error)=>{
-          console.log(error);
-        })
-      }finally{
-        setLoading(false);}
-  }, [loading, navigation, userId, password, nickname, gender, birth, email, phoneNo, zipcode, street, addressDetail, memberImage]);
+    postLogin(user);
+  }, [navigation, userId, password, username, nickname, gender, birth, email, false, phoneNo, zipcode, street, addressDetail, imageUrl, imageName]);
 
   const canGoNext = userId && password && nickname && email && phoneNo && zipcode && street && addressDetail;
   return (
@@ -168,6 +160,7 @@ function SignUp({navigation}: SignUpScreenProps) {
           blurOnSubmit={false}
         />
       </View>
+      
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>비밀번호</Text>
         <TextInput
@@ -196,17 +189,29 @@ function SignUp({navigation}: SignUpScreenProps) {
         <Text style = {styles.text}>이름</Text>
         <TextInput
           style = {styles.textInput}
-          onChangeText = {onChangeNickname}
+          onChangeText = {onChangeUsername}
           placeholder = "이름"
+          placeholderTextColor = "#666"
+          value = {username}
+          returnKeyType = "next"
+          clearButtonMode = "while-editing"
+          blurOnSubmit = {false}/>
+      </View>
+      <View style = {styles.wrapper}>
+        <Text style = {styles.text}>별명</Text>
+        <TextInput
+          style = {styles.textInput}
+          onChangeText = {onChangeNickname}
+          placeholder = "별명"
           placeholderTextColor = "#666"
           value = {nickname}
           returnKeyType = "next"
           clearButtonMode = "while-editing"
           blurOnSubmit = {false}/>
       </View>
-      <View style = {styles.wrapper}>
-        <Text style = {styles.text}>성별</Text>
-        <GenderComponent/>
+      <View style = {styles.wrapperGender}>
+        
+
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>생년월일</Text>
@@ -282,6 +287,8 @@ function SignUp({navigation}: SignUpScreenProps) {
   );
 }
 
+
+
 const styles = StyleSheet.create({
   SignUpPage : {
     backgroundColor : 'snow',
@@ -317,6 +324,12 @@ const styles = StyleSheet.create({
   },
   photo : {
     fontSize : 15,
+  },
+  wrapperGender : {
+    paddingLeft : 10,
+    marginVertical : 5,
+    paddingTop : 5,
+    flexDirection : 'row',
   },
   signUpButton : {
     backgroundColor : 'gray',
