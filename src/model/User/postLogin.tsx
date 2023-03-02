@@ -1,31 +1,32 @@
-import axios, {AxiosResponse} from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "..";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 import { loginFailure, loginRequest, loginSuccess } from "./slice/loginSlice";
-import User from "./User";
 
-const postLogin = async (user: User) => {
-    const token = useSelector((state:RootState) => state.login.accessToken);
-    const dispatch = useDispatch();
+const postLogin = async (user: FormData, dispatch:any) => {
+    //const dispatch = useDispatch();
     dispatch(loginRequest());
-    try {
-        const res: AxiosResponse = await axios.post("http://25.15.132.100:8080/member/login",
-            user.loginData,
+        await axios.post("http://25.12.74.132:8080/member/login",
+            user,
             {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    'Access-Control-Allow-Origin': 'http://25.15.132.100:8080',
+                    'Access-Control-Allow-Origin': 'http://25.12.74.132:8080',
                 },
                 transformRequest: (data, headers) => {
                     return data;
                 },
             }
         )
-        dispatch(loginSuccess(res));
-    } catch (e) {
-        dispatch(loginFailure());
-        throw e;
-    }
+        .then((res)=>{
+            dispatch(loginSuccess(JSON.stringify(res.data.accessToken)));
+            console.log(res);
+        })
+        .catch((error)=>{
+            dispatch(loginFailure());
+            console.log(error);
+            throw error;
+        });
+        
 };
 export default postLogin;

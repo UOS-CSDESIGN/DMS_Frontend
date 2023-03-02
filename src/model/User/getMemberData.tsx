@@ -9,7 +9,7 @@ const getMemberData = async () => {
     const dispatch = useDispatch();
     dispatch(memberDataRequest());
     try {
-        const res: AxiosResponse = await axios.get("http://25.15.132.100:8080/api/refreshToken",
+        const res: AxiosResponse = await axios.get("http://25.12.74.132:8080/api/refreshToken",
             {
                 headers: {
                     'Authorization': 'Bearer' + token

@@ -14,7 +14,7 @@ const loginSlice = createSlice({
         },
         loginSuccess: (state, action) => {
             state.loading = false;
-            state.accessToken = action.payload.data;
+            state.accessToken = action.payload;
             //SSL 통신 이후 refresh 파트 구현
             //state.refreshToken = action.payload.headers.Cookies;
         },

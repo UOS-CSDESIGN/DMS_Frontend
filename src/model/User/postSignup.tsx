@@ -11,12 +11,12 @@ const postSignup = async (user: User) => {
 
     dispatch(signupRequest());
     try {
-        const res: AxiosResponse = await axios.post("http://25.15.132.100:8080/member/signup",
+        const res: AxiosResponse = await axios.post("http://25.12.74.132:8080/member/signup",
             user.signupData,
             {
                 headers: {
                     'Content-type': 'multipart/form-data',
-                    'Access-Control-Allow-Origin': 'http://25.15.132.100:8080',
+                    'Access-Control-Allow-Origin': 'http://25.12.74.132:8080',
                 },
                 transformRequest: (data, headers) => {
                     return data;
