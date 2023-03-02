@@ -11,12 +11,15 @@ const postRefresh = async () => {
 
     try {
         const res: AxiosResponse = await axios.post("http://25.15.132.100:8080/api/refershToken",
-            { refreshToekn: refresh },//여기가 json형태로 바꾸든, 아니면 헤더에 넣든 해야될듯...
+            {
+                refreshToken: refresh,
+                accessToken: access
+            },//여기가 json형태로 바꾸든, 아니면 헤더에 넣든 해야될듯...
             {
                 withCredentials: true,
                 headers: {
                     'Access-Control-Allow-Origin': 'http://25.15.132.100:8080',
-                    'Authorization': 'Bearer' + access
+                    
                 },
             }
         )

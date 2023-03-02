@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const loginSlice = createSlice({
     name: 'login',
     initialState: {
-        refreshToken:'',
+        //SSL 통신 이후 refresh 파트 구현
+        //refreshToken:'',
         accessToken: '',
         loading: false,
     },
@@ -14,7 +15,8 @@ const loginSlice = createSlice({
         loginSuccess: (state, action) => {
             state.loading = false;
             state.accessToken = action.payload.data;
-            state.refreshToken = action.payload.headers.Cookies;
+            //SSL 통신 이후 refresh 파트 구현
+            //state.refreshToken = action.payload.headers.Cookies;
         },
         loginFailure: (state) => {
             state.loading = false;
