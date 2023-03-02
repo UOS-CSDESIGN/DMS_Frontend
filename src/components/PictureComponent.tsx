@@ -3,7 +3,12 @@ import {PermissionsAndroid, Platform} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {Alert} from 'react-native';
 
+
 function Picture(){
+  const image={
+    imageUrl:"",
+    imageName:"",
+  }
     const androidPermission = async () => {
         const allowCamera = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.CAMERA,
@@ -47,9 +52,9 @@ function Picture(){
                 if (result.didCancel){ 
                   return null;
                 }
-                const localUri = result.assets[0].uri;
-                const uriPath = localUri.split("//").pop();
-                const imageName = localUri.split("/").pop();
+                const imageUrl = result.assets[0].uri;
+                const uriPath = imageUrl.split("//").pop();
+                const imageName = imageUrl.split("/").pop();
             }
           },
           {
@@ -59,14 +64,15 @@ function Picture(){
               if (result.didCancel){
                 return null;
               } 
-              const localUri = result.assets[0].uri;
-              const uriPath = localUri.split("//").pop();
-              const imageName = localUri.split("/").pop();
+              const imageUrl = result.assets[0].uri;
+              const uriPath = imageUrl.split("//").pop();
+              const imageName = imageUrl.split("/").pop();
             }
           },
         ],
         {cancelable: false}
       );
+      return image
 }
 
 export default Picture;

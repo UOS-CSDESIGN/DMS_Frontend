@@ -1,31 +1,37 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
+let gender = 0;
+
 function GenderComponent(){
-    const [selected1, isSelected1] = useState(false);
-    const [selected2, isSelected2] = useState(false);
-    const [selected3, isSelected3] = useState(false);
+    const [male, setMale] = useState(false);
+    const [female, setFemale] = useState(false);
+    const onChangeMale = useCallback(() => {
+        setMale(true);
+        setFemale(false);
+        gender = 1;
+    }, [])
+    const onChangeFemale = useCallback(() => {
+        setFemale(true);
+        setMale(false);
+        gender = 2;
+    }, [])
+    
     return(
         <View style = {styles.genderBox}>
             <CheckBox
                 disabled = {false}
-                value = {selected1}
-                onValueChange = {(newValue) => isSelected1(newValue)}
+                value = {male}
+                onValueChange= {onChangeMale}
             />
-            <Text>남자</Text>
+            <Text style = {styles.gender}>남성</Text>
             <CheckBox
                 disabled = {false}
-                value = {selected2}
-                onValueChange = {(newValue) => isSelected2(newValue)}
+                value = {female}
+                onValueChange = {onChangeFemale}
             />
-            <Text>여자</Text>
-            <CheckBox
-                disabled = {false}
-                value = {selected3}
-                onValueChange = {(newValue) => isSelected3(newValue)}
-            />
-            <Text>중성</Text>
+            <Text style = {styles.gender}>여성</Text>
         </View>
     )
 }
@@ -34,6 +40,9 @@ const styles = ({
     genderBox : {
         flexDirection : 'row',
     },
+    gender : {
+        marginTop : 5,
+    }
 })
 
-export default GenderComponent;
+export {GenderComponent, gender};
