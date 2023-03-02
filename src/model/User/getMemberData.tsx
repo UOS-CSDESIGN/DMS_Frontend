@@ -1,26 +1,20 @@
-import { AxiosResponse } from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "..";
 import axios from "axios";
 import { memberDataFailure, memberDataRequest, memberDataSuccess } from "./slice/memberDataSlice";
 
-const getMemberData = async () => {
-    const token = useSelector((state: RootState) => state.login.accessToken);
-    const dispatch = useDispatch();
+const getMemberData = async (dispatch:any, token:any) => {
     dispatch(memberDataRequest());
-    try {
-        const res: AxiosResponse = await axios.get("http://25.12.74.132:8080/api/refreshToken",
-            {
-                headers: {
-                    'Authorization': 'Bearer' + token
-                },
-            }
-        )
+    await axios.get("http://25.12.74.132:8080/api/refreshToken",
+        {
+            headers: {
+                'Authorization': 'Bearer' + token
+            },
+        }
+    ).then((res) => {
         dispatch(memberDataSuccess(res));
-    } catch (e) {
+    }).catch((error) => {
         dispatch(memberDataFailure());
-        throw e;
-    }
+        throw error;
+    });
 };
 
 export default getMemberData;

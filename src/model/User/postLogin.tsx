@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import { loginFailure, loginRequest, loginSuccess } from "./slice/loginSlice";
 
-const postLogin = async (user: FormData, dispatch:any) => {
-    //const dispatch = useDispatch();
+const postLogin = async (user: FormData, dispatch: any) => {
+    //Hooks must be top of the component
+    //So, useDispatch passed from parameter dispatch
+
     dispatch(loginRequest());
         await axios.post("http://25.12.74.132:8080/member/login",
             user,
@@ -20,11 +21,10 @@ const postLogin = async (user: FormData, dispatch:any) => {
         )
         .then((res)=>{
             dispatch(loginSuccess(JSON.stringify(res.data.accessToken)));
-            console.log(res);
+            console.log(JSON.stringify(res.data.accessToken));
         })
         .catch((error)=>{
             dispatch(loginFailure());
-            console.log(error);
             throw error;
         });
         

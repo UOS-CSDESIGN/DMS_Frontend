@@ -1,32 +1,27 @@
-import axios, { AxiosResponse } from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "..";
-import { loginFailure } from "./slice/loginSlice";
-import { signupRequest, signupSuccess } from "./slice/signupSlice";
+import axios from "axios";
+import { signupFailure, signupRequest, signupSuccess } from "./slice/signupSlice";
 import User from "./User";
 
-const postSignup = async (user: User) => {
-    const msg = useSelector((state: RootState) => state.singup.message);
-    const dispatch = useDispatch();
+const postSignup = async (user: User, dispatch:any) => {
 
     dispatch(signupRequest());
-    try {
-        const res: AxiosResponse = await axios.post("http://25.12.74.132:8080/member/signup",
-            user.signupData,
-            {
-                headers: {
-                    'Content-type': 'multipart/form-data',
-                    'Access-Control-Allow-Origin': 'http://25.12.74.132:8080',
-                },
-                transformRequest: (data, headers) => {
-                    return data;
-                },
-            }
-        );
+    await axios.post("http://25.12.74.132:8080/member/signup",
+        user.signupData,
+        {
+            headers: {
+                'Content-type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': 'http://25.12.74.132:8080',
+            },
+            transformRequest: (data, headers) => {
+                return data;
+            },
+        }
+    ).then((res) => {
         dispatch(signupSuccess(res.data));
-    } catch (e) {
-        dispatch(loginFailure());
-        throw e;
-    }
+        console.log("signup success");
+    }).catch((error) => {
+        dispatch(signupFailure());
+        console.log("signup failed");
+    })
 };
 export default postSignup;

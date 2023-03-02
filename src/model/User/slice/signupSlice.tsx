@@ -14,7 +14,7 @@ const signupSlice = createSlice({
             state.loading = false;
             state.message = action.payload;
         },
-        signupFailure: (state, action) => {
+        signupFailure: (state) => {
             state.loading = false;
             state.message = "failed";
         }
