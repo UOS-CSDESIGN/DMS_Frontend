@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const loginSlice = createSlice({
     name: 'login',
     initialState: {
+        refreshToken:'',
         accessToken: '',
         loading: false,
     },
@@ -12,7 +13,8 @@ const loginSlice = createSlice({
         },
         loginSuccess: (state, action) => {
             state.loading = false;
-            state.accessToken = action.payload;
+            state.accessToken = action.payload.data;
+            state.refreshToken = action.payload.headers.Cookies;
         },
         loginFailure: (state) => {
             state.loading = false;

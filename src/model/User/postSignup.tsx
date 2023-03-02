@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "..";
-import { loginFailure } from "./loginSlice";
-import { signupRequest, signupSuccess } from "./signupSlice";
+import { loginFailure } from "./slice/loginSlice";
+import { signupRequest, signupSuccess } from "./slice/signupSlice";
 import User from "./User";
 
 const postSignup = async (user: User) => {
