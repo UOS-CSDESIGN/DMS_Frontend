@@ -3,8 +3,8 @@ class User{
     username: string;
     password: string;
     nickname: string;
-    gender: number;
-    birth: string;
+    gender : number;
+    birth: number;
     email: string;
     phoneNo: string;
     isSocial: boolean;
@@ -16,7 +16,7 @@ class User{
     
     constructor(
         userId: string, username: string, password: string,
-        nickname: string, gender:number, birth: string, email: string,
+        nickname: string,  gender : number, birth: number, email: string,
         phoneNo: string, isSocial: boolean, zipCode: number,
         street: string, addressDetail: string, imageUrl: string, imageName: string
     ) {
