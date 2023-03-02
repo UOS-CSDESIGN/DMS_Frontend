@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 
-function BirthComponent(){
+
+function BirthComponent( ){
     const [date, setDate] = useState(new Date());
     return(
         <DatePicker date = {date}
