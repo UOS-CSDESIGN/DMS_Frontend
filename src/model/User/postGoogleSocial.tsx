@@ -18,6 +18,7 @@ const postGoogleSocal = async (
         .then((res) => {
             //pass stateus code (ex. 400, 200)
             dispatch(socialSuccess(res.header.status));
+            console.log(res);
             if (stateCode === 200) {
                 //pass token
                 dispatch(loginSuccess(JSON.stringify(res.data.accessToken)));
