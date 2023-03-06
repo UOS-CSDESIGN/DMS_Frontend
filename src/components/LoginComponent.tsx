@@ -6,7 +6,8 @@ import {
   Text,
   TextInput,
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  Linking
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
@@ -14,19 +15,28 @@ import axios, {AxiosError} from 'axios';
 import SignUp from './SignUpComponent';
 import CheckBox from '@react-native-community/checkbox';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import User from '../model/User/User';
+import postLogin from '../model/User/postLogin';
+import { useDispatch, useSelector } from 'react-redux';
+import getMemberData from '../model/User/getMemberData';
+import { RootState } from '../model';
 
 
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 function Login({navigation}: LogInScreenProps){
+    const [loading ,setLoading] = useState(false);
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [selected, isSelected] = useState(false);
-    const [loading, setLoading] = useState(false);
+
+    const dispatch = useDispatch();
+
     const userIdRef = useRef<TextInput | null>(null);
     const passwordRef = useRef<TextInput | null>(null);
-    const [token, setToken] = useState('');
+
     const canGoNext = userId && password;
+
     const onChangeUserId = useCallback((text: string)=> {
       setUserId(text.trim());
     }, []);
@@ -34,30 +44,29 @@ function Login({navigation}: LogInScreenProps){
       setPassword(text.trim());
     }, []);
 
-    const onSubmit = useCallback(async() => {
-      const user ={
-        userId:userId,
-        password:password
-      }
-      const res = await axios.post(`http://25.15.132.100:8080/member/login`,user)
-      .then((res)=>{
-        console.log(res.data);
-        setToken(JSON.stringify(res.data));
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
-    },[loading, userId, password])
+    const onSubmit = useCallback(() => {
+      const user = new FormData();
+      user.append("userId", userId);
+      user.append("password", password);
+      postLogin(user, dispatch);
+    },[userId, password, dispatch])
       
+    const token = useSelector((state:RootState)=>state.login.accessToken)
+    const onSubmitToken = useCallback(()=>{
+      getMemberData(dispatch, token);
+    },[dispatch, token]);
     
   const toSignUp = useCallback(() => {
     navigation.navigate('SignUp');
   }, [navigation]);
-  const toSocialGoogle = useCallback(() =>{
-    navigation.navigate('googleSignUp');
-  }, [navigation])
+  const toSocialGoogle = ()=>{
+    Linking.openURL('http://25.12.74.132:8080/oauth2/authorization/google');
+  }
   const toFind = useCallback(() => {
     navigation.navigate('Find');
+  }, [navigation]);
+  const toAnimal = useCallback(() => {
+    navigation.navigate('Animal');
   }, [navigation]);
     return (
     <View style = {styles.loginPage}>
@@ -133,6 +142,18 @@ function Login({navigation}: LogInScreenProps){
           color = {GoogleSigninButton.Color.Dark}
           onPress = {toSocialGoogle}
           />
+      </View>
+      <View style = {styles.buttonZone}>
+        <Pressable style = {styles.loginButton}
+        onPress = {onSubmitToken}>
+          <Text style = {styles.loginButtonText}>버튼</Text>
+        </Pressable>
+      </View>
+      <View style = {styles.buttonZone}>
+        <Pressable style = {styles.loginButton}
+        onPress = {toAnimal}>
+          <Text style = {styles.loginButtonText}>애완견</Text>
+        </Pressable>
       </View>
     </View>
     )
