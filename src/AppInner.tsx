@@ -6,11 +6,16 @@ import {useState} from 'react';
 import Login from './components/LoginComponent';
 import SignUp from './components/SignUpComponent';
 import Main from './components/mainComponent';
-
+import MyPage from './components/MyPageComponent';
+import Animal from './components/AnimalComponent';
 
 export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
+  MyPage : undefined;
+  googleSignUp : undefined;
+  Find : undefined;
+  Animal : undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -40,6 +45,15 @@ function AppInner() {
             component={SignUp}
             options={{title: '회원가입'}}
           />
+          <Stack.Screen
+            name = "MyPage"
+            component = {MyPage}
+            options = {{title : '마이페이지'}}
+          />
+          <Stack.Screen
+            name = "Animal"
+            component = {Animal}
+            options = {{title : '애완견'}}/>
         </Stack.Navigator>
       )}
     </NavigationContainer>
