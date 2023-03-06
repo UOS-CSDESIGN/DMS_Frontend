@@ -4,7 +4,8 @@ const googleSocialSlice = createSlice({
     name: 'googleSocial',
     initialState: {
         isSupported: false,
-        loading: false
+        loading: false,
+        stateCode: 0,
     },
     reducers: {
         socialRequest: (state) => {
@@ -16,6 +17,11 @@ const googleSocialSlice = createSlice({
                 state.loading = false;
             }
             else if (action.payload === 400) {
+                state.isSupported = false;
+                state.loading = false;
+            }
+            else if (action.payload === 404) {
+                console.log("duplicated email");
                 state.isSupported = false;
                 state.loading = false;
             }
@@ -32,4 +38,4 @@ const googleSocialSlice = createSlice({
 export const socialRequest = googleSocialSlice.actions.socialRequest;
 export const socialSuccess = googleSocialSlice.actions.socialSuccess;
 export const socailFailure = googleSocialSlice.actions.socialFailure;
-export default googleSocialSlice;
+export default googleSocialSlice.reducer;

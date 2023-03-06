@@ -20,6 +20,7 @@ import postLogin from '../model/User/postLogin';
 import { useDispatch, useSelector } from 'react-redux';
 import getMemberData from '../model/User/getMemberData';
 import { RootState } from '../model';
+import postGoogleSocal from '../model/User/postGoogleSocial';
 
 
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -31,6 +32,9 @@ function Login({navigation}: LogInScreenProps){
     const [selected, isSelected] = useState(false);
 
     const dispatch = useDispatch();
+  const isSocial = useSelector((state: RootState) => state.googleSocial.isSupported);
+  const stateCode = useSelector((state: RootState) => state.googleSocial.stateCode);
+
 
     const userIdRef = useRef<TextInput | null>(null);
     const passwordRef = useRef<TextInput | null>(null);
@@ -60,7 +64,9 @@ function Login({navigation}: LogInScreenProps){
     navigation.navigate('SignUp');
   }, [navigation]);
   const toSocialGoogle = ()=>{
-    Linking.openURL('http://25.12.74.132:8080/oauth2/authorization/google');
+    //Linking.openURL('http://25.12.74.132:8080/oauth2/authorization/google');
+    postGoogleSocal('http://25.12.74.132:8080/oauth2/authorization/google', '',
+      stateCode, isSocial, dispatch);
   }
   const toFind = useCallback(() => {
     navigation.navigate('Find');
