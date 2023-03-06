@@ -15,9 +15,6 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import Config from 'react-native-config';
 import axios, {AxiosError} from 'axios';
-import BirthComponent from './BirthComponent';
-import GenderComponent from './genderComponent';
-import Picture from './PictureComponent';
 
 type MyPageScreenProps = NativeStackScreenProps<RootStackParamList, 'MyPage'>;
 
@@ -25,7 +22,7 @@ function MyPage(){
     return(
         <ScrollView>
             <View>
-                <Text style = {styles.text}>회원가입 수정</Text>
+                
             </View>
         </ScrollView>
     )
