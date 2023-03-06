@@ -3,7 +3,7 @@ import { memberDataFailure, memberDataRequest, memberDataSuccess } from "./slice
 
 const getMemberData = async (dispatch:any, token:any) => {
     dispatch(memberDataRequest());
-    await axios.get("http://25.12.74.132:8080/api/refreshToken",
+    await axios.get("http://25.12.74.132:8080/member/getMemberData",
         {
             headers: {
                 'Authorization': 'Bearer' + token
@@ -11,6 +11,7 @@ const getMemberData = async (dispatch:any, token:any) => {
         }
     ).then((res) => {
         dispatch(memberDataSuccess(res));
+        console.log("성공");
     }).catch((error) => {
         dispatch(memberDataFailure());
         throw error;

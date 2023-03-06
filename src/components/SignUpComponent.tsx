@@ -13,23 +13,24 @@ import {
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
-import BirthComponent from './BirthComponent';
 import Picture from './PictureComponent';
-import Icon from 'react-native-vector-icons/Entypo';
-import postLogin from '../model/User/postLogin';
 import User from '../model/User/User';
 import { GenderComponent, gender } from './genderComponent';
+import { useDispatch } from 'react-redux';
+import postSignup from '../model/User/postSignup';
 
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
+
 
 function SignUp({navigation}: SignUpScreenProps) {
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordconfirm, setPasswordconfirm] = useState('');
   const [username, setUsername] = useState('');
   const [nickname, setNickname] = useState('');
-  const [birth, setBirth] = useState(0);
+  const [birth, setBirth] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
   const [zipCode, setZipCode] = useState('');
@@ -38,11 +39,16 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [imageUrl, setImageUrl] = useState('');
   const [imageName, setImageNmae] = useState('');
 
+  const dispatch = useDispatch();
+
   const onChangeUserId = useCallback((text:string) => {
     setUserId(text.trim());
   }, []);
   const onChangePassword = useCallback((text:string) => {
     setPassword(text.trim());
+  }, []);
+  const onChangePasswordConfirm = useCallback((text:string) =>{
+    setPasswordconfirm(text.trim());
   }, []);
   const onChangeUsername = useCallback((text : string) => {
     setUsername(text.trim());
@@ -50,8 +56,8 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangeNickname = useCallback((text:string) => {
     setNickname(text.trim());
   }, []);
-  const onChangeBirth = useCallback((text:number) => {
-    setBirth(text);
+  const onChangeBirth = useCallback((text:string) => {
+    setBirth(text.trim());
   }, []);
   const onChangeEmail = useCallback((text:string) => {
     setEmail(text.trim());
@@ -69,29 +75,17 @@ function SignUp({navigation}: SignUpScreenProps) {
     setAddressDetail(text.trim());
   }, []);
   const onChangeImage = useCallback(()=>{
-    const res = Picture();
+    Picture();
+    const res = onPressEventListener();
     setImageUrl(res.imageUrl);
     setImageNmae(res.imageName);
-  },[]);
+    console.log(imageUrl);
+  },[imageUrl, imageName]);
 
   const [token, setToken] = useState('');
   const onSubmit = useCallback(async () => {
-    // const user = {
-    //   userId : userId,
-    //   password : password,
-    //   nickname : nickname,
-    //   gender : gender,
-    //   birth : birth,
-    //   email : email,
-    //   phoneNo : phoneNo,
-    //   zipCode : zipcode,
-    //   street : street,
-    //   addressDetail : addressDetail,
-    //   imageUrl : imageUrl,
-    //   imageName : imageName
-    // }
     const user  = new User(
-      userId, password, username, nickname, gender, birth, email, phoneNo, false, Number(zipCode), 
+      userId, username, password, nickname, gender, Number(birth), email, phoneNo, false, Number(zipCode), 
       street, addressDetail, imageUrl, imageName
     );
     if(loading){
@@ -127,7 +121,7 @@ function SignUp({navigation}: SignUpScreenProps) {
     if (!addressDetail|| !addressDetail.trim()) {
         return Alert.alert('알림', '상세주소를 입력해주세요.');
     }
-
+    /*
     if (
       !/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(
         userId,
@@ -140,9 +134,9 @@ function SignUp({navigation}: SignUpScreenProps) {
         '알림',
         '비밀번호는 영문,숫자,특수문자($@^!%*#?&)를 모두 포함하여 8자 이상 입력해야합니다.',
       );
-    }
-    postLogin(user);
-  }, [navigation, userId, password, username, nickname, gender, birth, email, false, phoneNo, zipCode, street, addressDetail, imageUrl, imageName]);
+    }*/
+    postSignup(user, dispatch);
+  }, [navigation, userId, username, password, nickname, gender, birth, email, false, phoneNo, zipCode, street, addressDetail, imageUrl, imageName]);
 
   const canGoNext = userId && password && nickname && email && phoneNo && zipCode && street && addressDetail;
   return (
@@ -160,7 +154,18 @@ function SignUp({navigation}: SignUpScreenProps) {
           blurOnSubmit={false}
         />
       </View>
-      
+      <View style = {styles.wrapper}>
+        <Text style = {styles.text}>이름</Text>
+        <TextInput
+          style = {styles.textInput}
+          onChangeText = {onChangeUsername}
+          placeholder = "이름"
+          placeholderTextColor = "#666"
+          value = {username}
+          returnKeyType = "next"
+          clearButtonMode = "while-editing"
+          blurOnSubmit = {false}/>
+      </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>비밀번호</Text>
         <TextInput
@@ -178,21 +183,9 @@ function SignUp({navigation}: SignUpScreenProps) {
         <Text style = {styles.text}>비밀번호 확인</Text>
         <TextInput
           style = {styles.textInput}
-          onChangeText = {onChangePassword}
+          onChangeText = {onChangePasswordConfirm}
           secureTextEntry = {true}
-          value = {password}
-          returnKeyType = "next"
-          clearButtonMode = "while-editing"
-          blurOnSubmit = {false}/>
-      </View>
-      <View style = {styles.wrapper}>
-        <Text style = {styles.text}>이름</Text>
-        <TextInput
-          style = {styles.textInput}
-          onChangeText = {onChangeUsername}
-          placeholder = "이름"
-          placeholderTextColor = "#666"
-          value = {username}
+          value = {passwordconfirm}
           returnKeyType = "next"
           clearButtonMode = "while-editing"
           blurOnSubmit = {false}/>
@@ -213,15 +206,18 @@ function SignUp({navigation}: SignUpScreenProps) {
         <Text style = {styles.text}>성별</Text>
         <GenderComponent/>
       </View>
-      <View style = {styles.wrapperBirth}>
+      <View style = {styles.wrapper}>
         <Text style = {styles.text}>생년월일</Text>
-          <Icon.Button
-            style = {styles.birthButton}
-            name = "calendar"
-            color = "gray"
-            backgroundColor = 'snow'
-            onPress = {BirthComponent}>
-          </Icon.Button>
+        <TextInput
+          style = {styles.textInput}
+          onChangeText = {onChangeBirth}
+          placeholder= '생년월일'
+          placeholderTextColor = "#666"
+          value = {birth}
+          returnKeyType = "next"
+          clearButtonMode = "while-editing"
+          keyboardType = "number-pad"
+          blurOnSubmit = {false}/>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>이메일</Text>
@@ -285,7 +281,7 @@ function SignUp({navigation}: SignUpScreenProps) {
         <Text style = {styles.text}>사진</Text>
         <Pressable
           style = {styles.photoZone}
-          onPress = {Picture}>
+          onPress = {onChangeImage}>
           <Text style = {styles.photo}>사진 가져오기</Text>
         </Pressable>
       </View>
@@ -293,7 +289,7 @@ function SignUp({navigation}: SignUpScreenProps) {
         <Pressable
           style = {canGoNext ? StyleSheet.compose(styles.signUpButton, styles.signUpButtonActive)
           : styles.signUpButton}
-          disabled = {!canGoNext || loading}
+          //disabled = {!canGoNext || loading}
           onPress = {onSubmit}>
          <Text style = {styles.signUpButtonText}>회원가입하기</Text>
         </Pressable>

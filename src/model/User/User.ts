@@ -46,7 +46,7 @@ class User{
         data.append("nickname", this.nickname);
         data.append("email", this.email);
         data.append("phoneNo", this.phoneNo);
-        if (this.imageUrl !== "" && this.imageName !=="") {
+        if (!(this.imageUrl === "" || this.imageName ==="")) {
             file = {
                 uri: this.imageUrl,
                 type: 'multipart/form-data',
@@ -54,9 +54,7 @@ class User{
             }
             data.append("memberImage", file);
         }
-        else {
-            data.append("memberImage", null);
-        }
+        
         
         return data;
     }
