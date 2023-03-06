@@ -9,6 +9,14 @@ import Main from './components/mainComponent';
 import MyPage from './components/MyPageComponent';
 import Animal from './components/AnimalComponent';
 
+export type BottomTabParamList = {
+  Main : undefined;
+  Shop : undefined;
+  Community : undefined;
+  Obesity : undefined;
+  Map : undefined;
+}
+
 export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
@@ -18,7 +26,7 @@ export type RootStackParamList = {
   Animal : undefined;
 };
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<BottomTabParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function AppInner() {
