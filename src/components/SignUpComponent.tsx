@@ -37,9 +37,10 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [street, setStreet] = useState('');
   const [addressDetail, setAddressDetail] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-  const [imageName, setImageNmae] = useState('');
+  const [imageName, setImageName] = useState('');
 
   const dispatch = useDispatch();
+  
 
   const onChangeUserId = useCallback((text:string) => {
     setUserId(text.trim());
@@ -76,10 +77,6 @@ function SignUp({navigation}: SignUpScreenProps) {
   }, []);
   const onChangeImage = useCallback(()=>{
     Picture();
-    const res = onPressEventListener();
-    setImageUrl(res.imageUrl);
-    setImageNmae(res.imageName);
-    console.log(imageUrl);
   },[imageUrl, imageName]);
 
   const [token, setToken] = useState('');
