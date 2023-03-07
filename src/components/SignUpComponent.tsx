@@ -75,8 +75,10 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangeAddressDetail = useCallback((text:string)=> {
     setAddressDetail(text.trim());
   }, []);
-  const onChangeImage = useCallback(()=>{
-    Picture();
+  const onChangeImage = useCallback((selectedImage : any)=>{
+    const {imageUrl, imageName} = selectedImage;
+    setImageUrl(imageUrl);
+    setImageName(imageName);
   },[imageUrl, imageName]);
 
   const [token, setToken] = useState('');
@@ -276,10 +278,8 @@ function SignUp({navigation}: SignUpScreenProps) {
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>사진</Text>
-        <Pressable
-          style = {styles.photoZone}
-          onPress = {onChangeImage}>
-          <Text style = {styles.photo}>사진 가져오기</Text>
+        <Pressable>
+          <Picture onPictureSelected={onChangeImage}/>
         </Pressable>
       </View>
       <View style = {styles.button}>
