@@ -76,7 +76,6 @@ function SignUp({navigation}: SignUpScreenProps) {
     setAddressDetail(text.trim());
   }, []);
   const onChangeImage = useCallback(()=>{
-    Picture();
   },[imageUrl, imageName]);
 
   const [token, setToken] = useState('');
