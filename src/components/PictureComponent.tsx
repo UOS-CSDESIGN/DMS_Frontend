@@ -1,14 +1,13 @@
-import React, {useEffect} from 'react';
-import {PermissionsAndroid, Platform} from 'react-native';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {Alert} from 'react-native';
-
+import React, { useState } from 'react';
+import { PermissionsAndroid, Platform } from 'react-native';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { Alert } from 'react-native';
 
 function Picture(){
-  let image= {
+  const [image, setImage] = useState({
     imageUrl: "",
     imageName: "",
-  };
+  });
 
   const androidPermission = async () => {
     const allowCamera = await PermissionsAndroid.request(
@@ -38,6 +37,9 @@ function Picture(){
         console.log("접근 거절");
     }
   }
+  const onImageSelected = (selectedImage : any) => {
+    setImage(selectedImage);
+  }
 
   Alert.alert(
     "무엇으로 찍으실 건가요?",
@@ -55,9 +57,11 @@ function Picture(){
               return null;
             }
             const tempUrl = result.assets[0].uri;
-            image.imageUrl = tempUrl;
-            image.imageName = tempUrl.split("/").pop();
-            return image.imageUrl
+            const selectedImage = {
+              imageUrl : tempUrl,
+              imageName : tempUrl?.split("/").pop();
+            };
+            onImageSelected(selectedImage);
         }
       },
       {
@@ -67,23 +71,19 @@ function Picture(){
           if (result.didCancel){
             return null;
           } 
-          const tempUrl = result.assets[0].uri;
-          image.imageUrl = tempUrl;
-          image.imageName = tempUrl.split("/").pop();
-          return image.imageUrl
+          const selectedImage = {
+            imageUrl : tempUrl,
+            imageName : tempUrl?.split("/").pop();
+          };
+          onImageSelected(selectedImage);
         }
       },
     ],
     {cancelable: false}
   );
-
-  console.log("여기");
-  console.log(image.imageUrl);
 }
 
-function onPressEventListener() {
+function image(){
 
-
-return Image;
 }
 export default Picture;
