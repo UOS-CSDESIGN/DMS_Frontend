@@ -3,7 +3,7 @@ import { PermissionsAndroid, Platform } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { Alert } from 'react-native';
 
-function Picture(){
+function Picture({onPictureSelected}){
   const [image, setImage] = useState({
     imageUrl: "",
     imageName: "",
@@ -39,6 +39,7 @@ function Picture(){
   }
   const onImageSelected = (selectedImage : any) => {
     setImage(selectedImage);
+    onPictureSelected(selectedImage);
   }
 
   Alert.alert(
@@ -59,7 +60,7 @@ function Picture(){
             const tempUrl = result.assets[0].uri;
             const selectedImage = {
               imageUrl : tempUrl,
-              imageName : tempUrl?.split("/").pop();
+              imageName : tempUrl?.split("/").pop()
             };
             onImageSelected(selectedImage);
         }
@@ -73,7 +74,7 @@ function Picture(){
           } 
           const selectedImage = {
             imageUrl : tempUrl,
-            imageName : tempUrl?.split("/").pop();
+            imageName : tempUrl?.split("/").pop()
           };
           onImageSelected(selectedImage);
         }
@@ -83,7 +84,4 @@ function Picture(){
   );
 }
 
-function image(){
-
-}
 export default Picture;
