@@ -2,20 +2,22 @@ import React, {useState, useCallback} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
-let gender = 0;
+type GenderProps = {
+    onGenderChange : (gender : number) => void;
+}
 
-function GenderComponent(){
+function GenderComponent(gender : GenderProps){
     const [male, setMale] = useState(false);
     const [female, setFemale] = useState(false);
     const onChangeMale = useCallback(() => {
         setMale(true);
         setFemale(false);
-        gender = 1;
+        gender.onGenderChange(1);
     }, [])
     const onChangeFemale = useCallback(() => {
         setFemale(true);
         setMale(false);
-        gender = 2;
+        gender.onGenderChange(2);
     }, [])
     
     return(
@@ -45,4 +47,4 @@ const styles = ({
     }
 })
 
-export {GenderComponent, gender};
+export {GenderComponent};
