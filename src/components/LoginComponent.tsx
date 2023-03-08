@@ -60,7 +60,7 @@ function Login({navigation}: LogInScreenProps){
     navigation.navigate('SignUp');
   }, [navigation]);
   const toSocialGoogle = ()=>{
-    Linking.openURL('http://25.12.74.132:8080/oauth2/authorization/google');
+    Linking.openURL('http://25.12.74.132:8080/oauth2/authorization/google?redirect_uri=http://25.15.213.128:5037/oauth2/redirect');
   }
   const toFind = useCallback(() => {
     navigation.navigate('Find');
