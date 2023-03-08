@@ -3,7 +3,6 @@ import { signupFailure, signupRequest, signupSuccess } from "./slice/signupSlice
 import User from "./User";
 
 const postSignup = async (user: User, dispatch:any) => {
-
     dispatch(signupRequest());
     await axios.post("http://25.12.74.132:8080/member/signup",
         user.signupData,

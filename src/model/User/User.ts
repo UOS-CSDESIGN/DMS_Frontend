@@ -46,6 +46,7 @@ class User{
         data.append("nickname", this.nickname);
         data.append("email", this.email);
         data.append("phoneNo", this.phoneNo);
+        console.log(this.imageUrl);
         if (!(this.imageUrl === "" || this.imageName ==="")) {
             file = {
                 uri: this.imageUrl,
