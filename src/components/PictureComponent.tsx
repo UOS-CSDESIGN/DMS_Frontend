@@ -3,13 +3,11 @@ import {View, PermissionsAndroid, Platform, Pressable, StyleSheet, Text} from 'r
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {Alert} from 'react-native';
 
+interface PictureProps {
+  onPictureSelected : (url : string | undefined) => void;
+}
 
-function Picture({onPictureSelected}){
-  const [image, setImage] = useState({
-    imageUrl : "",
-    imageName : "",
-  })
-
+function Picture({onPictureSelected} : PictureProps){
   const androidPermission = async () => {
     const allowCamera = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.CAMERA,
@@ -38,12 +36,9 @@ function Picture({onPictureSelected}){
         console.log("접근 거절");
     }
   }
-  const onImageSelected = (selectedImage : any) => {
-    setImage(selectedImage);
-    onPictureSelected(selectedImage);
-  }
 
   const handlePress = async() => {
+    await androidPermission();
     Alert.alert(
       "무엇으로 찍으실 건가요?",
       "옵션을 선택해주세요",
@@ -59,10 +54,13 @@ function Picture({onPictureSelected}){
               if (result.didCancel){ 
                 return null;
               }
-              const tempUrl = result.assets[0].uri;
-              image.imageUrl = tempUrl;
-              image.imageName = tempUrl.split("/").pop();
-              
+              if(result.assets && result.assets.length >0){
+                const tempUrl = result.assets[0]?.uri;
+                if(tempUrl === null){
+                  return null;
+                }
+                onPictureSelected(tempUrl);
+              }
           }
         },
         {
@@ -72,29 +70,32 @@ function Picture({onPictureSelected}){
             if (result.didCancel){
               return null;
             } 
-            const tempUrl = result.assets[0].uri;
-            image.imageUrl = tempUrl;
-            image.imageName = tempUrl.split("/").pop();
-            
+            if(result.assets && result.assets.length >0){
+              const tempUrl = result.assets[0]?.uri;
+              if(tempUrl === null){
+                return null;
+              }
+              onPictureSelected(tempUrl);
+            }
           }
         },
       ],
       {cancelable: false}
     );
-    return(
-      <View style = {styles.wrapper}>
-        <Pressable
-          onPress = {handlePress}>
-            <Text style = {styles.pictureText}>사진 가져오기</Text>
-        </Pressable>
-      </View>
-    )
   }
+  return(
+    <View style = {styles.wrapper}>
+      <Pressable
+        onPress = {handlePress}>
+        <Text style = {styles.pictureText}>사진 가져오기</Text>
+      </Pressable>
+    </View>
+    )
 }
 
 const styles = StyleSheet.create({
   wrapper : {
-    backgroundColor : 'black',
+    backgroundColor : 'snow',
   },
   pictureText : {
     fontSize : 16,
