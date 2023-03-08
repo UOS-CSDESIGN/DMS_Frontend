@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Alert,
   Platform,
@@ -30,6 +30,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [passwordconfirm, setPasswordconfirm] = useState('');
   const [username, setUsername] = useState('');
   const [nickname, setNickname] = useState('');
+  const [gender, setGender] = useState<number>(0);
   const [birth, setBirth] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
@@ -57,6 +58,9 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangeNickname = useCallback((text:string) => {
     setNickname(text.trim());
   }, []);
+  const onChangeGender = useCallback((gender : number) =>{
+    setGender(gender);
+  }, [])
   const onChangeBirth = useCallback((text:string) => {
     setBirth(text.trim());
   }, []);
@@ -76,13 +80,20 @@ function SignUp({navigation}: SignUpScreenProps) {
     setAddressDetail(text.trim());
   }, []);
   const onChangeImage = useCallback((selectedImage : any)=>{
-    const {imageUrl, imageName} = selectedImage;
-    setImageUrl(imageUrl);
-    setImageName(imageName);
+    if (selectedImage!==null) {
+      setImageUrl(selectedImage);
+      if(imageUrl!==undefined){
+        const tempName = imageUrl.split("/").pop();
+        setImageName(tempName || '');
+        console.log(imageUrl);
+      }
+    } else {
+      console.log('Selected image does not have assets');
+    }
   },[imageUrl, imageName]);
 
   const [token, setToken] = useState('');
-  const onSubmit = useCallback(async () => {
+  const onSubmit = useCallback(async () => { 
     const user  = new User(
       userId, username, password, nickname, gender, Number(birth), email, phoneNo, false, Number(zipCode), 
       street, addressDetail, imageUrl, imageName
@@ -203,7 +214,7 @@ function SignUp({navigation}: SignUpScreenProps) {
       </View>
       <View style = {styles.wrapperGender}>
         <Text style = {styles.text}>성별</Text>
-        <GenderComponent/>
+        <GenderComponent onGenderChange = {onChangeGender}/>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>생년월일</Text>
@@ -278,9 +289,10 @@ function SignUp({navigation}: SignUpScreenProps) {
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>사진</Text>
-        <Pressable>
-          <Picture onPictureSelected={onChangeImage}/>
-        </Pressable>
+        <Picture onPictureSelected = {onChangeImage}/>
+        {imageUrl ? <Image 
+        source = {{uri : imageUrl}}
+        style = {styles.image}/> : null}
       </View>
       <View style = {styles.button}>
         <Pressable
@@ -359,6 +371,10 @@ const styles = StyleSheet.create({
     color : 'white',
     fontSize : 16,
   },
+  image : {
+    width : 200,
+    height : 200,
+  }
 });
 
 export default SignUp;
