@@ -4,10 +4,11 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {Alert} from 'react-native';
 
 interface PictureProps {
-  onPictureSelected : (url : string | undefined) => void;
+  onPictureSelected : (url : string) => void;
 }
 
 function Picture({onPictureSelected} : PictureProps){
+
   const androidPermission = async () => {
     const allowCamera = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.CAMERA,
@@ -59,7 +60,9 @@ function Picture({onPictureSelected} : PictureProps){
                 if(tempUrl === null){
                   return null;
                 }
-                onPictureSelected(tempUrl);
+                if(tempUrl !==undefined){
+                  onPictureSelected(tempUrl);
+                }
               }
           }
         },
@@ -75,7 +78,9 @@ function Picture({onPictureSelected} : PictureProps){
               if(tempUrl === null){
                 return null;
               }
-              onPictureSelected(tempUrl);
+              if(tempUrl !==undefined){
+                onPictureSelected(tempUrl);
+              }
             }
           }
         },
