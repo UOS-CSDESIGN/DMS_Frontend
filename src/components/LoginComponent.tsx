@@ -20,7 +20,7 @@ import postLogin from '../model/User/postLogin';
 import { useDispatch, useSelector } from 'react-redux';
 import getMemberData from '../model/User/getMemberData';
 import { RootState } from '../model';
-import postGoogleSocal from '../model/User/postGoogleSocial';
+import SocialLoginComponent from './SocialLoginComponent';
 
 
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -31,9 +31,7 @@ function Login({navigation}: LogInScreenProps){
     const [password, setPassword] = useState('');
     const [selected, isSelected] = useState(false);
 
-    const dispatch = useDispatch();
-  const isSocial = useSelector((state: RootState) => state.googleSocial.isSupported);
-  const stateCode = useSelector((state: RootState) => state.googleSocial.stateCode);
+  const dispatch = useDispatch();
 
 
     const userIdRef = useRef<TextInput | null>(null);
@@ -55,29 +53,26 @@ function Login({navigation}: LogInScreenProps){
       postLogin(user, dispatch);
     },[userId, password, dispatch])
       
-    const token = useSelector((state:RootState)=>state.login.accessToken)
+  const token = useSelector((state: RootState) => state.login.accessToken);
+  const user = useSelector((state: RootState) => state.memberData.userData);
     const onSubmitToken = useCallback(()=>{
       getMemberData(dispatch, token);
     },[dispatch, token]);
     
   const toSignUp = useCallback(() => {
     navigation.navigate('SignUp');
-  }, [navigation]);
-  const toSocialGoogle = ()=>{
-    //Linking.openURL('http://25.12.74.132:8080/oauth2/authorization/google');
-    postGoogleSocal('http://25.12.74.132:8080/oauth2/authorization/google', '',
-      stateCode, isSocial, dispatch);
-  }
+  }, [navigation]);  
+
   const toFind = useCallback(() => {
     navigation.navigate('Find');
   }, [navigation]);
   const toAnimal = useCallback(() => {
     navigation.navigate('Animal');
   }, [navigation]);
-    return (
-    <View style = {styles.loginPage}>
-      <View style = {styles.greeting}>
-        <Text style = {styles.greetingLogo}>반갑습니다 8am입니다.</Text>
+  return (
+    <View style={styles.loginPage}>
+      <View style={styles.greeting}>
+        <Text style={styles.greetingLogo}>반갑습니다 8am입니다.</Text>
       </View>
       <View style={styles.inputWrapper}>
         <TextInput
@@ -113,12 +108,12 @@ function Login({navigation}: LogInScreenProps){
           onSubmitEditing={onSubmit}
         />
       </View>
-      <View style = {styles.loginStateWrapper}>
+      <View style={styles.loginStateWrapper}>
         <CheckBox
-          disabled = {false}
-          value = {selected}
-          onValueChange = {(newValue) => isSelected(newValue)}/>
-        <Text style = {styles.loginState}>로그인 상태유지</Text>
+          disabled={false}
+          value={selected}
+          onValueChange={(newValue) => isSelected(newValue)} />
+        <Text style={styles.loginState}>로그인 상태유지</Text>
       </View>
       <View style={styles.buttonZone}>
         <Pressable
@@ -129,40 +124,35 @@ function Login({navigation}: LogInScreenProps){
           }
           disabled={!canGoNext || loading}
           onPress={onSubmit}>
-          {loading ? (<ActivityIndicator color = "white"/>):
-          (<Text style={styles.loginButtonText}>로그인</Text>)}
+          {loading ? (<ActivityIndicator color="white" />) :
+            (<Text style={styles.loginButtonText}>로그인</Text>)}
         </Pressable>
       </View>
-      <View style = {styles.signUpAndFind}>
+      <View style={styles.signUpAndFind}>
         <Pressable onPress={toSignUp}>
-          <Text style = {styles.signUpAndFindText}>회원가입</Text>
+          <Text style={styles.signUpAndFindText}>회원가입</Text>
         </Pressable>
-        <Pressable onPress = {toFind}>
-          <Text style = {styles.signUpAndFindText}>아이디 · 비밀번호 찾기</Text>
-        </Pressable>
-      </View>
-      <View style = {styles.socialLoginButton}>
-        <GoogleSigninButton
-          style = {styles.googleButton}
-          size = {GoogleSigninButton.Size.Wide}
-          color = {GoogleSigninButton.Color.Dark}
-          onPress = {toSocialGoogle}
-          />
-      </View>
-      <View style = {styles.buttonZone}>
-        <Pressable style = {styles.loginButton}
-        onPress = {onSubmitToken}>
-          <Text style = {styles.loginButtonText}>버튼</Text>
+        <Pressable onPress={toFind}>
+          <Text style={styles.signUpAndFindText}>아이디 · 비밀번호 찾기</Text>
         </Pressable>
       </View>
-      <View style = {styles.buttonZone}>
-        <Pressable style = {styles.loginButton}
-        onPress = {toAnimal}>
-          <Text style = {styles.loginButtonText}>애완견</Text>
+      
+        <SocialLoginComponent />
+      
+      <View style={styles.buttonZone}>
+        <Pressable style={styles.loginButton}
+          onPress={onSubmitToken}>
+          <Text style={styles.loginButtonText}>버튼</Text>
+        </Pressable>
+      </View>
+      <View style={styles.buttonZone}>
+        <Pressable style={styles.loginButton}
+          onPress={toAnimal}>
+          <Text style={styles.loginButtonText}>애완견</Text>
         </Pressable>
       </View>
     </View>
-    )
+  );
 }
 
 const styles = StyleSheet.create({
