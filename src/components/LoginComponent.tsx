@@ -25,10 +25,10 @@ import { RootState } from '../model';
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 function Login({navigation}: LogInScreenProps){
-    const [loading ,setLoading] = useState(false);
-    const [userId, setUserId] = useState('');
-    const [password, setPassword] = useState('');
-    const [selected, isSelected] = useState(false);
+    const [loading ,setLoading] = useState<boolean>(false);
+    const [userId, setUserId] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [selected, isSelected] = useState<boolean>(false);
 
     const dispatch = useDispatch();
 
@@ -68,6 +68,10 @@ function Login({navigation}: LogInScreenProps){
   const toAnimal = useCallback(() => {
     navigation.navigate('Animal');
   }, [navigation]);
+  const toMain = useCallback(() => {
+    navigation.navigate('Main');
+  }, [navigation]);
+
     return (
     <View style = {styles.loginPage}>
       <View style = {styles.greeting}>
@@ -153,6 +157,12 @@ function Login({navigation}: LogInScreenProps){
         <Pressable style = {styles.loginButton}
         onPress = {toAnimal}>
           <Text style = {styles.loginButtonText}>애완견</Text>
+        </Pressable>
+      </View>
+      <View style = {styles.buttonZone}>
+        <Pressable style = {styles.loginButton}
+        onPress = {toMain}>
+          <Text style = {styles.loginButtonText}>메인</Text>
         </Pressable>
       </View>
     </View>
