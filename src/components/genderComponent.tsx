@@ -6,18 +6,18 @@ type GenderProps = {
     onGenderChange : (gender : number) => void;
 }
 
-function GenderComponent(gender : GenderProps){
+function GenderComponent({onGenderChange} : GenderProps){
     const [male, setMale] = useState(false);
     const [female, setFemale] = useState(false);
     const onChangeMale = useCallback(() => {
         setMale(true);
         setFemale(false);
-        gender.onGenderChange(1);
+        onGenderChange(1);
     }, [])
     const onChangeFemale = useCallback(() => {
         setFemale(true);
         setMale(false);
-        gender.onGenderChange(2);
+        onGenderChange(2);
     }, [])
     
     return(
@@ -47,4 +47,4 @@ const styles = ({
     }
 })
 
-export {GenderComponent};
+export default GenderComponent;
