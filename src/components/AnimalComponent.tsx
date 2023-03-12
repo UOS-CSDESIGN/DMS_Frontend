@@ -8,7 +8,9 @@ import {
   View,
   ScrollView,
   Button,
-  Image
+  Image,
+  NativeSyntheticEvent,
+  TextInputChangeEventData
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
@@ -34,6 +36,7 @@ function Animal({navigation}: AnimalScreenProps) {
   const [showAnimalID, setShowAnimalID] = useState<boolean>(false);
   const [picture, setPicture] = useState<string>('');
   const [showPicture, setShowPicture] = useState<boolean>(false);
+  const [showButton, setShowButton] = useState<boolean>(false);
 
   const onChangeName = (value : string) => {
     setName(value);
@@ -62,6 +65,7 @@ function Animal({navigation}: AnimalScreenProps) {
   }
   const onChangePicture = (value : string) => {
     setPicture(value);
+    setShowButton(true);
   }
 
 
@@ -126,11 +130,13 @@ function Animal({navigation}: AnimalScreenProps) {
         source = {{uri : picture}}
         style = {styles.image}/> : null}
       </Animatable.View>}
-      <View style = {styles.button}>
+      {showButton &&
+      <Animatable.View animation= "fadeIn"
+       style = {styles.button}>
         <Pressable style = {styles.submit}>
           <Text style = {styles.submitButton}>완료</Text>
         </Pressable>
-      </View>
+      </Animatable.View>}
     </ScrollView>
   )
 }
@@ -138,12 +144,12 @@ function Animal({navigation}: AnimalScreenProps) {
 const styles = StyleSheet.create({
   ScrollView : {
     backgroundColor : 'snow',
-    paddingVertical : '5%',
+    paddingTop : '5%',
     paddingHorizontal : '5%',
   },
   wrapper: {
     paddingLeft : 10,
-    marginVertical : 5,
+    paddingVertical : 5,
     paddingTop : 5,
   },
   innerWrapper : {
@@ -169,13 +175,18 @@ const styles = StyleSheet.create({
   image : {
     width : 200,
     height : 200,
+    marginBottom : 10,
   },
   button : {
     alignItems : 'center',
   },
   submit : {
-    backgroundColor : 'blue',
-    justifyContent : 'center',
+    backgroundColor: 'blue',
+    borderBottomColor : 'black',
+    borderRadius : 5,
+    fontSize : 14,
+    paddingHorizontal : 20,
+    marginBottom : 30,
   },
   submitButton : {
     fontSize : 18,
