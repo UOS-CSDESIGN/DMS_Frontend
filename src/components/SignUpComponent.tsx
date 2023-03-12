@@ -14,7 +14,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import Picture from './PictureComponent';
 import User from '../model/User/User';
-import { GenderComponent} from './genderComponent';
+import GenderComponent from './genderComponent';
 import { useDispatch } from 'react-redux';
 import postSignup from '../model/User/postSignup';
 import ZipCode from './ZipCodeComponent';
@@ -61,6 +61,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   }, []);
   const onChangeGender = useCallback((gender : number) =>{
     setGender(gender);
+    console.log(gender);
   }, [])
   const onChangeBirth = useCallback((date : string) => {
     setBirth(date);
