@@ -10,11 +10,10 @@ import MyPage from './components/MyPageComponent';
 import Animal from './components/AnimalComponent';
 
 export type BottomTabParamList = {
-  Main : undefined;
   Shop : undefined;
   Community : undefined;
   Obesity : undefined;
-  Map : undefined;
+  MapPage : undefined;
 }
 
 export type RootStackParamList = {
@@ -24,9 +23,10 @@ export type RootStackParamList = {
   googleSignUp : undefined;
   Find : undefined;
   Animal : undefined;
+  Main : undefined;
 };
 
-const Tab = createBottomTabNavigator<BottomTabParamList>();
+const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function AppInner() {
@@ -61,8 +61,14 @@ function AppInner() {
           <Stack.Screen
             name = "Animal"
             component = {Animal}
-            options = {{title : '애완견'}}/>
+            options = {{title : '애완견'}}
+            />
+          <Stack.Screen
+            name = "Main"
+            component = {Main}
+            options = {{title : '메인페이지'}}/>
         </Stack.Navigator>
+        
       )}
     </NavigationContainer>
   );
