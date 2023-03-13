@@ -2,7 +2,13 @@ import { User } from "@react-native-google-signin/google-signin";
 import axios from "axios";
 import getMemberData from "./getMemberData";
 import { loginFailure, loginRequest, loginSuccess } from "./slice/loginSlice";
-
+/**
+ * @param userInfo : google social infomation
+ * @param dispatch : login redux dispatcher
+ * @param user : user store
+ * @param token : access toek store
+ * @returns true-no more info needed false-get more info needed
+ */
 const postSocialSignin = async (userInfo: User, dispatch: any, user:any, token:any) => {
 
     dispatch(loginRequest());
@@ -21,6 +27,7 @@ const postSocialSignin = async (userInfo: User, dispatch: any, user:any, token:a
         })
         .catch((error) => {
             dispatch(loginFailure());
+            console.log("failed");
             throw error;
         });
     getMemberData(dispatch, token);
@@ -31,6 +38,5 @@ const postSocialSignin = async (userInfo: User, dispatch: any, user:any, token:a
     else {
         return true;
     }
-    
 }
 export default postSocialSignin;

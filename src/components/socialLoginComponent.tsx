@@ -8,13 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
 import postSocialSignin from "../model/User/postSocialSignin";
 
-
 const SocialLoginComponent = () => {
     GoogleSignin.configure({
-        webClientId: '864911166874-in6ha2b0akp3qc1k4068v1osr8h4153o.apps.googleusercontent.com',
+        webClientId: '984908362495-kolhf54om4me453ha1gnl7u4thcqlp20.apps.googleusercontent.com',
         offlineAccess: true
-    });
 
+    });
     const [userInfo, setUserInfo] =
         useState<{
             userGoogleInfo: User;
@@ -38,8 +37,10 @@ const SocialLoginComponent = () => {
                     //show alert to slove problem
                     showPlayServicesUpdateDialog: true
                 });
+            console.log("pass play");
 
             const userInfo = await GoogleSignin.signIn();
+            console.log("pass login");
             setUserInfo({
                 userGoogleInfo: userInfo,
                 loaded: true
@@ -66,9 +67,8 @@ const SocialLoginComponent = () => {
             }
             console.log("Failed to social signin : ", error);
         }
-        console.loig("fin");
+        console.log("fin");
     };
-
     return (
         <View>
         <View style={styles.socialLoginButton}>
@@ -81,7 +81,8 @@ const SocialLoginComponent = () => {
             {userInfo.loaded ?
                 <View>
                     <Text>{userInfo.userGoogleInfo.user.name}</Text>
-                    <Text>{userInfo.userGoogleInfo.user.email}</Text>
+                        <Text>{userInfo.userGoogleInfo.user.email}</Text>
+                        <Text>{userInfo.userGoogleInfo.idToken}</Text>
                 </View> :
                 <Text>Not Signin</Text>
             }
@@ -90,7 +91,6 @@ const SocialLoginComponent = () => {
     );
 }
 export default SocialLoginComponent;
-
 const styles = StyleSheet.create({
     socialLoginButton : {
         marginTop : 20,
