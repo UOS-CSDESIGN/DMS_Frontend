@@ -26,10 +26,10 @@ import SocialLoginComponent from './SocialLoginComponent';
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 function Login({navigation}: LogInScreenProps){
-    const [loading ,setLoading] = useState(false);
-    const [userId, setUserId] = useState('');
-    const [password, setPassword] = useState('');
-    const [selected, isSelected] = useState(false);
+    const [loading ,setLoading] = useState<boolean>(false);
+    const [userId, setUserId] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [selected, isSelected] = useState<boolean>(false);
 
   const dispatch = useDispatch();
 
@@ -176,7 +176,6 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     backgroundColor : 'white',
-    
   },
   inputWrapper: {
     marginHorizontal : 20,

@@ -9,15 +9,16 @@ import {
   View,
   ScrollView,
   Image,
-  Button
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import Picture from './PictureComponent';
 import User from '../model/User/User';
-import { GenderComponent, gender } from './genderComponent';
+import GenderComponent from './genderComponent';
 import { useDispatch } from 'react-redux';
 import postSignup from '../model/User/postSignup';
+import ZipCode from './ZipCodeComponent';
+import BirthComponent from './BirthComponent';
 
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
@@ -25,17 +26,18 @@ type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 function SignUp({navigation}: SignUpScreenProps) {
   const [loading, setLoading] = useState(false);
-  const [userId, setUserId] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordconfirm, setPasswordconfirm] = useState('');
-  const [username, setUsername] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [birth, setBirth] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNo, setPhoneNo] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const [street, setStreet] = useState('');
-  const [addressDetail, setAddressDetail] = useState('');
+  const [userId, setUserId] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [passwordconfirm, setPasswordconfirm] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
+  const [gender, setGender] = useState<number>(0);
+  const [birth, setBirth] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [phoneNo, setPhoneNo] = useState<string>('');
+  const [zipcode, setZipCode] = useState<string>('');
+  const [street, setStreet] = useState<string>('');
+  const [addressDetail, setAddressDetail] = useState<string>('');
   const [imageUrl, setImageUrl] = useState('');
   const [imageName, setImageName] = useState('');
 
@@ -57,8 +59,13 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangeNickname = useCallback((text:string) => {
     setNickname(text.trim());
   }, []);
-  const onChangeBirth = useCallback((text:string) => {
-    setBirth(text.trim());
+  const onChangeGender = useCallback((gender : number) =>{
+    setGender(gender);
+    console.log(gender);
+  }, [])
+  const onChangeBirth = useCallback((date : string) => {
+    setBirth(date);
+    console.log(birth);
   }, []);
   const onChangeEmail = useCallback((text:string) => {
     setEmail(text.trim());
@@ -66,22 +73,29 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangePhoneNo = useCallback((text:string)=> {
     setPhoneNo(text.trim());
   }, []);
-  const onChangeZipCode = useCallback((text:string)=> {
-    setZipCode(text.trim());
+  const onChangeZipCode = useCallback((address : {zonecode : string, street : string})=> {
+    setZipCode(address.zonecode);
+    setStreet(address.street);
+  }, [zipcode, street]);
+  const onChangeDetailAddress = useCallback((text:string)=>{
+    setAddressDetail(text.trim())
   }, []);
-  const onChangeStreet = useCallback((text:string)=> {
-    setStreet(text.trim());
-  }, []);
-  const onChangeAddressDetail = useCallback((text:string)=> {
-    setAddressDetail(text.trim());
-  }, []);
-  const onChangeImage = useCallback(()=>{
+  const onChangeImage = useCallback((selectedImage : any)=>{
+    if (selectedImage!==null) {
+      setImageUrl(selectedImage);
+      if(imageUrl!==undefined){
+        const tempName = imageUrl.split("/").pop();
+        setImageName(tempName || '');
+      }
+    } else {
+      console.log('Selected image does not have assets');
+    }
   },[imageUrl, imageName]);
 
   const [token, setToken] = useState('');
-  const onSubmit = useCallback(async () => {
+  const onSubmit = useCallback(async () => { 
     const user  = new User(
-      userId, username, password, nickname, gender, Number(birth), email, phoneNo, false, Number(zipCode), 
+      userId, username, password, nickname, gender, birth, email, phoneNo, false, zipcode, 
       street, addressDetail, imageUrl, imageName
     );
     if(loading){
@@ -108,7 +122,7 @@ function SignUp({navigation}: SignUpScreenProps) {
     if (!phoneNo || !phoneNo.trim()) {
         return Alert.alert('알림', '전화번호를 입력해주세요.');
     }
-    if (!zipCode) {
+    if (!zipcode) {
         return Alert.alert('알림', '우편번호를 입력해주세요.');
     }
     if (!street || !street.trim()) {
@@ -132,9 +146,9 @@ function SignUp({navigation}: SignUpScreenProps) {
       );
     }*/
     postSignup(user, dispatch);
-  }, [navigation, userId, username, password, nickname, gender, birth, email, false, phoneNo, zipCode, street, addressDetail, imageUrl, imageName]);
+  }, [navigation, userId, username, password, nickname, gender, birth, email, false, phoneNo, zipcode, street, addressDetail, imageUrl, imageName]);
 
-  const canGoNext = userId && password && nickname && email && phoneNo && zipCode && street && addressDetail;
+  const canGoNext = userId && password && nickname && email && phoneNo && zipcode && street && addressDetail;
   return (
     <ScrollView style = {styles.SignUpPage}>
       <View style={styles.wrapper}>
@@ -200,20 +214,14 @@ function SignUp({navigation}: SignUpScreenProps) {
       </View>
       <View style = {styles.wrapperGender}>
         <Text style = {styles.text}>성별</Text>
-        <GenderComponent/>
+        <GenderComponent onGenderChange = {onChangeGender}/>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>생년월일</Text>
-        <TextInput
-          style = {styles.textInput}
-          onChangeText = {onChangeBirth}
-          placeholder= '생년월일'
-          placeholderTextColor = "#666"
-          value = {birth}
-          returnKeyType = "next"
-          clearButtonMode = "while-editing"
-          keyboardType = "number-pad"
-          blurOnSubmit = {false}/>
+        <View style = {styles.wrapperComponent}>
+          <Text style = {[styles.data, {paddingRight : birth ? 15 : 0}]}>생일 : {birth} </Text>
+          <BirthComponent onBirthSelected={onChangeBirth}/>
+        </View>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>이메일</Text>
@@ -243,30 +251,20 @@ function SignUp({navigation}: SignUpScreenProps) {
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>우편번호</Text>
-        <TextInput
-          style = {styles.textInput}
-          value = {zipCode}
-          onChangeText = {onChangeZipCode}
-          clearButtonMode = "while-editing"
-          blurOnSubmit = {false}
-          keyboardType = "number-pad"/>
+        <View style = {styles.wrapperComponent}>
+        <Text style={[styles.value, { paddingRight: zipcode ? 15 : 0 }]}>우편번호 : {zipcode}</Text>
+          <ZipCode onAddressSelected={onChangeZipCode}/>
+        </View>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>주소</Text>
-        <TextInput
-          style = {styles.textInput}
-          value = {street}
-          placeholder = "주소"
-          placeholderTextColor= "#666"
-          onChangeText = {onChangeStreet}
-          clearButtonMode = "while-editing"
-          blurOnSubmit = {false}/>
+        <Text>주소 : {street}</Text>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>상세주소</Text>
         <TextInput
           style = {styles.textInput}
-          onChangeText = {onChangeAddressDetail}
+          onChangeText = {onChangeDetailAddress}
           placeholder = "상세주소"
           placeholderTextColor = "#666"
           value = {addressDetail}
@@ -275,11 +273,10 @@ function SignUp({navigation}: SignUpScreenProps) {
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>사진</Text>
-        <Pressable
-          style = {styles.photoZone}
-          onPress = {onChangeImage}>
-          <Text style = {styles.photo}>사진 가져오기</Text>
-        </Pressable>
+        <Picture onPictureSelected = {onChangeImage}/>
+        {imageUrl ? <Image 
+        source = {{uri : imageUrl}}
+        style = {styles.image}/> : null}
       </View>
       <View style = {styles.button}>
         <Pressable
@@ -325,6 +322,12 @@ const styles = StyleSheet.create({
   birthButton : {
     marginLeft : 5,
   },
+  zipCode : {
+    flexDirection : 'row',
+  },
+  value : {
+    paddingRight : 0,
+  },
   photoZone : {
     alignItems : "center",
     justifyContent : "center",
@@ -340,9 +343,13 @@ const styles = StyleSheet.create({
     marginVertical : 5,
     paddingTop : 5,
   },
-  wrapperBirth : {
-    marginRight : 290,
-    paddingLeft : 10,
+  wrapperComponent : {
+    flexDirection : 'row',
+    alignItems : 'center',
+  },
+  data : {
+    color : 'black',
+    justifyContent : 'center',
   },
   signUpButton : {
     backgroundColor : 'gray',
@@ -358,6 +365,10 @@ const styles = StyleSheet.create({
     color : 'white',
     fontSize : 16,
   },
+  image : {
+    width : 200,
+    height : 200,
+  }
 });
 
 export default SignUp;
