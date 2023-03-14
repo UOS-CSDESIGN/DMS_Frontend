@@ -6,7 +6,7 @@ const getMemberData = async (dispatch:any, token:any) => {
     await axios.get("http://25.12.74.132:8080/member/getMemberData",
         {
             headers: {
-                'Authorization': 'Bearer' + token
+                'Authorization': `Bearer ${token}`
             },
         }
     ).then((res) => {

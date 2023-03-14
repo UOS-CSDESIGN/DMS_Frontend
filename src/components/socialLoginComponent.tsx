@@ -24,8 +24,13 @@ const SocialLoginComponent = () => {
         });
     
     const dispatch = useDispatch();
-    const user = useSelector((state: RootState) => (state.memberData.userData));
-    const token = useSelector((state: RootState) => (state.login.accessToken));
+
+    //useSelector가 선언
+    //store값이 변경되면 바로 변경
+    const { user, token } = useSelector((state: RootState) => ({
+        user: state.memberData.userData,
+        token: state.login.accessToken,
+    }));
 
     const googleSignin = async () => {
         console.log("in signin");
@@ -39,13 +44,16 @@ const SocialLoginComponent = () => {
                 });
             console.log("pass play");
 
-            const userInfo = await GoogleSignin.signIn();
+            const userInfoIn = await GoogleSignin.signIn();
             console.log("pass login");
+            console.log("idToken!!");
+            console.log(userInfoIn.idToken);
             setUserInfo({
-                userGoogleInfo: userInfo,
+                userGoogleInfo: userInfoIn,
                 loaded: true
             });
-            postSocialSignin(userInfo, dispatch, user, token);
+            console.log(token);
+            postSocialSignin(userInfo.userGoogleInfo, dispatch, user, token);
         }
         catch (error:any) {
             //GoogleSignin error catch

@@ -21,6 +21,7 @@ const postSocialSignin = async (userInfo: User, dispatch: any, user:any, token:a
         })
         .then((res) => {
             dispatch(loginSuccess(JSON.stringify(res.data.accessToken)));
+            console.log("Access Token!!")
             console.log(JSON.stringify(res.data.accessToken));
             //add implement of signup
             //checking status code
@@ -33,9 +34,11 @@ const postSocialSignin = async (userInfo: User, dispatch: any, user:any, token:a
     getMemberData(dispatch, token);
 
     if (user.userData.addressDetail === "") {
+        console.log("useData not available");
         return false;
     }
     else {
+        console.log("userData available");
         return true;
     }
 }
