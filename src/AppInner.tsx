@@ -8,6 +8,8 @@ import SignUp from './components/SignUpComponent';
 import Main from './components/mainComponent';
 import MyPage from './components/MyPageComponent';
 import Animal from './components/AnimalComponent';
+import SocialGoogle from './components/socialGoogle';
+import Find from './components/FindComponent';
 
 export type BottomTabParamList = {
   Shop : undefined;
@@ -20,10 +22,10 @@ export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   MyPage : undefined;
-  googleSignUp : undefined;
   Find : undefined;
   Animal : undefined;
   Main : undefined;
+  SocialGoogle : undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -67,6 +69,14 @@ function AppInner() {
             name = "Main"
             component = {Main}
             options = {{title : '메인페이지'}}/>
+          <Stack.Screen
+            name = "SocialGoogle"
+            component = {SocialGoogle}
+            options = {{title : '구글로그인'}}/>
+          <Stack.Screen
+            name = "Find"
+            component = {Find}
+            options = {{title : '아이디 · 비밀번호 찾기'}}/>
         </Stack.Navigator>
         
       )}

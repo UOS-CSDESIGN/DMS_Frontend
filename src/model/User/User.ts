@@ -10,7 +10,7 @@ class User{
     email: string;
     phoneNo: string;
     social: boolean;
-    provider: string
+    provider: string;
     zipcode: string;
     street: string;
     addressDetail: string;
