@@ -25,6 +25,17 @@ const getGoogleSignin = async (userInfo: User, dispatch: any, user:any, token:st
             getMemberData(dispatch, JSON.stringify(res.data.accessToken));
             //add implement of signup
             //checking status code
+            const keys = Object.keys(user);
+    
+            for (let i = 0; i < keys.length; i++) {
+                const key = keys[i];
+                const value = user[key];
+                console.log(key);
+                console.log(value);
+            }
+        
+        //add branch to signup if info more needs
+        //if not to main
 
             //must be checking 23.03.16 user object get from server
             console.log(user);
@@ -34,17 +45,5 @@ const getGoogleSignin = async (userInfo: User, dispatch: any, user:any, token:st
             console.log(error);
             throw error;
         });
-
-    const keys = Object.keys(user);
-    
-    for (let i = 0; i < keys.length; i++){
-        const key = keys[i];
-        const value = user[key];
-
-        console.log(value);
-        
-        //add branch to signup if info more needs
-        //if not to main
-    }
 }
 export default getGoogleSignin;

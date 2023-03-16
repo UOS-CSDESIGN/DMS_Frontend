@@ -5,7 +5,7 @@ const loginSlice = createSlice({
     initialState: {
         //SSL 통신 이후 refresh 파트 구현
         //refreshToken:'',
-        accessToken: '',
+        accessToken: null,
         loading: false,
     },
     reducers: {
