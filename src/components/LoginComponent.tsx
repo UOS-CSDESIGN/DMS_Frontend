@@ -51,6 +51,7 @@ function Login({navigation}: LogInScreenProps){
       user.append("userId", userId);
       user.append("password", password);
       postLogin(user, dispatch);
+      navigation.navigate('Main');
     },[userId, password, dispatch])
       
   const token = useSelector((state: RootState) => state.login.accessToken);
@@ -69,6 +70,10 @@ function Login({navigation}: LogInScreenProps){
   const toAnimal = useCallback(() => {
     navigation.navigate('Animal');
   }, [navigation]);
+
+  const toSocialGoogle = useCallback(() => {
+    navigation.navigate('SocialGoogle')
+  },[navigation]);
   return (
     <View style={styles.loginPage}>
       <View style={styles.greeting}>
@@ -151,6 +156,13 @@ function Login({navigation}: LogInScreenProps){
           <Text style={styles.loginButtonText}>애완견</Text>
         </Pressable>
       </View>
+      <View style={styles.buttonZone}>
+        <Pressable style={styles.loginButton}
+          onPress={toSocialGoogle}>
+          <Text style={styles.loginButtonText}>소셜로그인</Text>
+        </Pressable>
+      </View>
+
     </View>
   );
 }
