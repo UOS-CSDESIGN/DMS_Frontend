@@ -2,7 +2,7 @@ import {
     GoogleSignin, User, statusCodes,
     GoogleSigninButton
 } from "@react-native-google-signin/google-signin";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
@@ -22,18 +22,20 @@ const SocialLoginComponent = () => {
             userGoogleInfo: {} as User,
             loaded: false
         });
-    
+    const [isChanged, setChanged] = useState(0);
     const dispatch = useDispatch();
 
     //useSelector가 선언
     //store값이 변경되면 바로 변경
     const { user, token } = useSelector((state: RootState) => ({
-        user: state.memberData.userData,
-        token: state.login.accessToken,
-    }));
+            user: state.memberData.userData,
+            token: state.login.accessToken,
+        }));
+    useEffect(() => {
+        console.log(`changed token : ${token}`);
+    }, [token]);
 
     const googleSignin = async () => {
-        console.log("in signin");
         try {
             //google services are available
             //error : paly service are not available
@@ -42,18 +44,14 @@ const SocialLoginComponent = () => {
                     //show alert to slove problem
                     showPlayServicesUpdateDialog: true
                 });
-            console.log("pass play");
 
             const userInfoIn = await GoogleSignin.signIn();
-            console.log("pass login");
-            console.log("idToken!!");
-            console.log(userInfoIn.idToken);
             setUserInfo({
                 userGoogleInfo: userInfoIn,
                 loaded: true
             });
             console.log(token);
-            postSocialSignin(userInfo.userGoogleInfo, dispatch, user, token);
+            postSocialSignin(userInfoIn, dispatch, user, token);
         }
         catch (error:any) {
             //GoogleSignin error catch
@@ -87,11 +85,7 @@ const SocialLoginComponent = () => {
                 onPress={googleSignin}
             />
             {userInfo.loaded ?
-                <View>
-                    <Text>{userInfo.userGoogleInfo.user.name}</Text>
-                        <Text>{userInfo.userGoogleInfo.user.email}</Text>
-                        <Text>{userInfo.userGoogleInfo.idToken}</Text>
-                </View> :
+                <Text>Signed</Text> :
                 <Text>Not Signin</Text>
             }
             </View>

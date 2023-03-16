@@ -9,7 +9,8 @@ import { loginFailure, loginRequest, loginSuccess } from "./slice/loginSlice";
  * @param token : access toek store
  * @returns true-no more info needed false-get more info needed
  */
-const postSocialSignin = async (userInfo: User, dispatch: any, user:any, token:any) => {
+//get accessToken by passing id_Token and checking if needs signup.
+const getGoogleSignin = async (userInfo: User, dispatch: any, user:any, token:string) => {
 
     dispatch(loginRequest());
     await axios.get(`http://25.12.74.132:8080/api/oauth2/google?id_token=${userInfo.idToken}`,
@@ -21,25 +22,29 @@ const postSocialSignin = async (userInfo: User, dispatch: any, user:any, token:a
         })
         .then((res) => {
             dispatch(loginSuccess(JSON.stringify(res.data.accessToken)));
-            console.log("Access Token!!")
-            console.log(JSON.stringify(res.data.accessToken));
+            getMemberData(dispatch, JSON.stringify(res.data.accessToken));
             //add implement of signup
             //checking status code
+
+            //must be checking 23.03.16 user object get from server
+            console.log(user);
         })
         .catch((error) => {
             dispatch(loginFailure());
-            console.log("failed");
+            console.log(error);
             throw error;
         });
-    getMemberData(dispatch, token);
 
-    if (user.userData.addressDetail === "") {
-        console.log("useData not available");
-        return false;
-    }
-    else {
-        console.log("userData available");
-        return true;
+    const keys = Object.keys(user);
+    
+    for (let i = 0; i < keys.length; i++){
+        const key = keys[i];
+        const value = user[key];
+
+        console.log(value);
+        
+        //add branch to signup if info more needs
+        //if not to main
     }
 }
-export default postSocialSignin;
+export default getGoogleSignin;
