@@ -38,8 +38,8 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [zipcode, setZipcode] = useState<string>('');
   const [street, setStreet] = useState<string>('');
   const [addressDetail, setAddressDetail] = useState<string>('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [imageName, setImageName] = useState('');
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [imageName, setImageName] = useState<string>('');
 
   const dispatch = useDispatch();
   
