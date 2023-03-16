@@ -35,7 +35,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [birth, setBirth] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phoneNo, setPhoneNo] = useState<string>('');
-  const [zipcode, setZipCode] = useState<string>('');
+  const [zipcode, setZipcode] = useState<string>('');
   const [street, setStreet] = useState<string>('');
   const [addressDetail, setAddressDetail] = useState<string>('');
   const [imageUrl, setImageUrl] = useState('');
@@ -74,7 +74,7 @@ function SignUp({navigation}: SignUpScreenProps) {
     setPhoneNo(text.trim());
   }, []);
   const onChangeZipCode = useCallback((address : {zonecode : string, street : string})=> {
-    setZipCode(address.zonecode);
+    setZipcode(address.zonecode);
     setStreet(address.street);
   }, [zipcode, street]);
   const onChangeDetailAddress = useCallback((text:string)=>{
