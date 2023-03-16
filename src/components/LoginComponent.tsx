@@ -129,7 +129,7 @@ function Login({navigation}: LogInScreenProps){
         </Pressable>
       </View>
       <View style={styles.signUpAndFind}>
-        <Pressable onPress={toSignUp}>
+        <Pressable onPress={}>
           <Text style={styles.signUpAndFindText}>회원가입</Text>
         </Pressable>
         <Pressable onPress={toFind}>

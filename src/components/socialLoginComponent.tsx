@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
-import postSocialSignin from "../model/User/postSocialSignin";
+import postSocialSignin from "../model/User/getGoogleSignin";
 
 const SocialLoginComponent = () => {
     GoogleSignin.configure({
@@ -14,19 +14,11 @@ const SocialLoginComponent = () => {
         offlineAccess: true
 
     });
-    const [userInfo, setUserInfo] =
-        useState<{
-            userGoogleInfo: User;
-            loaded: boolean;
-        }>({
-            userGoogleInfo: {} as User,
-            loaded: false
-        });
     const [isChanged, setChanged] = useState(0);
     const dispatch = useDispatch();
 
-    //useSelector가 선언
-    //store값이 변경되면 바로 변경
+    //useSelector is declared
+    //if user or token value is chaged, immediately applied
     const { user, token } = useSelector((state: RootState) => ({
             user: state.memberData.userData,
             token: state.login.accessToken,
@@ -37,21 +29,16 @@ const SocialLoginComponent = () => {
 
     const googleSignin = async () => {
         try {
-            //google services are available
-            //error : paly service are not available
+            //checking google services are available
+            //error : play service are not available
             await GoogleSignin.hasPlayServices
-                ({
-                    //show alert to slove problem
-                    showPlayServicesUpdateDialog: true
-                });
-
-            const userInfoIn = await GoogleSignin.signIn();
-            setUserInfo({
-                userGoogleInfo: userInfoIn,
-                loaded: true
-            });
+                ({ showPlayServicesUpdateDialog: true });
+            //google oauth
+            //return value is google infomation
+            const userInfo = await GoogleSignin.signIn();
             console.log(token);
-            postSocialSignin(userInfoIn, dispatch, user, token);
+            //get accessToken from Spring Server
+            postSocialSignin(userInfo, dispatch, user, token);
         }
         catch (error:any) {
             //GoogleSignin error catch
@@ -77,19 +64,15 @@ const SocialLoginComponent = () => {
     };
     return (
         <View>
-        <View style={styles.socialLoginButton}>
-            <GoogleSigninButton
-                style={styles.googleButton}
-                size={GoogleSigninButton.Size.Wide}
-                color={GoogleSigninButton.Color.Dark}
-                onPress={googleSignin}
-            />
-            {userInfo.loaded ?
-                <Text>Signed</Text> :
-                <Text>Not Signin</Text>
-            }
+            <View style={styles.socialLoginButton}>              
+                <GoogleSigninButton                  
+                    style={styles.googleButton}                  
+                    size={GoogleSigninButton.Size.Wide}                  
+                    color={GoogleSigninButton.Color.Dark}
+                    onPress={googleSignin}        
+                />
             </View>
-           </View> 
+        </View>
     );
 }
 export default SocialLoginComponent;
