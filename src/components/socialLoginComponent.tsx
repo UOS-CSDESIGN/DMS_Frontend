@@ -14,7 +14,6 @@ const SocialLoginComponent = () => {
         offlineAccess: true
 
     });
-    const [isChanged, setChanged] = useState(0);
     const dispatch = useDispatch();
 
     //useSelector is declared
