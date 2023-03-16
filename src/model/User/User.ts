@@ -1,14 +1,17 @@
+import { List } from "reselect/es/types";
+
 class User{
     userId: string;
     username: string;
     password: string;
     nickname: string;
     gender : number;
-    birth: number;
+    birth: string;
     email: string;
     phoneNo: string;
-    isSocial: boolean;
-    zipcode: number;
+    social: boolean;
+    provider: string
+    zipcode: string;
     street: string;
     addressDetail: string;
     imageUrl: string;
@@ -16,8 +19,8 @@ class User{
     
     constructor(
         userId: string, username: string, password: string,
-        nickname: string,  gender : number, birth: number, email: string,
-        phoneNo: string, isSocial: boolean, zipcode: number,
+        nickname: string,  gender : number, birth: string, email: string,
+        phoneNo: string, isSocial: boolean, zipcode: string, provider: string,
         street: string, addressDetail: string, imageUrl: string, imageName: string
     ) {
         this.userId = userId;
@@ -28,10 +31,11 @@ class User{
         this.birth = birth;
         this.email = email;
         this.phoneNo = phoneNo;
-        this.isSocial = isSocial;
+        this.social = isSocial;
         this.zipcode = zipcode;
         this.street = street;
         this.addressDetail = addressDetail;
+        this.provider = provider;
         this.imageUrl = imageUrl;
         this.imageName = imageName;
     }
@@ -46,7 +50,7 @@ class User{
         data.append("nickname", this.nickname);
         data.append("gender", this.gender);
         data.append("birth", this.birth);
-        data.append("isSocial", this.isSocial);
+        data.append("social", this.social);
         data.append("email", this.email);
         data.append("phoneNo", this.phoneNo);
         data.append("zipcode", this.zipcode);
