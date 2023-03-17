@@ -74,25 +74,25 @@ function SocialGoogle({navigation} : SocialScreenProps ){
 
     return(
         <ScrollView>
-            <View>
+            <View style = {styles.wrapperView}>
                 <Text style = {styles.text}>별명</Text>
                 <TextInput
                  style = {styles.textInput}
                  value = {nickname}
                  onChangeText = {onChangeNickname}/>
             </View>
-            <View>
+            <View style = {styles.wrapperView}>
                 <Text style = {styles.text}>성별</Text>
                 <GenderComponent onGenderChange = {onChangeGender}/>
             </View>
-            <View>
+            <View style = {styles.wrapperView}>
                 <Text style = {styles.text}>생일</Text>
                 <View style = {styles.wrapper}>
                     <Text>생일 : {birth}</Text>
                     <BirthComponent onBirthSelected={onChangeBirth}/>
                 </View>
             </View>
-            <View>
+            <View style = {styles.wrapperView}>
                 <Text style = {styles.text}>전화번호</Text>
                 <TextInput
                  style = {styles.textInput}
@@ -101,27 +101,27 @@ function SocialGoogle({navigation} : SocialScreenProps ){
                  keyboardType = 'number-pad'
                  />
             </View>
-            <View>
+            <View style = {styles.wrapperView}>
                 <Text style = {styles.text}>우편번호</Text>
                 <View style = {styles.wrapper}>
                     <Text style={[styles.value, { paddingRight: zipcode ? 15 : 0 }]}>우편번호 : {zipcode}</Text>
                     <ZipCode onAddressSelected={onChangeZipCode}/>
                 </View>
             </View>
-            <View>
+            <View style = {styles.wrapperView}>
                 <Text style = {styles.text}>주소</Text>
                 <View style = {styles.wrapper}>
                     <Text style = {[styles.value, {paddingRight : street ? 15 : 0}]}>주소 : {street}</Text>
                 </View>
             </View>
-            <View>
+            <View style = {styles.wrapperView}>
                 <Text style = {styles.text}>상세주소</Text>
                 <TextInput
                  style = {styles.textInput}
                  value = {addressDetail}
                  onChangeText = {onChangeAddressDetail}/>
             </View>
-            <View>
+            <View style = {styles.wrapperView}>
                 <Text style = {styles.text}>사진</Text>
                 <Picture onPictureSelected = {onChangeImage}/>
                 {imageUrl ? <Image 
@@ -134,6 +134,10 @@ function SocialGoogle({navigation} : SocialScreenProps ){
 }
 
 const styles = StyleSheet.create({
+    wrapperView : {
+        paddingLeft : 10,
+        paddingVertical : 5,
+    },
     textInput: {
         marginTop : 5,
         marginRight : 30,
