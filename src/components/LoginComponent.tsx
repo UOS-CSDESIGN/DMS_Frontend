@@ -69,7 +69,7 @@ function Login({navigation}: LogInScreenProps){
     navigation.navigate('Animal');
   }, [navigation]);
   const toSocialSignup = useCallback(() => {
-    navigation.navigate('');
+    navigation.navigate('SocialGoogle');
   }, [navigation]);
   return (
     <View style={styles.loginPage}>
