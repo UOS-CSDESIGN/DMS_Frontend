@@ -74,6 +74,10 @@ function Login({navigation}: LogInScreenProps){
   const toSocialGoogle = useCallback(() => {
     navigation.navigate('SocialGoogle')
   },[navigation]);
+
+  const toMain = useCallback(() => {
+    navigation.navigate('MultiProfile')
+  }, [navigation]);
   return (
     <View style={styles.loginPage}>
       <View style={styles.greeting}>
@@ -162,7 +166,12 @@ function Login({navigation}: LogInScreenProps){
           <Text style={styles.loginButtonText}>소셜로그인</Text>
         </Pressable>
       </View>
-
+      <View style = {styles.buttonZone}>
+      <Pressable style={styles.loginButton}
+          onPress={toMain}>
+          <Text style={styles.loginButtonText}>메인</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
