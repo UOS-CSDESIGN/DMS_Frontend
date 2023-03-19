@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
 import postSocialSignin from "../model/User/getGoogleSignin";
 
-const SocialLoginComponent = ({navigation}) => {
+const SocialLoginComponent = () => {
     GoogleSignin.configure({
         webClientId: '984908362495-kolhf54om4me453ha1gnl7u4thcqlp20.apps.googleusercontent.com',
         offlineAccess: true
@@ -37,7 +37,12 @@ const SocialLoginComponent = ({navigation}) => {
             const userInfo = await GoogleSignin.signIn();
             console.log(token);
             //get accessToken from Spring Server
-            postSocialSignin(userInfo, dispatch, user, token, navigation);
+            const isSigned = postSocialSignin(userInfo, dispatch, user, token);
+            console.log('isSigned');
+            console.log(isSigned);
+            if(isSigned == false){
+                console.log('not signed');
+            }
         }
         catch (error:any) {
             //GoogleSignin error catch
