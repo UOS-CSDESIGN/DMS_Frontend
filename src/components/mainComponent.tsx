@@ -13,10 +13,19 @@ import {
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Swiper from 'react-native-swiper';
 
-type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
+//type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
 
-function Main({navigation} : MainScreenProps){
+type MainProps = {
+  onPictureChange : (picture : string) => void;
+  onNameChange :(name : string) => void;
+  onAgeChange : (age : number) => void;
+  onGenderChange : (gender : string) => void;
+  onWeightChange : (weight : number) => void;
+}
+
+function Main(props : MainProps){
   const [isPicture, setIsPicture] = useState<boolean>(false);
   const [picture, setPicture] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -40,7 +49,8 @@ function Main({navigation} : MainScreenProps){
     setName(tempName);
     setIsEditName(false);
     setTempName('');
-  }, [tempName])
+    props.onNameChange(tempName);
+  }, [tempName, props.onNameChange])
   const onChangeNameText = useCallback((name : string) => {
     setTempName(name)
   },[])
@@ -56,7 +66,8 @@ function Main({navigation} : MainScreenProps){
     setAge(parseInt(tempAge));
     setisEditAge(false);
     setTempAge('');
-  },[tempAge])
+    props.onAgeChange(parseInt(tempAge));
+  },[tempAge, props.onAgeChange])
   const onChangeAgeText = useCallback((age : string) =>{
     setTempAge(age);
   },[])
@@ -72,7 +83,8 @@ function Main({navigation} : MainScreenProps){
     setGender(tempGender);
     setIsEditGender(false);
     setTempGender('');
-  }, [tempGender]);
+    props.onGenderChange(tempGender);
+  }, [tempGender, props.onGenderChange]);
   const onChangeGenderText = useCallback((gender : string) => {
     setTempGender(gender);
   },[])
@@ -88,7 +100,8 @@ function Main({navigation} : MainScreenProps){
     setWeight(parseInt(tempWeight));
     setIsEditWeight(false);
     setTempWeight('');
-  }, [tempWeight]);
+    props.onWeightChange(parseInt(tempWeight));
+  }, [tempWeight, props.onWeightChange]);
   const onChangeWeightText = useCallback((weight : string) => {
     setTempWeight(weight);
   },[])
@@ -97,6 +110,7 @@ function Main({navigation} : MainScreenProps){
   const onChangeObesity = useCallback(() => {
 
   }, []);
+
 
     return(
       <View>
@@ -119,8 +133,8 @@ function Main({navigation} : MainScreenProps){
             ) : <Text style = {styles.userDescription}>{name}</Text>}
           </View>
           {isEdit ? <Pressable
-           onPress = {onChangeName}
-           style = {styles.pencil}>
+          onPress = {onChangeName}
+          style = {styles.pencil}>
             <Icon name = 'pencil' size = {20} color = '#000'/>
           </Pressable> : null}
         </View>
@@ -139,8 +153,8 @@ function Main({navigation} : MainScreenProps){
             ) : <Text style = {styles.userDescription}>{age}</Text>}
           </View>
           {isEdit ?<Pressable
-           onPress = {onChangeAge}
-           style = {styles.pencil}>
+          onPress = {onChangeAge}
+          style = {styles.pencil}>
             <Icon name = 'pencil' size = {20} color = '#000'/>
           </Pressable> : null}
         </View>
@@ -158,8 +172,8 @@ function Main({navigation} : MainScreenProps){
             ) : <Text style = {styles.userDescription}>{gender}</Text>}
           </View>
           {isEdit ? <Pressable
-           onPress = {onChangeGender}
-           style = {styles.pencil}>
+          onPress = {onChangeGender}
+          style = {styles.pencil}>
             <Icon name = 'pencil' size = {20} color = '#000'/>
           </Pressable> : null}
         </View>
@@ -178,8 +192,8 @@ function Main({navigation} : MainScreenProps){
             ) : <Text style = {styles.userDescription}>{weight}</Text>}
           </View>
           {isEdit ?<Pressable
-           onPress = {onChangeWeight}
-           style = {styles.pencil}>
+          onPress = {onChangeWeight}
+          style = {styles.pencil}>
             <Icon name = 'pencil' size = {20} color = '#000'/>
           </Pressable> : null}
         </View>
@@ -190,10 +204,10 @@ function Main({navigation} : MainScreenProps){
         </View>
         <View>
           <Pressable 
-           onPress = {onChangeEdit}
-           style = {styles.editButton}>
+          onPress = {onChangeEdit}
+          style = {styles.editButton}>
             <Text style = {styles.editButtonText}>수정</Text>
-           </Pressable>
+          </Pressable>
         </View>
       </View>
     )
