@@ -1,59 +1,65 @@
-import React, {useState} from "react";
-import {Pressable, StyleSheet, Text, View, Button} from "react-native";
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import React, {useCallback, useState} from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import DatePicker from 'react-native-date-picker';
+import Modal from 'react-native-modal';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-Date.prototype.format = function(f : any) {
-    if (!this.valueOf()) return " ";
- 
-    var weekName = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
-    var d = this;
-     
-    return f.replace(/(yyyy|yy|MM|dd|E|hh|mm|ss|a\/p)/gi, function($1 : any) {
-        switch ($1) {
-            case "yyyy": return d.getFullYear();
-            case "yy": return (d.getFullYear() % 1000).zf(2);
-            case "MM": return (d.getMonth() + 1).zf(2);
-            case "dd": return d.getDate().zf(2);
-            case "E": return weekName[d.getDay()];
-            case "HH": return d.getHours().zf(2);
-            case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2);
-            case "mm": return d.getMinutes().zf(2);
-            case "ss": return d.getSeconds().zf(2);
-            case "a/p": return d.getHours() < 12 ? "오전" : "오후";
-            default: return $1;
-        }
-    });
-};
+interface BirthProps {
+    onBirthSelected : (birth : string) => void;
+}
 
-String.prototype.string = function(len){var s = '', i = 0; while (i++ < len) { s += this; } return s;};
-String.prototype.zf = function(len){return "0".string(len - this.length) + this;};
-Number.prototype.zf = function(len){return this.toString().zf(len);};
-
-function BirthComponent(){
-    const [visible, setVisible] = useState(false);
-
-    const showDatePicker = () => {
+function BirthComponent({onBirthSelected} : BirthProps){
+    const [date, setDate] = useState(new Date());
+    const [visible, setVisible] = useState<boolean>(false);
+    const showModal = useCallback(() => {
         setVisible(true);
-    }
-    const hideDatePicker = () => {
+    }, []);
+    const onChangeDate = useCallback((selectedDate : Date) => {
+        const year = selectedDate.getFullYear();
+        const month = ("0" + (selectedDate.getMonth() + 1)).slice(-2);
+        const date = ("0" + selectedDate.getDate()).slice(-2);
+        const birth = `${year}-${month}-${date}`;
+        onBirthSelected(birth);
+        setDate(selectedDate);
         setVisible(false);
-    }
-    const onConfirm = (date : any) => {
-        console.warn("생년월일이 설정되었습니다. : ", date);
-        hideDatePicker();
-    }
-
+    }, [onBirthSelected])
     return(
         <View>
-            <Button title = "달력"
-            onPress = {showDatePicker}/>
-            <DateTimePickerModal
-                isVisible = {visible}
-                mode = "date"
-                onConfirm = {onConfirm}
-                onCancel = {hideDatePicker}/>
+          <Pressable onPress = {showModal}>
+            <Icon name = 'calendar' size = {25} color = "#000"/>
+          </Pressable>
+          <Modal style = {styles.modal}
+            isVisible = {visible}>
+            <DatePicker date = {date}
+            onDateChange = {setDate}
+            mode = "date"/>
+            <Pressable 
+            onPress = {() => onChangeDate(date)}
+            style = {styles.confirmButton}>
+                <Text style = {styles.confirmButtonText}>확인</Text>
+            </Pressable>
+          </Modal>
         </View>
     )
 }
 
-export default BirthComponent
+const styles = StyleSheet.create({
+    modal : {
+        height : 300,
+        width : '80%',
+        justifyContent : 'center',
+        padding : 20,
+    },
+    confirmButton : {
+        marginTop : 20,
+        backgroundColor : 'blue',
+        padding : 10,
+        borderRadius : 5,
+        alignItems : 'center',
+    },
+    confirmButtonText : {
+        color : 'white',
+    }
+})
+
+export default BirthComponent;
