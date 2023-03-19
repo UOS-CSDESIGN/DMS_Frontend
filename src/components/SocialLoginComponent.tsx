@@ -37,11 +37,13 @@ const SocialLoginComponent = () => {
             const userInfo = await GoogleSignin.signIn();
             console.log(token);
             //get accessToken from Spring Server
-            const isSigned = postSocialSignin(userInfo, dispatch, user, token);
+            const isSigned = await postSocialSignin(userInfo, dispatch, user, token);
             console.log('isSigned');
             console.log(isSigned);
             if(isSigned == false){
                 console.log('not signed');
+            } else {
+                console.log('signed');
             }
         }
         catch (error:any) {

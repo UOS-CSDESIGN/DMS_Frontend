@@ -20,11 +20,7 @@ import postLogin from '../model/User/postLogin';
 import { useDispatch, useSelector } from 'react-redux';
 import getMemberData from '../model/User/getMemberData';
 import { RootState } from '../model';
-<<<<<<< HEAD
-import SocialLogin
-=======
 import SocialLoginComponent from './SocialLoginComponent';
->>>>>>> f0c95379d24ba871113ad203a5c6276abafd66f5
 
 
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -66,7 +62,7 @@ function Login({navigation}: LogInScreenProps){
   const toSignUp = useCallback(() => {
     navigation.navigate('SignUp');
   }, [navigation]);  
-
+  
   const toFind = useCallback(() => {
     navigation.navigate('Find');
   }, [navigation]);
@@ -141,7 +137,7 @@ function Login({navigation}: LogInScreenProps){
         </Pressable>
       </View>
       
-        <SocialLoginComponent />
+        <SocialLoginComponent navigation={navigation}/>
       
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
