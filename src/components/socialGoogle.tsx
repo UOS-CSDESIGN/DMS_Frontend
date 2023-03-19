@@ -74,6 +74,9 @@ function SocialGoogle({navigation} : SocialScreenProps ){
 
     return(
         <ScrollView>
+            <View>
+                <Text>추가 정보를 입력해야 합니다.</Text>
+            </View>
             <View style = {styles.wrapperView}>
                 <Text style = {styles.text}>별명</Text>
                 <TextInput
