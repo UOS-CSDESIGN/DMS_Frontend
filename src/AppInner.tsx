@@ -8,6 +8,7 @@ import SignUp from './components/SignUpComponent';
 import Main from './components/mainComponent';
 import MyPage from './components/MyPageComponent';
 import Animal from './components/AnimalComponent';
+import SocialGoogle from './components/socialGoogle';
 
 export type BottomTabParamList = {
   Shop : undefined;
@@ -24,6 +25,7 @@ export type RootStackParamList = {
   Find : undefined;
   Animal : undefined;
   Main : undefined;
+  SocialGoogle : undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -67,6 +69,10 @@ function AppInner() {
             name = "Main"
             component = {Main}
             options = {{title : '메인페이지'}}/>
+          <Stack.Screen
+            name = "SocialGoogle"
+            component = {SocialGoogle}
+            options = {{title : '소셜로그인'}}/>
         </Stack.Navigator>
         
       )}
