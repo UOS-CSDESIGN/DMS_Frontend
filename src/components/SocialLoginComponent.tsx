@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
 import postSocialSignin from "../model/User/getGoogleSignin";
 
-const SocialLoginComponent = () => {
+const SocialLoginComponent = ({ toAnimal, toSignup }) => {
     GoogleSignin.configure({
         webClientId: '984908362495-kolhf54om4me453ha1gnl7u4thcqlp20.apps.googleusercontent.com',
         offlineAccess: true
@@ -42,8 +42,10 @@ const SocialLoginComponent = () => {
             console.log(isSigned);
             if(isSigned == false){
                 console.log('not signed');
+                toSignup();
             } else {
                 console.log('signed');
+                toAnimal();
             }
         }
         catch (error:any) {
