@@ -139,7 +139,7 @@ function Login({navigation}: LogInScreenProps){
         </Pressable>
       </View>
       
-      <SocialLoginComponent toAnimal={toAnimal} toSignup={toSignUp} />
+      <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialSignup} />
       
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
