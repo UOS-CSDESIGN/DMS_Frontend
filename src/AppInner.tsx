@@ -10,6 +10,7 @@ import MyPage from './components/MyPageComponent';
 import Animal from './components/AnimalComponent';
 import SocialGoogle from './components/socialGoogle';
 import Find from './components/FindComponent';
+import MultiProfile from './components/MultiProfileComponent';
 
 export type BottomTabParamList = {
   Shop : undefined;
@@ -26,6 +27,7 @@ export type RootStackParamList = {
   Animal : undefined;
   Main : undefined;
   SocialGoogle : undefined;
+  MultiProfile : undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -77,6 +79,10 @@ function AppInner() {
             name = "Find"
             component = {Find}
             options = {{title : '아이디 · 비밀번호 찾기'}}/>
+          <Stack.Screen
+            name = "MultiProfile"
+            component = {MultiProfile}
+            options = {{title : '멀티프로필'}}/>
         </Stack.Navigator>
         
       )}
