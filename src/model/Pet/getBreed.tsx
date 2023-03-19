@@ -22,6 +22,7 @@ const getBreed = async (page:number, dispatch:any, token:any, breedList:any) => 
         dispatch(getBreedSuccess(res.data));
         //add EOF of breed List
         //breedId를 어케암?
+        //if page is overflowed => 404 error
         if (res.data.currentPage) {
             
         }
