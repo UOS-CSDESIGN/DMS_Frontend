@@ -46,12 +46,15 @@ function Login({navigation}: LogInScreenProps){
       setPassword(text.trim());
     }, []);
 
-    const onSubmit = useCallback(() => {
-      const user = new FormData();
-      user.append("userId", userId);
-      user.append("password", password);
-      postLogin(user, dispatch);
-    },[userId, password, dispatch])
+  const onSubmit = useCallback(async () => {
+    const user = new FormData();
+    user.append("userId", userId);
+    user.append("password", password);
+    const res = await postLogin(user, dispatch);
+    if (res == true) {
+      navigation.navigate('Animal');
+    }
+  }, [userId, password, dispatch]);
       
   const token = useSelector((state: RootState) => state.login.accessToken);
   const user = useSelector((state: RootState) => state.memberData.userData);
