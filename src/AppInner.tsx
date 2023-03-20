@@ -12,12 +12,6 @@ import SocialGoogle from './components/socialGoogle';
 import Find from './components/FindComponent';
 import MultiProfile from './components/MultiProfileComponent';
 
-export type BottomTabParamList = {
-  Shop : undefined;
-  Community : undefined;
-  Obesity : undefined;
-  MapPage : undefined;
-}
 
 export type RootStackParamList = {
   Login: undefined;
@@ -28,6 +22,10 @@ export type RootStackParamList = {
   Main : undefined;
   SocialGoogle : undefined;
   MultiProfile : undefined;
+  Shop : undefined;
+  Community : undefined;
+  Obesity : undefined;
+  MapPage : undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -37,15 +35,6 @@ function AppInner() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   return (
     <NavigationContainer>
-      {isLoggedIn ? (
-        <Tab.Navigator>
-          <Tab.Screen
-            name="Main"
-            component={Main}
-            options={{title: '메인페이지'}}
-          />
-        </Tab.Navigator>
-      ) : (
         <Stack.Navigator>
           <Stack.Screen
             name="Login"
@@ -83,9 +72,11 @@ function AppInner() {
             name = "MultiProfile"
             component = {MultiProfile}
             options = {{title : '멀티프로필'}}/>
+          <Stack.Screen
+            name = "Obesity"
+            component = {Obesity}
+            options = {{title : '비만도'}}/>
         </Stack.Navigator>
-        
-      )}
     </NavigationContainer>
   );
 }
