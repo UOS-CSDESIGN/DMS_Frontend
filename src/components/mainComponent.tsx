@@ -1,5 +1,6 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {
+  Animated,
   Alert,
   Pressable,
   StyleSheet,
@@ -10,22 +11,15 @@ import {
   Button,
   Image,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Swiper from 'react-native-swiper';
+import { useNavigation } from '@react-navigation/native';
+import ActionButton from 'react-native-circular-action-menu';
 
-//type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
+type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
 
-type MainProps = {
-  onPictureChange : (picture : string) => void;
-  onNameChange :(name : string) => void;
-  onAgeChange : (age : number) => void;
-  onGenderChange : (gender : string) => void;
-  onWeightChange : (weight : number) => void;
-}
-
-function Main(props : MainProps){
+function Main({navigation} : MainScreenProps){
   const [isPicture, setIsPicture] = useState<boolean>(false);
   const [picture, setPicture] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -49,8 +43,7 @@ function Main(props : MainProps){
     setName(tempName);
     setIsEditName(false);
     setTempName('');
-    props.onNameChange(tempName);
-  }, [tempName, props.onNameChange])
+  }, [tempName])
   const onChangeNameText = useCallback((name : string) => {
     setTempName(name)
   },[])
@@ -66,8 +59,7 @@ function Main(props : MainProps){
     setAge(parseInt(tempAge));
     setisEditAge(false);
     setTempAge('');
-    props.onAgeChange(parseInt(tempAge));
-  },[tempAge, props.onAgeChange])
+  },[tempAge])
   const onChangeAgeText = useCallback((age : string) =>{
     setTempAge(age);
   },[])
@@ -83,8 +75,7 @@ function Main(props : MainProps){
     setGender(tempGender);
     setIsEditGender(false);
     setTempGender('');
-    props.onGenderChange(tempGender);
-  }, [tempGender, props.onGenderChange]);
+  }, [tempGender]);
   const onChangeGenderText = useCallback((gender : string) => {
     setTempGender(gender);
   },[])
@@ -100,17 +91,19 @@ function Main(props : MainProps){
     setWeight(parseInt(tempWeight));
     setIsEditWeight(false);
     setTempWeight('');
-    props.onWeightChange(parseInt(tempWeight));
-  }, [tempWeight, props.onWeightChange]);
+  }, [tempWeight]);
   const onChangeWeightText = useCallback((weight : string) => {
     setTempWeight(weight);
   },[])
 
-
-  const onChangeObesity = useCallback(() => {
-
-  }, []);
-
+  const openObesity = useRef(navigation.navigate('Obesity'));
+  const openButton = () => {
+    Animated.timing(openObesity, {
+      toValue : 1,
+      duration : 5000,
+      useNativeDriver : true,
+    }).start();
+  }
 
     return(
       <View>
@@ -209,6 +202,14 @@ function Main(props : MainProps){
             <Text style = {styles.editButtonText}>수정</Text>
           </Pressable>
         </View>
+        <Animated.View>
+          <ActionButton>
+            <ActionButton.Item
+             buttonColor = "gray"
+             onPress = {openButton}>
+            </ActionButton.Item>
+          </ActionButton>
+        </Animated.View>
       </View>
     )
 }
