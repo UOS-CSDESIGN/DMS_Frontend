@@ -7,9 +7,6 @@ import Main from "./mainComponent";
 import Animal from "./AnimalComponent";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { Dimensions} from "react-native";
-
-const height = Dimensions.get('screen').height;
 
 type MultiProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'MultiProfile'>;
 
@@ -35,22 +32,8 @@ function MultiProfile({navigation} : MultiProfileScreenProps){
     const [index, setIndex] = useState<number>(4);
     const views = [];
     for(let i = 1; i<index;i++){
-        views.push(<Main key = {i} 
-            onPictureChange={(picture : string) => {
-              onChangeList({...list[i],picture});
-            }}
-            onNameChange = {(name : string) => {
-              onChangeList({...list[i],name});
-            }}
-            onAgeChange={(age : number) => {
-              onChangeList({...list[i],age});
-            }}
-            onGenderChange={(gender : string) => {
-              onChangeList({...list[i],gender});
-            }}
-            onWeightChange={(weight : number) => {
-              onChangeList({...list[i],weight})
-            }}/>)
+        views.push(<Main 
+           key = {i}/>)
     }
     views.push(
       <View
