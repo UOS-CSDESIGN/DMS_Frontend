@@ -14,18 +14,12 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
+import Picture from './PictureComponent';
 
-//type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
+type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
 
-type MainProps = {
-  onPictureChange : (picture : string) => void;
-  onNameChange :(name : string) => void;
-  onAgeChange : (age : number) => void;
-  onGenderChange : (gender : string) => void;
-  onWeightChange : (weight : number) => void;
-}
 
-function Main(props : MainProps){
+function Main({navigation} : MainScreenProps){
   const [isPicture, setIsPicture] = useState<boolean>(false);
   const [picture, setPicture] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -35,9 +29,18 @@ function Main(props : MainProps){
   const [obesity, setObesity] = useState<number>(0);
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
+
+  
   const onChangeEdit = useCallback(() => {
     setIsEdit(true);
   }, []);
+
+  const onChangePicture = useCallback((picture : string) => {
+    setPicture(picture);
+  }, [picture]);
+  const toAlbum = useCallback(() => {
+    navigation.navigate('Album')
+  }, [navigation])
 
   const [isEditName, setIsEditName] = useState<boolean>(false);
   const [tempName, setTempName] = useState<string>('');
@@ -49,8 +52,7 @@ function Main(props : MainProps){
     setName(tempName);
     setIsEditName(false);
     setTempName('');
-    props.onNameChange(tempName);
-  }, [tempName, props.onNameChange])
+  }, [tempName])
   const onChangeNameText = useCallback((name : string) => {
     setTempName(name)
   },[])
@@ -66,8 +68,7 @@ function Main(props : MainProps){
     setAge(parseInt(tempAge));
     setisEditAge(false);
     setTempAge('');
-    props.onAgeChange(parseInt(tempAge));
-  },[tempAge, props.onAgeChange])
+  },[tempAge])
   const onChangeAgeText = useCallback((age : string) =>{
     setTempAge(age);
   },[])
@@ -83,8 +84,7 @@ function Main(props : MainProps){
     setGender(tempGender);
     setIsEditGender(false);
     setTempGender('');
-    props.onGenderChange(tempGender);
-  }, [tempGender, props.onGenderChange]);
+  }, [tempGender]);
   const onChangeGenderText = useCallback((gender : string) => {
     setTempGender(gender);
   },[])
@@ -100,8 +100,7 @@ function Main(props : MainProps){
     setWeight(parseInt(tempWeight));
     setIsEditWeight(false);
     setTempWeight('');
-    props.onWeightChange(parseInt(tempWeight));
-  }, [tempWeight, props.onWeightChange]);
+  }, [tempWeight]);
   const onChangeWeightText = useCallback((weight : string) => {
     setTempWeight(weight);
   },[])
@@ -115,9 +114,13 @@ function Main(props : MainProps){
     return(
       <View>
         <View>
-        {picture ? <Image 
+          <Text style = {styles.description}>사진</Text>
+          <Picture onPictureSelected={onChangePicture}/>
+          <Pressable onPress = {toAlbum}>
+          {picture ? <Image 
           source = {{uri : picture}}
           style = {styles.image}/> : null}
+          </Pressable>
         </View>
         <View style = {styles.wrapper}>
           <View style = {styles.descriptionView}>
