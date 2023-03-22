@@ -15,7 +15,6 @@ class Pet{
     name: string;
     birth: number;
     gender: number;
-    breedType: string;
     breedId: string;
     weight: string;
     obesity: number;
@@ -23,14 +22,13 @@ class Pet{
     image: any;
     constructor(
         id: number, name: string, birth: number, gender: number,
-        breedType: string, breedId: string, weigth: string, obesity: number, calorieGoal: number,
+        breedId: string, weigth: string, obesity: number, calorieGoal: number,
         petPicId:number, petPicUuid:string, petPicUrl:string, petPicName: string
     ) {
         this.id = id;
         this.name = name;
         this.birth = birth;
         this.gender = gender;
-        this.breedType = breedType;
         this.breedId = breedId;
         this.weight = weigth;
         this.calorieGoal = calorieGoal;
