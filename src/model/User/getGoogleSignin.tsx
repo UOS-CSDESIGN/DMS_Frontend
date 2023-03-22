@@ -16,7 +16,7 @@ import { useState } from "react";
 const getGoogleSignin = async (userInfo: User, dispatch: any, user:any, token:string) => {
 
     dispatch(loginRequest());
-    return await axios.get(`http://25.12.74.132:8080/api/oauth2/google?id_token=${userInfo.idToken}`,
+    return await axios.get(`http://localhost:8080/api/oauth2/google?id_token=${userInfo.idToken}`,
         {
             withCredentials: true,
             headers: {

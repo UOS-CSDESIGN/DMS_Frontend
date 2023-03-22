@@ -96,7 +96,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [token, setToken] = useState('');
   const onSubmit = useCallback(async () => { 
     const user  = new User(
-      userId, username, password, nickname, gender, birth, email, phoneNo, isSocial, zipcode, 
+      userId, username, password, nickname, gender, birth, email, phoneNo, isSocial, "",zipcode, 
       street, addressDetail, imageUrl, imageName
     );
     if(loading){
