@@ -6,8 +6,8 @@ import axios, { AxiosError } from "axios";
 const postUserModify = async (user: User, token:any) => {
 
     const bearer = `Bearer ${JSON.parse(token)}`;
-
-    await axios.post("http://25.12.74.1321:8080/member/modify",
+    console.log(bearer);
+    await axios.post("http://25.12.74.132:8080/member/modify",
         user.modifiedData,
         {
             headers: {
@@ -24,6 +24,7 @@ const postUserModify = async (user: User, token:any) => {
         } else {
             console.log("another error");
             console.log(error);
+            console.log(user.modifiedData);
         }
     })
 }

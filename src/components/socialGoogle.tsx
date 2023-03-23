@@ -86,8 +86,9 @@ function SocialGoogle({ navigation }: SocialScreenProps) {
             nickname, gender, birth, memberData.email, phoneNo, memberData.isSocial, memberData.provider,
             zipcode, street, addressDetail, imageUrl, imageName
         );
-        postUserModify(user, token);
+        const res = await postUserModify(user, token);
         getMemberData(dispatch, token);
+        navigation.navigate('Animal');
     }, [navigation, memberData,
         gender, birth, nickname, phoneNo, zipcode, street, addressDetail, imageUrl, imageName]);
     

@@ -74,7 +74,7 @@ function Login({navigation}: LogInScreenProps){
   }, [navigation]);
 
   const toSocialGoogle = useCallback(() => {
-    navigation.navigate('SocialGoogle')
+    navigation.navigate('SocialGoogle');
   },[navigation]);
 
   const toMain = useCallback(() => {
@@ -148,7 +148,7 @@ function Login({navigation}: LogInScreenProps){
         </Pressable>
       </View>
       
-      <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialSignUp} />
+      <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialGoogle} />
       
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
