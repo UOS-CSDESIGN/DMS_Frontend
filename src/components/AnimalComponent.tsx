@@ -35,6 +35,8 @@ function Animal({navigation}: AnimalScreenProps) {
   const [animalID, setAnimalID] = useState<string>('');
   const [showAnimalID, setShowAnimalID] = useState<boolean>(false);
   const [picture, setPicture] = useState<string>('');
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [imageName, setImageName] = useState<string>('');
   const [showPicture, setShowPicture] = useState<boolean>(false);
   const [showButton, setShowButton] = useState<boolean>(false);
 
@@ -65,6 +67,15 @@ function Animal({navigation}: AnimalScreenProps) {
   }
   const onChangePicture = (value : string) => {
     setPicture(value);
+    if (value!==null) {
+      setImageUrl(value);
+      if(imageUrl!==undefined){
+        const tempName = imageUrl.split("/").pop();
+        setImageName(tempName || '');
+      }
+    } else {
+      console.log('Selected image does not have assets');
+    }
     setShowButton(true);
   }
 
