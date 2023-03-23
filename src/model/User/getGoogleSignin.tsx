@@ -1,10 +1,11 @@
 import { User } from "@react-native-google-signin/google-signin";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import getMemberData from "./getMemberData";
 import { loginFailure, loginRequest, loginSuccess } from "./slice/loginSlice";
 import { RootStackParamList } from "../../AppInner";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useState } from "react";
+import Config from "react-native-config";
 /**
  * @param userInfo : google social infomation
  * @param dispatch : login redux dispatcher
@@ -16,11 +17,12 @@ import { useState } from "react";
 const getGoogleSignin = async (userInfo: User, dispatch: any, user:any, token:string) => {
 
     dispatch(loginRequest());
-    return await axios.get(`http://localhost:8080/api/oauth2/google?id_token=${userInfo.idToken}`,
+    console.log(`${Config.SPRING_API}/api/oauth2/google?id_token=${userInfo.idToken}`);
+    return await axios.get(`${Config.SPRING_API}/api/oauth2/google?id_token=${userInfo.idToken}`,
         {
             withCredentials: true,
             headers: {
-                "Access-Control-Allow-Origin":"http://25.12.74.132:8080",
+                //"Access-Control-Allow-Origin":`${Config.SPRING_API}`,
             }
         })
         .then((res) => {
@@ -35,9 +37,10 @@ const getGoogleSignin = async (userInfo: User, dispatch: any, user:any, token:st
                 return true;
             }
         })
-        .catch((error) => {
+        .catch((error:AxiosError) => {
             dispatch(loginFailure());
-            console.log(error);
+            console.log(error.code);
+            console.log(error.toJSON);
             throw error;
         });
 }

@@ -4,6 +4,7 @@ import {
 } from "@react-native-google-signin/google-signin";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Config from "react-native-config";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
 import getGoogleSignin from "../model/User/getGoogleSignin";
