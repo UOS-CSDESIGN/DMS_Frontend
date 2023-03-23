@@ -18,6 +18,7 @@ const petDataSlice = createSlice({
         getPetDataFailure: (state) => {
             state.loading = false;
         },
+
         //reducer about post pet data
         postPetDataRequest: (state) => {
             state.loading = true;

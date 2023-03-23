@@ -1,6 +1,7 @@
 import { postPetDataFailure, postPetDataRequest, postPetDataSuccess } from "./slice/petDataSlice";
 import axios from 'axios';
 import Pet from "./Pet";
+import getPetData from "./getPetData";
 
 const postPetData = async (pet: Pet, dispatch: any, token:any) => {
     
@@ -16,6 +17,7 @@ const postPetData = async (pet: Pet, dispatch: any, token:any) => {
         },
     ).then((res) => {
         dispatch(postPetDataSuccess());
+        getPetData(dispatch, token);
         console.log("success post pet data");
     }).catch((error) => {
         dispatch(postPetDataFailure());

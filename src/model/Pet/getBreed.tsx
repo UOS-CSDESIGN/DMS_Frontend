@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { getBreedFailure, getBreedRequest, getBreedSuccess } from "./slice/petBreedSlice";
 /**
  * @param page current page from store petBreedSlice 
@@ -23,11 +23,12 @@ const getBreed = async (page:number, dispatch:any, token:any, breedList:any) => 
         //add EOF of breed List
         //breedId를 어케암?
         //if page is overflowed => 404 error
-        if (res.data.currentPage) {
-            
-        }
-    }).catch((error) => {
+    }).catch((error:AxiosError) => {
         dispatch(getBreedFailure());
+        //page was overflowed
+        if (error.status === 404) {
+            return false;
+        }
         throw error;
     })
 }
