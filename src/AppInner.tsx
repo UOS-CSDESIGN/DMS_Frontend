@@ -11,6 +11,7 @@ import Animal from './components/AnimalComponent';
 import SocialGoogle from './components/socialGoogle';
 import Find from './components/FindComponent';
 import MultiProfile from './components/MultiProfileComponent';
+import Album from './components/AlbumComponent';
 
 export type BottomTabParamList = {
   Shop : undefined;
@@ -28,6 +29,7 @@ export type RootStackParamList = {
   Main : undefined;
   SocialGoogle : undefined;
   MultiProfile : undefined;
+  Album : undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -83,6 +85,10 @@ function AppInner() {
             name = "MultiProfile"
             component = {MultiProfile}
             options = {{title : '멀티프로필'}}/>
+          <Stack.Screen
+            name = "Album"
+            component = {Album}
+            options = {{title : '앨범'}}/>
         </Stack.Navigator>
         
       )}
