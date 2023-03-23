@@ -6,6 +6,11 @@ import BirthComponent from "./BirthComponent";
 import GenderComponent from "./genderComponent";
 import ZipCode from "./ZipCodeComponent";
 import Picture from "./PictureComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../model";
+import User from "../model/User/User";
+import postUserModify from "../model/User/postUserModify";
+import getMemberData from "../model/User/getMemberData";
 
 type SocialScreenProps = NativeStackScreenProps<RootStackParamList, 'SocialGoogle'>;
 
@@ -22,7 +27,8 @@ interface ISocial {
 }
 
 
-function SocialGoogle({navigation} : SocialScreenProps ){
+function SocialGoogle({ navigation }: SocialScreenProps) {
+    
     const [gender, setGender] = useState<number>(0);
     const [birth, setBirth] = useState<string>('');
     const [nickname, setNickname] = useState<string>('');
@@ -33,7 +39,9 @@ function SocialGoogle({navigation} : SocialScreenProps ){
     const [imageUrl, setImageUrl] = useState<string>('');
     const [imageName, setImageName] = useState<string>('');
 
-
+    const memberData = useSelector((state: RootState) => state.memberData.userData);
+    const token = useSelector((state: RootState) => state.login.accessToken);
+    const dispatch = useDispatch();
     const onChangeNickname = useCallback((nickname : string) => {
         setNickname(nickname);
     }, [nickname])
@@ -70,10 +78,26 @@ function SocialGoogle({navigation} : SocialScreenProps ){
         } else {
           console.log('Selected image does not have assets');
         }
-      },[imageUrl, imageName]);
+    }, [imageUrl, imageName]);
+
+    const onSubmit = useCallback(async () => {
+        const user = new User(
+            memberData.userId, memberData.username, "",
+            nickname, gender, birth, memberData.email, phoneNo, memberData.isSocial, memberData.provider,
+            zipcode, street, addressDetail, imageUrl, imageName
+        );
+        postUserModify(user, token);
+        getMemberData(dispatch, token);
+    }, [navigation, memberData,
+        gender, birth, nickname, phoneNo, zipcode, street, addressDetail, imageUrl, imageName]);
+    
+    const canGoNext = gender && birth && nickname && phoneNo && zipcode && street && addressDetail && imageUrl && imageName
 
     return(
         <ScrollView>
+            <View>
+                <Text>추가 정보를 입력해야 합니다.</Text>
+            </View>
             <View style = {styles.wrapperView}>
                 <Text style = {styles.text}>별명</Text>
                 <TextInput
@@ -128,6 +152,15 @@ function SocialGoogle({navigation} : SocialScreenProps ){
                 source = {{uri : imageUrl}}
                 style = {styles.image}/> : null}
             </View>
+            <View style = {styles.button}>
+                <Pressable
+                style = {canGoNext ? StyleSheet.compose(styles.signUpButton, styles.signUpButtonActive)
+                : styles.signUpButton}
+                //disabled = {!canGoNext || loading}
+                onPress = {onSubmit}>
+                <Text style = {styles.signUpButtonText}>회원가입하기</Text>
+                </Pressable>
+            </View>
         </ScrollView>
     )
 
@@ -160,7 +193,24 @@ const styles = StyleSheet.create({
       image : {
         width : 200,
         height : 200,
-      }
+    },
+      signUpButton : {
+        backgroundColor : 'gray',
+        paddingHorizontal : 20,
+        paddingVertical : 10,
+        borderRadius : 5,
+        marginBottom : 10,
+      },
+      signUpButtonActive:{
+        backgroundColor : 'blue',
+      },
+      signUpButtonText:{
+        color : 'white',
+        fontSize : 16,
+      },
+      button : {
+        alignItems : 'center',
+      },
 })
 
 export default SocialGoogle;

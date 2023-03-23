@@ -47,13 +47,15 @@ function Login({navigation}: LogInScreenProps){
       setPassword(text.trim());
     }, []);
 
-    const onSubmit = useCallback(() => {
-      const user = new FormData();
-      user.append("userId", userId);
-      user.append("password", password);
-      postLogin(user, dispatch);
-      navigation.navigate('Main');
-    },[userId, password, dispatch])
+  const onSubmit = useCallback(async () => {
+    const user = new FormData();
+    user.append("userId", userId);
+    user.append("password", password);
+    const res = await postLogin(user, dispatch);
+    if (res == true) {
+      navigation.navigate('Animal');
+    }
+  }, [userId, password, dispatch]);
       
   const token = useSelector((state: RootState) => state.login.accessToken);
   const user = useSelector((state: RootState) => state.memberData.userData);
@@ -64,7 +66,6 @@ function Login({navigation}: LogInScreenProps){
   const toSignUp = useCallback(() => {
     navigation.navigate('SignUp');
   }, [navigation]);  
-
   const toFind = useCallback(() => {
     navigation.navigate('Find');
   }, [navigation]);
@@ -147,7 +148,7 @@ function Login({navigation}: LogInScreenProps){
         </Pressable>
       </View>
       
-        <SocialLoginComponent />
+      <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialSignUp} />
       
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
