@@ -68,6 +68,10 @@ function Animal({navigation}: AnimalScreenProps) {
     setShowButton(true);
   }
 
+  const onSubmit = useCallback(() => {
+
+  },[]);
+
 
   return (
     <ScrollView style = {styles.ScrollView}>
@@ -133,7 +137,9 @@ function Animal({navigation}: AnimalScreenProps) {
       {showButton &&
       <Animatable.View animation= "fadeIn"
        style = {styles.button}>
-        <Pressable style = {styles.submit}>
+        <Pressable
+         style = {styles.submit}
+         onPress = {onSubmit}>
           <Text style = {styles.submitButton}>완료</Text>
         </Pressable>
       </Animatable.View>}
