@@ -35,11 +35,12 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [birth, setBirth] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phoneNo, setPhoneNo] = useState<string>('');
-  const [zipcode, setZipCode] = useState<string>('');
+  const [isSocial, setIsSocial] = useState<boolean>(false);
+  const [zipcode, setZipcode] = useState<string>('');
   const [street, setStreet] = useState<string>('');
   const [addressDetail, setAddressDetail] = useState<string>('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [imageName, setImageName] = useState('');
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [imageName, setImageName] = useState<string>('');
 
   const dispatch = useDispatch();
   
@@ -74,7 +75,7 @@ function SignUp({navigation}: SignUpScreenProps) {
     setPhoneNo(text.trim());
   }, []);
   const onChangeZipCode = useCallback((address : {zonecode : string, street : string})=> {
-    setZipCode(address.zonecode);
+    setZipcode(address.zonecode);
     setStreet(address.street);
   }, [zipcode, street]);
   const onChangeDetailAddress = useCallback((text:string)=>{
@@ -95,7 +96,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [token, setToken] = useState('');
   const onSubmit = useCallback(async () => { 
     const user  = new User(
-      userId, username, password, nickname, gender, birth, email, phoneNo, false, zipcode, 
+      userId, username, password, nickname, gender, birth, email, phoneNo, isSocial, "",zipcode, 
       street, addressDetail, imageUrl, imageName
     );
     if(loading){
