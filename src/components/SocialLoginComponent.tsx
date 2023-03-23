@@ -4,27 +4,32 @@ import {
 } from "@react-native-google-signin/google-signin";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Config from "react-native-config";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
-import postSocialSignin from "../model/User/getGoogleSignin";
+import getGoogleSignin from "../model/User/getGoogleSignin";
 
-const SocialLoginComponent = ({navigation}) => {
-    GoogleSignin.configure({
-        webClientId: '984908362495-kolhf54om4me453ha1gnl7u4thcqlp20.apps.googleusercontent.com',
-        offlineAccess: true
-
-    });
+const SocialLoginComponent = ({toAnimal, toSignup}) => {
+    
     const dispatch = useDispatch();
-
+    //check get accesstoken from springboot server
+    useEffect(() => {
+        console.log(`changed token : ${token}`);
+    }, [token]);
+    
+    //google oauth server client id
+    GoogleSignin.configure({
+        webClientId: '984908362495-m81t2habh3570afnlq7s6cvl0q4dfu8e.apps.googleusercontent.com',
+        offlineAccess: true
+        
+    });
+    
     //useSelector is declared
     //if user or token value is chaged, immediately applied
     const { user, token } = useSelector((state: RootState) => ({
             user: state.memberData.userData,
             token: state.login.accessToken,
         }));
-    useEffect(() => {
-        console.log(`changed token : ${token}`);
-    }, [token]);
 
     const googleSignin = async () => {
         try {
@@ -35,9 +40,16 @@ const SocialLoginComponent = ({navigation}) => {
             //google oauth
             //return value is google infomation
             const userInfo = await GoogleSignin.signIn();
-            console.log(token);
+            console.log("token ", userInfo.idToken);
             //get accessToken from Spring Server
-            postSocialSignin(userInfo, dispatch, user, token, navigation);
+            const isSigned = await getGoogleSignin(userInfo, dispatch, user, token);
+            if(isSigned == false){
+                console.log('not Signed');
+                toSignup();
+            } else {
+                console.log('signed');
+                toAnimal();
+            }
         }
         catch (error:any) {
             //GoogleSignin error catch

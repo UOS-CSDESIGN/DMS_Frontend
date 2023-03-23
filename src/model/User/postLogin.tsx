@@ -6,7 +6,7 @@ const postLogin = async (user: FormData, dispatch: any) => {
     //So, useDispatch passed from parameter dispatch
 
     dispatch(loginRequest());
-        await axios.post("http://25.12.74.132:8080/member/login",
+    return await axios.post("http://25.12.74.132:8080/member/login",
             user,
             {
                 withCredentials: true,
@@ -22,6 +22,7 @@ const postLogin = async (user: FormData, dispatch: any) => {
         .then((res)=>{
             dispatch(loginSuccess(JSON.stringify(res.data.accessToken)));
             console.log(JSON.stringify(res.data.accessToken));
+            return true;
         })
         .catch((error)=>{
             dispatch(loginFailure());

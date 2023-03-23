@@ -35,6 +35,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [birth, setBirth] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phoneNo, setPhoneNo] = useState<string>('');
+  const [isSocial, setIsSocial] = useState<boolean>(false);
   const [zipcode, setZipcode] = useState<string>('');
   const [street, setStreet] = useState<string>('');
   const [addressDetail, setAddressDetail] = useState<string>('');
@@ -95,7 +96,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [token, setToken] = useState('');
   const onSubmit = useCallback(async () => { 
     const user  = new User(
-      userId, username, password, nickname, gender, birth, email, phoneNo, false, zipcode, 
+      userId, username, password, nickname, gender, birth, email, phoneNo, isSocial, "",zipcode, 
       street, addressDetail, imageUrl, imageName
     );
     if(loading){
