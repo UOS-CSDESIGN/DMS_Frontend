@@ -32,25 +32,10 @@ function MultiProfile({navigation} : MultiProfileScreenProps){
       navigation.navigate('Animal');
     }, [navigation]);
 
-    const [index, setIndex] = useState<number>(4);
+    const [index, setIndex] = useState<number>(2);
     const views = [];
     for(let i = 1; i<index;i++){
-        views.push(<Main key = {i} 
-            onPictureChange={(picture : string) => {
-              onChangeList({...list[i],picture});
-            }}
-            onNameChange = {(name : string) => {
-              onChangeList({...list[i],name});
-            }}
-            onAgeChange={(age : number) => {
-              onChangeList({...list[i],age});
-            }}
-            onGenderChange={(gender : string) => {
-              onChangeList({...list[i],gender});
-            }}
-            onWeightChange={(weight : number) => {
-              onChangeList({...list[i],weight})
-            }}/>)
+        views.push(<Main key = {i}/>)
     }
     views.push(
       <View
@@ -67,7 +52,9 @@ function MultiProfile({navigation} : MultiProfileScreenProps){
     ); 
 
     return(
-        <Swiper loop = {false}>
+        <Swiper
+         loop = {false}
+         showsPagination = {false}>
             {views}
         </Swiper>
     )
