@@ -18,6 +18,7 @@ import * as Animatable from 'react-native-animatable';
 import GenderComponent from './genderComponent';
 import BirthComponent from './BirthComponent';
 import Picture from './PictureComponent';
+import BreedAuto from './breedAutoComponent';
 
 type AnimalScreenProps = NativeStackScreenProps<RootStackParamList, 'Animal'>;
 
@@ -111,10 +112,7 @@ function Animal({navigation}: AnimalScreenProps) {
       {showBreed &&
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>견종</Text>
-        <TextInput
-          style = {styles.textInput}
-          value = {breed}
-          onChangeText = {onChangeBreed}/>
+        <BreedAuto/>
       </View>}
       {showWeight &&
       <Animatable.View animation = "slideInLeft"
