@@ -15,7 +15,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import { useNavigation } from '@react-navigation/native';
-import ActionButton from 'react-native-circular-action-menu';
 
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
 
@@ -202,14 +201,6 @@ function Main({navigation} : MainScreenProps){
             <Text style = {styles.editButtonText}>수정</Text>
           </Pressable>
         </View>
-        <Animated.View>
-          <ActionButton>
-            <ActionButton.Item
-             buttonColor = "gray"
-             onPress = {openButton}>
-            </ActionButton.Item>
-          </ActionButton>
-        </Animated.View>
       </View>
     )
 }

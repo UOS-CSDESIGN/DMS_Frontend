@@ -11,6 +11,7 @@ import Animal from './components/AnimalComponent';
 import SocialGoogle from './components/socialGoogle';
 import Find from './components/FindComponent';
 import MultiProfile from './components/MultiProfileComponent';
+import Obesity from './components/ObesityComponent';
 
 
 export type RootStackParamList = {
