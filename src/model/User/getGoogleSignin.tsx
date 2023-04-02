@@ -14,7 +14,6 @@ import Config from "react-native-config";
 
 //get accessToken by passing id_Token and checking if needs signup.
 const getGoogleSignin = async (userInfo: User, dispatch: any, user:any) => {
-const getGoogleSignin = async (userInfo: User, dispatch: any, user:any) => {
 
     dispatch(loginRequest());
 

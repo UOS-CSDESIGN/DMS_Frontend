@@ -8,7 +8,9 @@ const getMemberData = async (dispatch:any, token:any) => {
 
     const bearer = `Bearer ${JSON.parse(token)}`;
 
-    await axios.get(`${Config.SPRING_API}/member/getMemberData`,
+    const url = `${Config.SPRING_API}/member/getMemberData`
+    await axios.get(
+        url,
         {
             headers: {
                 //Authorization key value must be assigned literal

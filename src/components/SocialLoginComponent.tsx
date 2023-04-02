@@ -39,6 +39,7 @@ const SocialLoginComponent = ({toAnimal, toSignup}) => {
             const userInfo = await GoogleSignin.signIn();
             //get accessToken from Spring Server
             const isSigned = await getGoogleSignin(userInfo, dispatch, user);
+            console.log(isSigned);
             if(isSigned === 201){
                 console.log('not Signed');
                 toSignup();
