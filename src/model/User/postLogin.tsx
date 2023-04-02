@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { loginFailure, loginRequest, loginSuccess } from "./slice/loginSlice";
 import Config from "react-native-config";
 
@@ -7,7 +7,7 @@ const postLogin = async (user: FormData, dispatch: any) => {
     //So, useDispatch passed from parameter dispatch
 
     dispatch(loginRequest());
-        await axios.post("http://25.14.225.33:8080/member/login",
+        await axios.post(`http://25.14.225.33:8080/member/login`,
             user,
             {
                 withCredentials: true,
@@ -25,8 +25,10 @@ const postLogin = async (user: FormData, dispatch: any) => {
             console.log(JSON.stringify(res.data.accessToken));
             return true;
         })
-        .catch((error)=>{
+        .catch((error:AxiosError)=>{
             dispatch(loginFailure());
+            console.log("login error");
+            console.log(error);
             throw error;
         });
         

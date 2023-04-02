@@ -16,7 +16,7 @@ export type MyPageProps = {
   name : string;
   nickname : string;
   password : string;
-  gender : number;
+  gender : string;
   birth : string;
   email : string;
   phoneNo : string;
