@@ -6,7 +6,7 @@ const postLogin = async (user: FormData, dispatch: any) => {
     //So, useDispatch passed from parameter dispatch
 
     dispatch(loginRequest());
-        await axios.post("http://25.12.74.132:8080/member/login",
+        await axios.post("http://25.14.225.33:8080/member/login",
             user,
             {
                 withCredentials: true,
