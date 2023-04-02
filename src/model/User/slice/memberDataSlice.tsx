@@ -34,6 +34,7 @@ const memberDataSlice = createSlice({
                 email: action.payload.email,
                 phoneNo: action.payload.phoneNo,
                 isSocial: action.payload.isSocial,
+                provider: action.payload.provider,
                 zipCode: action.payload.zipCode,
                 street: action.payload.street,
                 addressDetail: action.payload.addressDetail,

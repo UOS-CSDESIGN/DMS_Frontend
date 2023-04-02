@@ -1,10 +1,11 @@
 import axios from "axios";
 import { signupFailure, signupRequest, signupSuccess } from "./slice/signupSlice";
 import User from "./User";
+import Config from "react-native-config";
 
 const postSignup = async (user: User, dispatch:any) => {
     dispatch(signupRequest());
-    await axios.post("http://25.12.74.132:8080/member/signup",
+    await axios.post(`${Config.SPRING_API}/member/signup`,
         user.signupData,
         {
             headers: {
