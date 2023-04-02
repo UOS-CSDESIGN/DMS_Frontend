@@ -6,11 +6,11 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
-    "start": "react-native start",
+    "start": "react-native start --port=3000",
     "test": "jest"
   },
   "dependencies": {
-    "@actbase/react-daum-postcode": "^1.0.4",
+    "@actbase/reaact-daum-postcode": "^1.0.4",
     "@fortawesome/fontawesome-free": "^6.3.0",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-brands-svg-icons": "^6.3.0",

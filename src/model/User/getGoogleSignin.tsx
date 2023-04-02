@@ -14,13 +14,15 @@ import Config from "react-native-config";
 
 //get accessToken by passing id_Token and checking if needs signup.
 const getGoogleSignin = async (userInfo: User, dispatch: any, user:any) => {
+const getGoogleSignin = async (userInfo: User, dispatch: any, user:any) => {
 
     dispatch(loginRequest());
 
     console.log(`${Config.SPRING_API}/api/oauth2/google?id_token=${userInfo.idToken}`);
-    return await axios.get(`${Config.SPRING_API}/api/oauth2/google?id_token=${userInfo.idToken}`,
+    const url = `${Config.SPRING_API}/api/oauth2/google?id_token=${userInfo.idToken}`;
+    return await axios.get(url,
         {
-            withCredentials: true,
+            //withCredentials: true,
             headers: {
                 //"Access-Control-Allow-Origin":`${Config.SPRING_API}`,
             }
@@ -49,8 +51,9 @@ const getGoogleSignin = async (userInfo: User, dispatch: any, user:any) => {
         })
         .catch((error:AxiosError) => {
             dispatch(loginFailure());
-            console.log(error.code);
-            console.log(error.toJSON);
+            console.log(error);
+            console.log(error.message);
+            console.log("endOfgoogleFUnction")
             throw error;
         });
 }
