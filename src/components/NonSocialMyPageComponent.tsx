@@ -45,7 +45,7 @@ function NonSocialMyPage({navigation} : NonSocialMyPageScreenProps){
         name:userData.username,
         nickname:userData.nickname,
         password:"",
-        gender: userData.gender === 1 ? "male" : "female",
+        gender:userData.gender,
         birth:userData.birth,
         email:userData.email,
         phoneNo:userData.phoneNo,

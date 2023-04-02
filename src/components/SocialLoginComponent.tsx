@@ -43,10 +43,10 @@ const SocialLoginComponent = ({toAnimal, toSignup}) => {
             if(isSigned === 201){
                 console.log('not Signed');
                 toSignup();
-            } else if(isSigned === 202){
+            } else if(isSigned === 200){
                 console.log('signed');
                 toAnimal();
-            } else if (isSigned === 200) {
+            } else if (isSigned === 202) {
                 //alert
                 //gmail already exist. So, Link account to Google Social
             }

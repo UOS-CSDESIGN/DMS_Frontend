@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import getMemberData from '../model/User/getMemberData';
 import { RootState } from '../model';
 import SocialLoginComponent from './SocialLoginComponent';
-import KakaoLogo  from 'react-native-kakao-logo';
+
 
 
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -48,12 +48,11 @@ function Login({navigation}: LogInScreenProps){
       setPassword(text.trim());
     }, []);
 
-    const onSubmit = useCallback(() => {
+    const onSubmit = useCallback(async () => {
       const user = new FormData();
       user.append("userId", userId);
       user.append("password", password);
-      postLogin(user, dispatch);
-      navigation.navigate('Main');
+      const res = await postLogin(user, dispatch, navigation.navigate('Main'));
     },[userId, password, dispatch])
       
   const token = useSelector((state: RootState) => state.login.accessToken);
@@ -145,12 +144,6 @@ function Login({navigation}: LogInScreenProps){
         </Pressable>
       </View>
       <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialSignUp}/>
-      <View style = {styles.kakaoButtonZone}>
-        <Pressable  style = {styles.kakaoButton}>
-          <KakaoLogo/>
-          <Text style = {styles.kakaoText}> 카카오 계정으로 로그인</Text>
-        </Pressable>
-      </View>
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
           onPress={toMyPage}>

@@ -29,20 +29,17 @@ const getGoogleSignin = async (userInfo: User, dispatch: any, user:any) => {
         .then((res) => {
             dispatch(loginSuccess(JSON.stringify(res.data.accessToken)));
             getMemberData(dispatch, JSON.stringify(res.data.accessToken));
-            //status 201 : default google social
-            //status 202 : successful google social
-            if (res.status === 201) {
-                if (user.addressDetail === "") {
-                    //not signed
-                    console.log('is here');
-                    return 201;
-                } else {
-                    //signed
-                    return 202;
-                }
+            
+            if (res.status === 200) {
+                //go to main
+                return 200;
             }
-            //status 200 : gmail already exist
-            else if (res.status === 200) {
+            else if (res.status === 201) {
+                //not signed
+                console.log('is here');
+                return 201;
+            }
+            else if (res.status === 202) {
                 //alert
                 //link to google social 
                 return 200;
