@@ -16,9 +16,10 @@ export type MyPageProps = {
   name : string;
   nickname : string;
   password : string;
-  gender : number;
+  gender : string;
   birth : string;
   email : string;
+  editEmail : boolean;
   phoneNo : string;
   zipcode : string;
   street : string;
@@ -76,7 +77,8 @@ function MyPage(props : MyPageProps){
             <Text style = {styles.text}>이메일</Text>
             <TextInput
              style = {styles.textInput}
-             placeholder = {props.email}/>
+             placeholder = {props.email}
+             editable = {props.editEmail}/>
           </View>
           <View style = {styles.wrapper}>
             <Text style = {styles.text}>휴대전화</Text>
