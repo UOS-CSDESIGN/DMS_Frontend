@@ -21,6 +21,7 @@
     "@react-native-community/datetimepicker": "^6.7.4",
     "@react-native-google-signin/google-signin": "^9.0.2",
     "@react-native-picker/picker": "^2.4.8",
+    "@react-native-seoul/kakao-login": "^5.2.6",
     "@react-native-seoul/naver-login": "^3.0.0-rc.1",
     "@react-navigation/bottom-tabs": "^6.5.4",
     "@react-navigation/native": "^6.1.4",
