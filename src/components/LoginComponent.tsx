@@ -53,6 +53,7 @@ function Login({navigation}: LogInScreenProps){
       user.append("userId", userId);
       user.append("password", password);
       postLogin(user, dispatch);
+      navigation.navigate('Main');
     },[userId, password, dispatch])
       
   const token = useSelector((state: RootState) => state.login.accessToken);
@@ -69,6 +70,9 @@ function Login({navigation}: LogInScreenProps){
   }, [navigation]);
   const toAnimal = useCallback(() => {
     navigation.navigate('Animal');
+  }, [navigation]);
+  const toMyPage = useCallback(() => {
+    navigation.navigate('NonSocialMyPage');
   }, [navigation]);
   const toSocialSignUp = useCallback(() => {
     navigation.navigate('SocialGoogle');
@@ -149,7 +153,7 @@ function Login({navigation}: LogInScreenProps){
       </View>
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
-          onPress={onSubmitToken}>
+          onPress={toMyPage}>
           <Text style={styles.loginButtonText}>버튼</Text>
         </Pressable>
       </View>
