@@ -26,34 +26,34 @@ function NonSocialMyPage({navigation} : NonSocialMyPageScreenProps){
         name: '',
         nickname: '',
         password: '',
-        gender: 0,
+        gender: '',
         birth: '',
         email: '',
+        editEmail : false,
         phoneNo: '',
         zipcode: '',
         street: '',
         addressDetail: '',
         picture: '',
     });
-
-    const [edit, setEdit] = useState<boolean>(false); 
     const dispatch=useDispatch();
     const token = useSelector((state:RootState)=>state.login.accessToken);
     const userData = useSelector((state:RootState)=>state.memberData.userData);
     useEffect(() => {
-      getMemberData(dispatch,token);
+      getMemberData(dispatch, token);
       setMyPageProps({
         name:userData.username,
         nickname:userData.nickname,
         password:"",
-        gender:userData.gender,
+        gender: userData.gender === 1 ? "male" : "female",
         birth:userData.birth,
         email:userData.email,
         phoneNo:userData.phoneNo,
         zipcode:userData.zipCode,
         street:userData.street,
         addressDetail:userData.addressDetail,
-        picture:userData.imageUrl
+        picture:userData.imageUrl,
+        editEmail : true,
       })
     },[])
     return(
@@ -64,6 +64,7 @@ function NonSocialMyPage({navigation} : NonSocialMyPageScreenProps){
           gender = {myPageProps.gender}
           birth = {myPageProps.birth}
           email = {myPageProps.email}
+          editEmail = {myPageProps.editEmail}
           phoneNo = {myPageProps.phoneNo}
           zipcode = {myPageProps.zipcode}
           street = {myPageProps.street}
