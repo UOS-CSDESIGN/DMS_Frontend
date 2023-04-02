@@ -7,7 +7,8 @@ import {
   TextInput,
   View,
   ActivityIndicator,
-  Linking
+  Linking,
+  Image
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
@@ -138,9 +139,10 @@ function Login({navigation}: LogInScreenProps){
           <Text style={styles.signUpAndFindText}>아이디 · 비밀번호 찾기</Text>
         </Pressable>
       </View>
-      
-      <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialSignUp} />
-      
+      <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialSignUp}/>
+      <View>
+        <Image source={require('../assets/Kakao.png')} />
+      </View>
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
           onPress={onSubmitToken}>
