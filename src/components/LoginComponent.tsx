@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import getMemberData from '../model/User/getMemberData';
 import { RootState } from '../model';
 import SocialLoginComponent from './SocialLoginComponent';
+import KakaoLogo  from 'react-native-kakao-logo';
 
 
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -140,8 +141,11 @@ function Login({navigation}: LogInScreenProps){
         </Pressable>
       </View>
       <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialSignUp}/>
-      <View>
-        <Image source={require('../assets/Kakao.png')} />
+      <View style = {styles.kakaoButtonZone}>
+        <Pressable  style = {styles.kakaoButton}>
+          <KakaoLogo/>
+          <Text style = {styles.kakaoText}> 카카오 계정으로 로그인</Text>
+        </Pressable>
       </View>
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
@@ -173,6 +177,22 @@ const styles = StyleSheet.create({
     fontSize : 20,
     fontWeight : "500",
     color : 'black',
+  },
+  kakaoButtonZone : {
+    marginTop : 6,
+    justifyContent : 'center',
+    backgroundColor : '#FEE500',
+    marginHorizontal : 28,
+    height : 35,
+  },
+  kakaoButton : {
+    flexDirection : 'row',
+    marginLeft : 6,
+  },
+  kakaoText : {
+    marginLeft : 40,
+    fontSize : 17,
+    color : '#343000',
   },
   textInput: {
     paddingHorizontal: 10,
