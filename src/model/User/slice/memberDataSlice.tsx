@@ -11,8 +11,8 @@ const memberDataSlice = createSlice({
             email: "",
             phoneNo: "",
             isSocial: false,
-            provider: "",
-            zipCode: 0,
+            zipCode: "",
+            gender:0,
             street: "",
             addressDetail: "",
             imageUrl: "",
@@ -39,7 +39,8 @@ const memberDataSlice = createSlice({
                 street: action.payload.street,
                 addressDetail: action.payload.addressDetail,
                 imageUrl: action.payload.imageUrl,
-                imageName: action.payload.imageName
+                imageName: action.payload.imageName,
+                gender:action.payload.gender,
             };
         },
         memberDataFailure: (state) => {

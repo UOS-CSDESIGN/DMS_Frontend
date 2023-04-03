@@ -7,6 +7,7 @@ import Login from './components/LoginComponent';
 import SignUp from './components/SignUpComponent';
 import Main from './components/mainComponent';
 import MyPage from './components/MyPageComponent';
+import SocialMyPage from './components/SocialMyPageComponent';
 import Animal from './components/AnimalComponent';
 import SocialGoogle from './components/socialGoogle';
 import Find from './components/FindComponent';
@@ -60,10 +61,13 @@ function AppInner() {
             options={{title: '회원가입'}}
           />
           <Stack.Screen
-            name = "MyPage"
-            component = {MyPage}
-            options = {{title : '마이페이지'}}
-          />
+            name = "SocialMyPage"
+            component = {SocialMyPage}
+            options = {{title : '소셜마이페이지'}}/>
+          <Stack.Screen
+            name = "NonSocialMyPage"
+            component = {NonSocialMyPage}
+            options = {{title : '비소셜마이페이지'}}/>
           <Stack.Screen
             name = "Animal"
             component = {Animal}
