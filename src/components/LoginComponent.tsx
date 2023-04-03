@@ -7,7 +7,8 @@ import {
   TextInput,
   View,
   ActivityIndicator,
-  Linking
+  Linking,
+  Image
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
@@ -21,6 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import getMemberData from '../model/User/getMemberData';
 import { RootState } from '../model';
 import SocialLoginComponent from './SocialLoginComponent';
+
 
 
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -46,15 +48,12 @@ function Login({navigation}: LogInScreenProps){
       setPassword(text.trim());
     }, []);
 
-  const onSubmit = useCallback(async () => {
-    const user = new FormData();
-    user.append("userId", userId);
-    user.append("password", password);
-    const res = await postLogin(user, dispatch);
-    if (res == true) {
-      navigation.navigate('Animal');
-    }
-  }, [userId, password, dispatch]);
+    const onSubmit = useCallback(async () => {
+      const user = new FormData();
+      user.append("userId", userId);
+      user.append("password", password);
+      const res = await postLogin(user, dispatch, navigation.navigate('Main'));
+    },[userId, password, dispatch])
       
   const token = useSelector((state: RootState) => state.login.accessToken);
   const user = useSelector((state: RootState) => state.memberData.userData);
@@ -70,6 +69,9 @@ function Login({navigation}: LogInScreenProps){
   }, [navigation]);
   const toAnimal = useCallback(() => {
     navigation.navigate('Animal');
+  }, [navigation]);
+  const toMyPage = useCallback(() => {
+    navigation.navigate('NonSocialMyPage');
   }, [navigation]);
   const toSocialSignUp = useCallback(() => {
     navigation.navigate('SocialGoogle');
@@ -141,12 +143,10 @@ function Login({navigation}: LogInScreenProps){
           <Text style={styles.signUpAndFindText}>아이디 · 비밀번호 찾기</Text>
         </Pressable>
       </View>
-      
-      <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialSignUp} />
-      
+      <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialSignUp}/>
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
-          onPress={onSubmitToken}>
+          onPress={toMyPage}>
           <Text style={styles.loginButtonText}>버튼</Text>
         </Pressable>
       </View>
@@ -174,6 +174,22 @@ const styles = StyleSheet.create({
     fontSize : 20,
     fontWeight : "500",
     color : 'black',
+  },
+  kakaoButtonZone : {
+    marginTop : 6,
+    justifyContent : 'center',
+    backgroundColor : '#FEE500',
+    marginHorizontal : 28,
+    height : 35,
+  },
+  kakaoButton : {
+    flexDirection : 'row',
+    marginLeft : 6,
+  },
+  kakaoText : {
+    marginLeft : 40,
+    fontSize : 17,
+    color : '#343000',
   },
   textInput: {
     paddingHorizontal: 10,

@@ -86,6 +86,7 @@ function SocialGoogle({ navigation }: SocialScreenProps) {
             nickname, gender, birth, memberData.email, phoneNo, memberData.isSocial, memberData.provider,
             zipcode, street, addressDetail, imageUrl, imageName
         );
+        console.log(user.modifiedData);
         postUserModify(user, token);
         getMemberData(dispatch, token);
     }, [navigation, memberData,
