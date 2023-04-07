@@ -17,6 +17,8 @@ import MyPage from './MyPageComponent';
 import getMemberData from '../model/User/getMemberData';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../model';
+import User from '../model/User/User';
+import postUserModify from '../model/User/postUserModify';
 
 type NonSocialMyPageScreenProps  = NativeStackScreenProps<RootStackParamList, 'NonSocialMyPage'>
 
@@ -111,8 +113,15 @@ function NonSocialMyPage({navigation} : NonSocialMyPageScreenProps){
     }, [])
     const token = useSelector((state:RootState)=>state.login.accessToken);
     const userData = useSelector((state:RootState)=>state.memberData.userData);
-    const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(() => {
 
+    const user = new User(
+      userData.userId, editedMyPageProps.name, "", editedMyPageProps.nickname,
+      userData.gender, editedMyPageProps.birth, editedMyPageProps.email, editedMyPageProps.phoneNo,
+      userData.isSocial, editedMyPageProps.zipcode, "", editedMyPageProps.street, editedMyPageProps.addressDetail,
+      editedMyPageProps.picture, editedMyPageProps.picture.split("/").pop()||''
+    );
+    postUserModify(user, token);
     }, []);
     useEffect(() => {
       getMemberData(dispatch, token);

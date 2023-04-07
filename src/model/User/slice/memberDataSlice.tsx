@@ -11,7 +11,7 @@ const memberDataSlice = createSlice({
             email: "",
             phoneNo: "",
             isSocial: false,
-            zipCode: "",
+            zipcode: "",
             gender:0,
             street: "",
             addressDetail: "",

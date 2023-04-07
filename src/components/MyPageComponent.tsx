@@ -126,7 +126,9 @@ function MyPage(props : any){
           <View>
             <Text style = {styles.text}>프로필사진</Text>
             {props.picture && 
-              <Image source={{uri : props.picture}}/>
+            <Image
+              style={styles.image}  
+              source={{ uri: props.picture }} />
             }
             <Picture onPictureSelected={props.onChangePicture}/>
           </View>
@@ -160,6 +162,10 @@ const styles = StyleSheet.create({
       button : {
         alignItems : 'center',
       },
+      image: {
+        width: 200,
+        height: 200,
+      }
 })
 
 export default MyPage;
