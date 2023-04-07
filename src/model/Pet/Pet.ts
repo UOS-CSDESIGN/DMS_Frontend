@@ -11,18 +11,18 @@
 
 class Pet{
     //Is id random data from Spring Server?
-    id: number;
+    id: string;
     name: string;
-    birth: number;
+    birth: string;
     gender: number;
-    breedId: string;
-    weight: string;
+    breedId: number;
+    weight: number;
     obesity: number;
     calorieGoal: number;
     image: any;
     constructor(
-        id: number, name: string, birth: number, gender: number,
-        breedId: string, weigth: string, obesity: number, calorieGoal: number,
+        id: string, name: string, birth: string, gender: number,
+        breedId: number, weigth: number, obesity: number, calorieGoal: number,
         petPicId:number, petPicUuid:string, petPicUrl:string, petPicName: string
     ) {
         this.id = id;
@@ -43,6 +43,7 @@ class Pet{
     get registerFormData() {
         let data = new FormData();
 
+        data.append("petId", this.id);
         data.append("name", this.name);
         data.append("birth", this.birth);
         data.append("gender", this.gender);
@@ -50,6 +51,13 @@ class Pet{
         data.append("weight", this.weight);
         //petImage(multipart/form-data)
         //profileImage
+        const imageFile = {
+            url: this.image.fileUrl,
+            type: 'multipart/form-data',
+            name: this.image.fileName,
+        }
+        //key value may be changed
+        data.append("PetDogImage", imageFile);
         if (!(this.image.fileUrl === "" && this.image.fileName === "")) {
             const imageFile = {
                 url: this.image.fileUrl,

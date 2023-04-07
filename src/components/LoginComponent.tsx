@@ -23,6 +23,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import getMemberData from '../model/User/getMemberData';
 import { RootState } from '../model';
 import SocialLoginComponent from './SocialLoginComponent';
+import postPetRegister from '../model/Pet/postPetRegister';
+import Pet from '../model/Pet/Pet';
 
 
 
@@ -58,6 +60,7 @@ function Login({navigation}: LogInScreenProps){
       
   const token = useSelector((state: RootState) => state.login.accessToken);
   const user = useSelector((state: RootState) => state.memberData.userData);
+
     const onSubmitToken = useCallback(()=>{
       getMemberData(dispatch, token);
     },[dispatch, token]);
@@ -79,6 +82,18 @@ function Login({navigation}: LogInScreenProps){
   const toMain = useCallback(() => {
     navigation.navigate('MultiProfile')
   }, [navigation]);
+  const toMyPage = useCallback(() => {
+    navigation.navigate('MyPage');
+  }, [navigation]);
+
+  const petRegister = useCallback(() => {
+    console.log(token);
+    const pet = new Pet('123456789012345', '또치', '2023-03-11', 0, 1,
+      12, 0, 0, 0, '', "", "");
+
+    postPetRegister(pet, dispatch, token);
+    
+  },[token])
   return (
     <View style={styles.loginPage}>
       <View style={styles.greeting}>
@@ -149,12 +164,12 @@ function Login({navigation}: LogInScreenProps){
       
       <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialGoogle} />
       
-      <View style={styles.buttonZone}>
+      {/* <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
           onPress={toMyPage}>
           <Text style={styles.loginButtonText}>버튼</Text>
         </Pressable>
-      </View>
+      </View> */}
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
           onPress={toAnimal}>
@@ -171,6 +186,12 @@ function Login({navigation}: LogInScreenProps){
       <Pressable style={styles.loginButton}
           onPress={toMain}>
           <Text style={styles.loginButtonText}>메인</Text>
+        </Pressable>
+      </View>
+      <View style = {styles.buttonZone}>
+      <Pressable style={styles.loginButton}
+          onPress={petRegister}>
+          <Text style={styles.loginButtonText}>register</Text>
         </Pressable>
       </View>
     </View>

@@ -13,6 +13,7 @@ import SocialGoogle from './components/socialGoogle';
 import Find from './components/FindComponent';
 import MultiProfile from './components/MultiProfileComponent';
 import Album from './components/AlbumComponent';
+import NonSocialMyPage from './components/NonSocialMyPageComponent';
 
 export type BottomTabParamList = {
   Shop : undefined;

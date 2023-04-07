@@ -72,7 +72,9 @@ class User{
     }
     get modifiedData() {
         let data: FormData = new FormData();
-        
+        let imageFile = {
+            uri:this.imageUrl
+        }
         data.append("userId", this.userId);
         data.append("username", this.username);
         data.append("password", null);

@@ -29,7 +29,7 @@ const getGoogleSignin = async (userInfo: User, dispatch: any, user:any) => {
         .then((res) => {
             dispatch(loginSuccess(JSON.stringify(res.data.accessToken)));
             getMemberData(dispatch, JSON.stringify(res.data.accessToken));
-            
+            console.log(res.data);
             if (res.status === 200) {
                 //go to main
                 return 200;

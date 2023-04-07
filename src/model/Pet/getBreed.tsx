@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { getBreedFailure, getBreedRequest, getBreedSuccess } from "./slice/petBreedSlice";
+import Config from "react-native-config";
 /**
  * @param page current page from store petBreedSlice 
  * @param dispatch redux action function
@@ -7,22 +8,15 @@ import { getBreedFailure, getBreedRequest, getBreedSuccess } from "./slice/petBr
  * @param breedList breed List
  * @returns breed List consist of breedId and breedType
  */
-const getBreed = async (page:number, dispatch:any, token:any, breedList:any) => {
+const getBreed = async (dispatch:any) => {
     
-    const bearer = `Bearer ${JSON.parse(token)}`;
-
     dispatch(getBreedRequest());
-    await axios.get(`http://25.12.74.132:8080/pet/getBreedPage?page=${page}`,
-        {
-            headers: {
-                Authorization: bearer,
-            },
-        },
+
+    const url = `${Config.SPRING_API}/pet/getBreedList`;
+
+    await axios.get(url,
     ).then((res) => {
         dispatch(getBreedSuccess(res.data));
-        //add EOF of breed List
-        //breedId를 어케암?
-        //if page is overflowed => 404 error
     }).catch((error:AxiosError) => {
         dispatch(getBreedFailure());
         //page was overflowed
