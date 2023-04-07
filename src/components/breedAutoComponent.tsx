@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
-import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
+import { StyleSheet, Text, View } from "react-native";
+import ModalDropdown from 'react-native-modal-dropdown';
 import getBreed from '../model/Pet/getBreed';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
@@ -9,10 +9,11 @@ interface IBreed {
     id: number;
 }
 
-function BreedAuto(onChange:any){
+function BreedAuto(props : {onSelectItem : (value : string) => void}){
     const [breedList, setBreedList] = useState([]);
-    const [breed, setBreed] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const onSelectBreed = (value : string) => {
+        props.onSelectItem(value);
+    }
     
     const tmpList = useSelector((state: RootState) => state.petBreed.List);
     const dispatch = useDispatch();
@@ -41,20 +42,17 @@ function BreedAuto(onChange:any){
         }
     }, [tmpList, breedList]);
     return(
-        <>
-            <AutocompleteDropdown
-              clearOnFocus = {false}
-              closeOnBlur = {false}
-              closeOnSubmit={false}
-              onSelectItem={onChange}
-              textInputProps={
-                { placeholder: "견종을 입력하세요" }
-              }
-              dataSet={breedList}
-              
+        <View>
+            <ModalDropdown
+              options = {breedList}
+              onSelect={onSelectBreed}
+              defaultValue = "견종을 입력하세요"
             />
-        </>
+        </View>
     )
 }
+
+const styles = StyleSheet.create({
+})
 
 export default BreedAuto;
