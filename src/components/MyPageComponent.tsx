@@ -14,6 +14,7 @@ import {
 import BirthComponent from './BirthComponent';
 import GenderComponent from './genderComponent';
 import Picture from './PictureComponent';
+import ZipCode from './ZipCodeComponent';
 
 function MyPage(props : any){
     return(
@@ -79,7 +80,8 @@ function MyPage(props : any){
             <Text style = {styles.text}>생년월일</Text>
             <TextInput
              style = {styles.textInput}
-             placeholder = {props.birth}/>
+             placeholder = {props.birth}
+             editable = {false}/>
              <BirthComponent onBirthSelected={props.onChangeBirth}/>
           </View>
           <View style = {styles.wrapper}>
@@ -101,6 +103,7 @@ function MyPage(props : any){
           </View>
           <View style = {styles.wrapper}>
             <Text style = {styles.text}>우편번호</Text>
+            <ZipCode onAddressSelected={props.onChangeAddress}/>
             <TextInput
              style = {styles.textInput}
              placeholder = "우편번호"
@@ -126,7 +129,9 @@ function MyPage(props : any){
           <View>
             <Text style = {styles.text}>프로필사진</Text>
             {props.picture && 
-              <Image source={{uri : props.picture}}/>
+              <Image
+               style = {styles.image}
+               source={{uri : props.picture}}/>
             }
             <Picture onPictureSelected={props.onChangePicture}/>
           </View>
@@ -160,6 +165,10 @@ const styles = StyleSheet.create({
       button : {
         alignItems : 'center',
       },
+      image : {
+        width : 200,
+        height : 200,
+      }
 })
 
 export default MyPage;
