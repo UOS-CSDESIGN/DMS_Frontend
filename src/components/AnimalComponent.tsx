@@ -30,11 +30,11 @@ function Animal({ navigation }: AnimalScreenProps) {
   const [showBirth, setShowBirth] = useState<boolean>(false);
   const [gender, setGender] = useState<number>(0);
   const [showGender, setShowGender] = useState<boolean>(false);
-  const [breed, setBreed] = useState(null);
+  const [breed, setBreed] = useState<string>('');
   const [showBreed, setShowBreed] = useState<boolean>(false);
   const [weight, setWeight] = useState<string>('');
   const [showWeight, setShowWeight] = useState<boolean>(false);
-  const [animalID, setAnimalID] = useState<number>(0);
+  const [animalID, setAnimalID] = useState<string>('');
   const [showAnimalID, setShowAnimalID] = useState<boolean>(false);
   const [picture, setPicture] = useState<string>('');
   const [imageUrl, setImageUrl] = useState<string>('');
@@ -53,7 +53,6 @@ function Animal({ navigation }: AnimalScreenProps) {
   const onChangeGender = useCallback((gender: number) => {
     setGender(gender);
     setShowBreed(true);
-    setShowWeight(true);
     console.log(gender);
   }, []);
   const onChangeBreed = (value: string) => {
@@ -85,7 +84,7 @@ function Animal({ navigation }: AnimalScreenProps) {
   const onSubmit = useCallback(() => {
     console.log(breed);
     const pet = new Pet(
-      animalID, name, birth, gender, breed.id,
+      animalID, name, birth, gender, breed,
       weight, 0, 0, 0, "", imageUrl, imageName
     );
     console.log(pet.registerFormData);
@@ -119,6 +118,11 @@ function Animal({ navigation }: AnimalScreenProps) {
         <Text style = {styles.text}>성별</Text>
         <GenderComponent onGenderChange={onChangeGender}/>
       </Animatable.View>}
+      {showBreed &&
+      <View style = {styles.wrapper}>
+        <Text style = {styles.text}>견종</Text>
+          <BreedAuto onSelectItem={onChangeBreed} />
+      </View>}
       {showWeight &&
       <Animatable.View animation = "slideInLeft"
        style = {styles.wrapper}>
@@ -129,12 +133,6 @@ function Animal({ navigation }: AnimalScreenProps) {
           onChangeText = {onChangeWeight}
           keyboardType = 'numeric'/>
       </Animatable.View>}
-      {showBreed &&
-      <View style = {styles.wrapper}>
-        <Text style = {styles.text}>견종</Text>
-          <BreedAuto onChange={setBreed} />
-          <Text>{breed}</Text>
-      </View>}
       {showAnimalID &&
       <Animatable.View animation = "slideInLeft"
        style = {styles.wrapper}>
