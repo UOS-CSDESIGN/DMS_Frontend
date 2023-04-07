@@ -51,13 +51,6 @@ class Pet{
         data.append("weight", this.weight);
         //petImage(multipart/form-data)
         //profileImage
-        const imageFile = {
-            url: this.image.fileUrl,
-            type: 'multipart/form-data',
-            name: this.image.fileName,
-        }
-        //key value may be changed
-        data.append("PetDogImage", imageFile);
         if (!(this.image.fileUrl === "" && this.image.fileName === "")) {
             const imageFile = {
                 url: this.image.fileUrl,
