@@ -70,7 +70,10 @@ function Login({navigation}: LogInScreenProps){
   const toAnimal = useCallback(() => {
     navigation.navigate('Animal');
   }, [navigation]);
-  const toMyPage = useCallback(() => {
+  const toSocialMyPage = useCallback(() => {
+    navigation.navigate('SocialMyPage');
+  }, [navigation]);
+  const toNonSocialMyPage = useCallback(() => {
     navigation.navigate('NonSocialMyPage');
   }, [navigation]);
   const toSocialSignUp = useCallback(() => {
@@ -146,8 +149,14 @@ function Login({navigation}: LogInScreenProps){
       <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialSignUp}/>
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
-          onPress={toMyPage}>
-          <Text style={styles.loginButtonText}>버튼</Text>
+          onPress={toSocialMyPage}>
+          <Text style={styles.loginButtonText}>소셜</Text>
+        </Pressable>
+      </View>
+      <View style = {styles.buttonZone}>
+        <Pressable style = {styles.loginButton}
+          onPress ={toNonSocialMyPage}>
+          <Text style = {styles.loginButtonText}>비소셜</Text>
         </Pressable>
       </View>
       <View style={styles.buttonZone}>
