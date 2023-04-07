@@ -11,101 +11,124 @@ import {
   Image,
   Button
 } from 'react-native';
+import BirthComponent from './BirthComponent';
+import GenderComponent from './genderComponent';
+import Picture from './PictureComponent';
 
-export type MyPageProps = {
-  name : string;
-  nickname : string;
-  password : string;
-  gender : string;
-  birth : string;
-  email : string;
-  editEmail : boolean;
-  phoneNo : string;
-  zipcode : string;
-  street : string;
-  addressDetail : string;
-  picture : string;
-}
-
-
-function MyPage(props : MyPageProps){
-  const [name, setName] = useState<string>(props.name);
-  const [nickname, setNickname] = useState<string>(props.nickname);
-  const [password, setPassword] = useState<string>(props.password);
-  const [gender, setGender] = useState<string>(props.gender);
-  const [birth, setBirth] = useState<string>(props.birth);
-  const [email, setEmail] = useState<string>(props.email);
-  const [phoneNo, setPhoneNo] = useState<string>(props.phoneNo);
-  const [zipcode, setZipcode] = useState<string>(props.zipcode);
-  const [street, setStreet] = useState<string>(props.street);
-  const [addressDetail, setAddressDetail] = useState<string>(props.addressDetail);
-  const [picture, setPicture] = useState<string>(props.picture);
-
+function MyPage(props : any){
     return(
         <ScrollView>
           <View style = {styles.wrapper}>
             <Text style = {styles.text}>이름</Text>
             <TextInput
              style = {styles.textInput}
-             placeholder = {props.name}/>
+             placeholder = "이름"
+             value = {props.name}
+             onChangeText={props.onChangeName}/>
           </View>
           <View style = {styles.wrapper}>
             <Text style = {styles.text}>별명</Text>
             <TextInput
              style = {styles.textInput}
-             placeholder = {props.nickname}/>
+             placeholder = "별명"
+             value = {props.nickname}
+             onChangeText = {props.onChangeNickname}/>
           </View>
-          <View style = {styles.wrapper}>
-            <Text style = {styles.text}>비밀번호</Text>
-            <TextInput
-             style = {styles.textInput}
-             placeholder = {props.password}/>
-          </View>
+          {props.isSocial ? null
+           : <View style = {styles.wrapper}>
+              <Text style = {styles.text}>현재 비밀번호</Text>
+              <TextInput
+                style = {styles.textInput}
+                placeholder = ''
+                editable = {false}/>
+             </View>}
+          {props.isSocial ? null
+           : <View style = {styles.wrapper}>
+              <Text style = {styles.text}>재설정할 비밀번호</Text>
+              <TextInput
+                style = {styles.textInput}
+                placeholder = ''
+                editable = {true}
+                value = {props.password}
+                onChangeText = {props.onChangePassword}/>
+            </View>}
+          {props.isSocial ? null
+           : <View>
+              <View style = {styles.wrapper}>
+                <Text style = {styles.text}>비밀번호 확인</Text>
+                <TextInput
+                  style = {styles.textInput}
+                  placeholder = ''
+                  editable = {true}
+                  value = {props.passwordConfirm}
+                  onChangeText = {props.onChangePasswordConfirm}/>
+              </View>
+              {props.password && props.passwordConfirm && props.password === props.passwordConfirm ?
+               <Text style={{ color: 'green' }}>일치합니다.</Text>
+                : props.passwordConfirm? <Text style = {{color : 'red'}}>일치하지 않습니다.</Text> : null}
+              </View>
+          }
           <View style = {styles.wrapper}>
             <Text style = {styles.text}>성별</Text>
             <TextInput
-             style = {styles.textInput}
-             placeholder = {props.gender}/>
+            style = {styles.textInput}
+            placeholder = {props.gender}/>
+            <GenderComponent onGenderChange={props.onChangeGender}/>
           </View>
           <View style = {styles.wrapper}>
             <Text style = {styles.text}>생년월일</Text>
             <TextInput
              style = {styles.textInput}
              placeholder = {props.birth}/>
+             <BirthComponent onBirthSelected={props.onChangeBirth}/>
           </View>
           <View style = {styles.wrapper}>
             <Text style = {styles.text}>이메일</Text>
             <TextInput
              style = {styles.textInput}
-             placeholder = {props.email}
-             editable = {props.editEmail}/>
+             placeholder = "이메일"
+             editable = {true}
+             value = {props.email}
+             onChangeText = {props.onChangeEmail}/>
           </View>
           <View style = {styles.wrapper}>
             <Text style = {styles.text}>휴대전화</Text>
             <TextInput
              style = {styles.textInput}
-             placeholder = {props.phoneNo}/>
+             placeholder = "전화번호"
+             value = {props.phoneNo}
+             onChangeText = {props.onChangePhoneNo}/>
           </View>
           <View style = {styles.wrapper}>
             <Text style = {styles.text}>우편번호</Text>
             <TextInput
              style = {styles.textInput}
-             placeholder = {props.zipcode}/>
+             placeholder = "우편번호"
+             value = {props.zipcode}
+             onChangeText = {props.onChangeZipcode}/>
           </View>
           <View style = {styles.wrapper}>
             <Text style = {styles.text}>도로명주소</Text>
             <TextInput
              style = {styles.textInput}
-             placeholder = {props.street}/>
+             placeholder = "도로명주소"
+             value = {props.street}
+             onChangeText = {props.onChangeStreet}/>
           </View>
           <View style = {styles.wrapper}>
             <Text style = {styles.text}>상세주소</Text>
             <TextInput
              style = {styles.textInput}
-             placeholder = {props.addressDetail}/>
+             placeholder = "상세주소"
+             value = {props.addressDetail}
+             onChangeText = {props.onChangeAddressDetail}/>
           </View>
-          <View style = {styles.wrapper}>
+          <View>
             <Text style = {styles.text}>프로필사진</Text>
+            {props.picture && 
+              <Image source={{uri : props.picture}}/>
+            }
+            <Picture onPictureSelected={props.onChangePicture}/>
           </View>
         </ScrollView>
     )
@@ -115,10 +138,24 @@ const styles = StyleSheet.create({
     wrapper : {
         padding: 5,
         flexDirection : 'row',
+        justifyContent : 'center',
+        alignItems : 'center',
       },
       text :{
+        marginRight : 10,
+        fontSize : 15,
+        fontWeight : '600',
+        marginLeft : 10,
       },
       textInput: {
+        flex : 1,
+        textAlign : 'right',
+        borderColor : 'gray',
+        borderWidth : 1,
+        borderRadius : 10,
+        marginHorizontal : 20,
+        fontWeight : '600',
+        fontSize : 15,
       },
       button : {
         alignItems : 'center',
