@@ -12,10 +12,9 @@ const petBreedSlice = createSlice({
         },
         getBreedSuccess: (state, action) => {
             state.loading = false;
-            state.List = action.payload.map((item: any) => ({
-                id: item.id,
-                title: item.breedName
-            }));
+            state.List = action.payload.map((item: any) => (
+                item.breedName
+            ));
         },
         getBreedFailure: (state) => {
             state.loading = false;
