@@ -2,12 +2,12 @@ import axios, { AxiosError } from "axios";
 import { loginFailure, loginRequest, loginSuccess } from "./slice/loginSlice";
 import Config from "react-native-config";
 
-const postLogin = async (user: FormData, dispatch: any) => {
+const postLogin = async (user: FormData, dispatch: any, navigation:any) => {
     //Hooks must be top of the component
     //So, useDispatch passed from parameter dispatch
 
     dispatch(loginRequest());
-        await axios.post(`http://25.14.225.33:8080/member/login`,
+        await axios.post(`${Config.SPRING_API}/member/login`,
             user,
             {
                 withCredentials: true,
@@ -23,7 +23,7 @@ const postLogin = async (user: FormData, dispatch: any) => {
         .then((res)=>{
             dispatch(loginSuccess(JSON.stringify(res.data.accessToken)));
             console.log(JSON.stringify(res.data.accessToken));
-            return true;
+            navigation();
         })
         .catch((error:AxiosError)=>{
             dispatch(loginFailure());
