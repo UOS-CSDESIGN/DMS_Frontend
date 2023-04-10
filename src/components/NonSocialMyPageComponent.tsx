@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../model';
 import User from '../model/User/User';
 import postUserModify from '../model/User/postUserModify';
+import SocialLoginComponent from './SocialLoginComponent';
 
 type NonSocialMyPageScreenProps  = NativeStackScreenProps<RootStackParamList, 'NonSocialMyPage'>
 
@@ -146,11 +147,13 @@ function NonSocialMyPage({navigation} : NonSocialMyPageScreenProps){
       return(
         <ScrollView>
           <View>
-            <Pressable
-             style = {styles.socialLoginButtonZone}
-             onPress = {onSocialLogin}>
-              <Text style = {styles.buttonText}>소셜 로그인 연동</Text>
-             </Pressable>
+            <SocialLoginComponent
+              toAnimal={() => {
+                navigation.navigate('NonSocialMyPage');
+              }}
+              toSignup={() => {
+                navigation.navigate('NonSocialMyPage');
+              }}/>
           </View>
           <View>
             <MyPage

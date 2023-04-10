@@ -16,6 +16,7 @@ import getMemberData from '../model/User/getMemberData';
 import { RootState } from '../model';
 import SocialLoginComponent from './SocialLoginComponent';
 import deleteLogout from '../model/User/deleteMemberData';
+import deleteMemberData from '../model/User/deleteMemberData';
 
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -49,7 +50,7 @@ function Login({navigation}: LogInScreenProps){
   }, [userId, password, dispatch, navigation]);
   
   const onDeleteMember = useCallback(async () => {
-    deleteLogout(dispatch, token, "");
+    deleteMemberData(dispatch, token, "");
   }, [dispatch, token]);
     
   const toSignUp = useCallback(() => {
