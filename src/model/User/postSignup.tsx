@@ -10,7 +10,7 @@ const postSignup = async (user: User, dispatch:any) => {
         {
             headers: {
                 'Content-type': 'multipart/form-data',
-                'Access-Control-Allow-Origin': 'http://25.12.74.132:8080',
+                'Access-Control-Allow-Origin': 'http://25.14.225.33:8080',
             },
             transformRequest: (data, headers) => {
                 return data;
