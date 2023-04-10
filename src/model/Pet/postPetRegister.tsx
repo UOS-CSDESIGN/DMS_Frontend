@@ -1,7 +1,6 @@
 import { postPetDataFailure, postPetDataRequest, postPetDataSuccess } from "./slice/petDataSlice";
 import axios, { AxiosError } from 'axios';
 import Pet from "./Pet";
-import getPetData from "./getPetData";
 import Config from "react-native-config";
 
 const postPetRegister = async (pet: Pet, dispatch: any, token:any) => {

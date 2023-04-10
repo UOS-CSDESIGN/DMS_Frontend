@@ -84,8 +84,8 @@ function Animal({ navigation }: AnimalScreenProps) {
   const onSubmit = useCallback(() => {
     console.log(breed);
     const pet = new Pet(
-      animalID, name, birth, gender, breed,
-      weight, 0, 0, 0, "", imageUrl, imageName
+      animalID, name, birth, gender, parseInt(breed, 10)+1,
+      parseInt(weight,10), 0, 0, 0, "", imageUrl, imageName
     );
     console.log(pet.registerFormData);
   }, [animalID, name, birth, gender, breed, weight, imageName, imageUrl]);
