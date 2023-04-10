@@ -11,7 +11,7 @@
 
 class Pet{
     //Is id random data from Spring Server?
-    id: string;
+    petId : number;
     name: string;
     birth: string;
     gender: number;
@@ -19,31 +19,29 @@ class Pet{
     weight: number;
     obesity: number;
     calorieGoal: number;
-    image: any;
+    petPicUrl : string;
+    petPicName : string;
     constructor(
-        id: string, name: string, birth: string, gender: number,
-        breedId: number, weigth: number, obesity: number, calorieGoal: number,
-        petPicId:number, petPicUuid:string, petPicUrl:string, petPicName: string
+        petId: number, name: string, birth: string, gender: number,
+        breedId: number, weight: number, obesity: number, calorieGoal: number,
+        petPicUrl:string, petPicName: string
     ) {
-        this.id = id;
+        this.petId = petId;
         this.name = name;
         this.birth = birth;
         this.gender = gender;
         this.breedId = breedId;
-        this.weight = weigth;
+        this.weight = weight;
         this.calorieGoal = calorieGoal;
-        this.image = {
-            id: petPicId,
-            uuid: petPicUuid,
-            fileName: petPicName,
-            fileUrl: petPicUrl
-        };
+        this.petPicUrl = petPicUrl;
+        this.petPicName = petPicName;
         this.obesity = obesity;
     }
     get registerFormData() {
         let data = new FormData();
+        let file = {};
 
-        data.append("petId", this.id);
+        data.append("petId", this.petId);
         data.append("name", this.name);
         data.append("birth", this.birth);
         data.append("gender", this.gender);
@@ -51,14 +49,15 @@ class Pet{
         data.append("weight", this.weight);
         //petImage(multipart/form-data)
         //profileImage
-        if (!(this.image.fileUrl === "" && this.image.fileName === "")) {
-            const imageFile = {
-                url: this.image.fileUrl,
+        if (!(this.petPicUrl === "" || this.petPicName === "")) {
+            file = {
+                uri: this.petPicUrl,
                 type: 'multipart/form-data',
-                name: this.image.fileName,
+                name: this.petPicName,
             }
+            console.log(file);
             //key value may be changed
-            data.append("PetDogImage", imageFile);
+            data.append("petDogImage", file);
         }
         return data;
     }
