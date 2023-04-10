@@ -89,7 +89,7 @@ function MyPage(props : any){
             <TextInput
              style = {styles.textInput}
              placeholder = "이메일"
-             editable = {true}
+             editable = {false}
              value = {props.email}
              onChangeText = {props.onChangeEmail}/>
           </View>
@@ -101,14 +101,12 @@ function MyPage(props : any){
              value = {props.phoneNo}
              onChangeText = {props.onChangePhoneNo}/>
           </View>
-          <View style = {styles.wrapper}>
+          <View style = {styles.wrapperZipcode}>
             <Text style = {styles.text}>우편번호</Text>
-            <ZipCode onAddressSelected={props.onChangeAddress}/>
-            <TextInput
-             style = {styles.textInput}
-             placeholder = "우편번호"
-             value = {props.zipcode}
-             onChangeText = {props.onChangeZipcode}/>
+            <View style = {styles.wrapperInnerZipcode}>
+              <Text style={[styles.value, { paddingRight: props.zipcode ? 15 : 0 }]}>우편번호 : {props.zipcode}</Text>
+              <ZipCode onAddressSelected={props.onChangeAddress}/>
+            </View>
           </View>
           <View style = {styles.wrapper}>
             <Text style = {styles.text}>도로명주소</Text>
@@ -146,29 +144,44 @@ const styles = StyleSheet.create({
         justifyContent : 'center',
         alignItems : 'center',
       },
-      text :{
-        marginRight : 10,
-        fontSize : 15,
-        fontWeight : '600',
-        marginLeft : 10,
-      },
-      textInput: {
-        flex : 1,
-        textAlign : 'right',
-        borderColor : 'gray',
-        borderWidth : 1,
-        borderRadius : 10,
-        marginHorizontal : 20,
-        fontWeight : '600',
-        fontSize : 15,
-      },
-      button : {
-        alignItems : 'center',
-      },
-      image : {
-        width : 200,
-        height : 200,
-      }
+    wrapperZipcode : {
+      paddingLeft : 5,
+      flexDirection : 'row',
+      marginVertical : 20,
+    },
+    wrapperInnerZipcode : {
+      flexDirection : 'row',
+      alignItems : 'center',
+    },
+    value : {
+      paddingLeft : 100,
+      paddingRight : 0,
+      fontSize : 15,
+      fontWeight : '600'
+    },
+    text :{
+      marginRight : 10,
+      fontSize : 15,
+      fontWeight : '600',
+      marginLeft : 10,
+    },
+    textInput: {
+      flex : 1,
+      textAlign : 'right',
+      borderColor : 'gray',
+      borderWidth : 1,
+      borderRadius : 10,
+      marginHorizontal : 20,
+      fontWeight : '600',
+      fontSize : 15,
+    },
+    button : {
+      alignItems : 'center',
+    },
+    image : {
+      width : 200,
+      height : 200,
+    }
 })
 
 export default MyPage;
