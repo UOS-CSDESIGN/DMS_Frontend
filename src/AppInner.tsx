@@ -11,6 +11,8 @@ import SocialMyPage from './components/SocialMyPageComponent';
 import Animal from './components/AnimalComponent';
 import SocialGoogle from './components/socialGoogle';
 import NonSocialMyPage from './components/NonSocialMyPageComponent';
+import NonSocialWithdrawal from './components/NonSocialWithdrawalComponent';
+import SocialWithdrawal from './components/SocialWithdrawalComponent';
 
 export type BottomTabParamList = {
   Shop : undefined;
@@ -29,6 +31,8 @@ export type RootStackParamList = {
   Animal : undefined;
   Main : undefined;
   SocialGoogle : undefined;
+  NonSocialWithdrawal : undefined;
+  SocialWithdrawal : undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -79,6 +83,15 @@ function AppInner() {
             name = "SocialGoogle"
             component = {SocialGoogle}
             options = {{title : '소셜로그인'}}/>
+          <Stack.Screen
+            name = "NonSocialWithdrawal"
+            component = {NonSocialWithdrawal}
+            options = {{title : '비소셜회원탈퇴'}}/>
+          <Stack.Screen
+            name = "SocialWithdrawal"
+            component = {SocialWithdrawal}
+            options = {{title : '소셜회원탈퇴'}}/>
+          
         </Stack.Navigator>
         
       )}
