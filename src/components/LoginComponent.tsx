@@ -79,6 +79,9 @@ function Login({navigation}: LogInScreenProps){
   const toSocialSignUp = useCallback(() => {
     navigation.navigate('SocialGoogle');
   }, [navigation]);
+  const toWithdrawal = useCallback(() => {
+    navigation.navigate('SocialWithdrawal');
+  }, [navigation]);
   return (
     <View style={styles.loginPage}>
       <View style={styles.greeting}>
@@ -163,6 +166,12 @@ function Login({navigation}: LogInScreenProps){
         <Pressable style={styles.loginButton}
           onPress={toAnimal}>
           <Text style={styles.loginButtonText}>애완견</Text>
+        </Pressable>
+      </View>
+      <View style={styles.buttonZone}>
+        <Pressable style={styles.loginButton}
+          onPress={toWithdrawal}>
+          <Text style={styles.loginButtonText}>회원탈퇴</Text>
         </Pressable>
       </View>
     </View>
