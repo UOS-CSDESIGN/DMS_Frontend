@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { RootStackParamList } from "../AppInner";
 import { useCallback, useState } from "react";
 
-function Withdrawl(props){
+function Withdrawl(props : any){
     const [password, setPassword] = useState<string>('');
 
     const onChangePassword = useCallback((text : string) => {
