@@ -6330,11 +6330,6 @@ react-native-date-picker@^4.2.9:
   dependencies:
     prop-types "^15.8.1"
 
-react-native-google-button@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/react-native-google-button/-/react-native-google-button-0.1.0.tgz"
-  integrity sha512-1vdaQlk8u6sswKqFT389aSAzsvXM+tqL1cy+11XKH3nfgE90ERRQF9zs0Y8wAtqiq/GBByGWScigMw5m1TQang==
-  dependencies:
 react-native-gesture-handler@>=1.4.0:
   version "2.9.0"
   resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.9.0.tgz"
@@ -6344,6 +6339,13 @@ react-native-gesture-handler@>=1.4.0:
     hoist-non-react-statics "^3.3.0"
     invariant "^2.2.4"
     lodash "^4.17.21"
+    prop-types "^15.7.2"
+
+react-native-google-button@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/react-native-google-button/-/react-native-google-button-0.1.0.tgz"
+  integrity sha512-1vdaQlk8u6sswKqFT389aSAzsvXM+tqL1cy+11XKH3nfgE90ERRQF9zs0Y8wAtqiq/GBByGWScigMw5m1TQang==
+  dependencies:
     prop-types "^15.7.2"
 
 react-native-gradle-plugin@^0.71.14:

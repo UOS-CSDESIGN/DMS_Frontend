@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
 import getGoogleSignin from "../model/User/getGoogleSignin";
 import Config from "react-native-config";
+import { setSocialToken } from "../model/User/slice/loginSlice";
 /**
  * 
  * @param toAnimal : navigate function to animal page
@@ -35,6 +36,7 @@ const SocialLoginComponent = ({toAnimal, toSignup}) => {
             //google oauth
             //return value is google infomation
             const userInfo = await GoogleSignin.signIn();
+            dispatch(setSocialToken(userInfo.idToken));
             //get accessToken from Spring Server
             const isSigned = await getGoogleSignin(userInfo, dispatch, user);
             console.log(isSigned);
