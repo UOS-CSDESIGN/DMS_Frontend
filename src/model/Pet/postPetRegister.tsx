@@ -4,16 +4,15 @@ import Pet from "./Pet";
 import Config from "react-native-config";
 
 const postPetRegister = async (pet: Pet, dispatch: any, token:any) => {
-    console.log(`${Config.SPRING_API}`);
     dispatch(postPetDataRequest());
+    console.log(pet.petPicUrl);
 
     const bearer = `Bearer ${JSON.parse(token)}`;
-    console.log(pet.registerFormData);
-    console.log(bearer);
     await axios.post(`${Config.SPRING_API}/pet/dog/register`,
         pet.registerFormData,
         {
             headers: {
+                'Content-Type': 'multipart/form-data',
                 Authorization: bearer,
                 'Access-Control-Allow-Origin': `${Config.SPRING_API}`,
             },
