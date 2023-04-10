@@ -19,112 +19,93 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../model';
 import User from '../model/User/User';
 import postUserModify from '../model/User/postUserModify';
+import { Switch } from 'react-native-switch'; 
 
 type NonSocialMyPageScreenProps  = NativeStackScreenProps<RootStackParamList, 'NonSocialMyPage'>
 
 function NonSocialMyPage({navigation} : NonSocialMyPageScreenProps){
-    const [myPageProps, setMyPageProps] = useState({
-        name: '',
-        nickname: '',
-        password: '',
-        passwordConfirm : '',
-        isSocial : false,
-        gender: '',
-        birth: '',
-        email: '',
-        editEmail : false,
-        phoneNo: '',
-        zipcode: '',
-        street: '',
-        addressDetail: '',
-        picture: '',
-    });
-    const [editedMyPageProps, setEditedMyPageProps] = useState({
-      name : '',
-      nickname : '',
-      password : '',
+  const [myPageProps, setMyPageProps] = useState({
+      name: '',
+      nickname: '',
+      password: '',
       passwordConfirm : '',
       isSocial : false,
-      gender : '',
-      birth : '',
-      email : '',
+      gender: '',
+      birth: '',
+      email: '',
       editEmail : false,
-      phoneNo : '',
-      zipcode : '',
-      street : '',
-      addressDetail : '',
-      picture : '',
+      phoneNo: '',
+      zipcode: '',
+      street: '',
+      addressDetail: '',
+      imageUrl: '',
+      imageName : '',
     });
+    const [gender, setGender] = useState<number>(0);
+    const [switchState, setSwitchState] = useState<boolean>(false);
+    const onChangeSwitch = () => {
+      setSwitchState(true);
+      Alert.alert(
+        "소셜 로그인 연동",
+        "소셜 로그인 연동을 하시겠습니까?",
+        [{text : "예" , onPress : () => navigation.navigate('SocialGoogle')},
+         {text : "아니오", onPress : () => setSwitchState(false)}]
+      )
+    }
     const onChangeName = (text : string) => {
       setMyPageProps((prevState) => ({...prevState, name : text}));
-      setEditedMyPageProps((prevState) => ({...prevState, name : text}));
     }
     const onChangeNickname = (text : string) => {
       setMyPageProps((prevState) => ({...prevState, nickname : text}));
-      setEditedMyPageProps((prevState) => ({...prevState, nickname : text}));
+      console.log(myPageProps.nickname);
+      console.log(myPageProps);
     }
     const onChangePassword = (text : string) => {
       setMyPageProps((prevState) => ({...prevState, password : text}));
-      setEditedMyPageProps((prevState) => ({...prevState, password : text}));
     }
     const onChangePasswordConfirm = (text : string) => {
       setMyPageProps((prevState) => ({...prevState, passwordConfirm : text}));
-      setEditedMyPageProps((prevState) => ({...prevState, passwordConfirm : text}));
     }
     const onChangeGender = ((text : number) => {
       const gender = text === 1 ? "남성" : "여성";
       setMyPageProps((prevState) => ({ ...prevState, gender : gender}));
-      console.log(myPageProps.gender);
-      setEditedMyPageProps((prevState) => ({ ...prevState, gender : gender}));
-    })
+      gender === "남성" ? setGender(1) : setGender(2); 
+      })
     const onChangeBirth = ((text : string) => {
       setMyPageProps((prevState) => ({...prevState, birth : text}));
-      setEditedMyPageProps((prevState) => ({...prevState, birth : text}))
     })
     const onChangeEmail = (text : string) => {
       setMyPageProps((prevState) => ({...prevState, email : text}));
-      setEditedMyPageProps((prevState) => ({...prevState, email : text}));
     }
     const onChangePhoneNo = (text : string) => {
       setMyPageProps((prevState) => ({...prevState, phoneNo : text}));
-      setEditedMyPageProps((prevState) => ({...prevState, phoneNo : text}));
+    }
+    const onChangeAddress = (text : {zonecode : string , street : string}) => {
+      setMyPageProps((prevState) => ({...prevState, zipcode : text.zonecode}))
+      setMyPageProps((prevState) => ({...prevState, street : text.street}))
     }
     const onChangeZipcode = (text : string) => {
       setMyPageProps((prevState) => ({...prevState, zipcode : text}));
-      setEditedMyPageProps((prevState) => ({...prevState, zipcode : text}));
     }
     const onChangeStreet = (text : string) => {
       setMyPageProps((prevState) => ({...prevState, street : text}));
-      setEditedMyPageProps((prevState) => ({...prevState, street : text}));
     }
     const onChangeaddressDetail = (text : string) => {
       setMyPageProps((prevState) => ({...prevState, addressDetail : text}));
-      setEditedMyPageProps((prevState) => ({...prevState, addressDetail : text}));
     }
     const onChangePicture = (text : string) => {
-      setMyPageProps((prevState) => ({...prevState, picture : text}));
-      setEditedMyPageProps((prevState) => ({...prevState, picture : text}));
+      setMyPageProps((prevState) => ({...prevState, imageUrl : text}));
     }
 
     const dispatch = useDispatch();
 
-    const onSocialLogin = useCallback(() => {
-
-    }, [])
     const token = useSelector((state:RootState)=>state.login.accessToken);
     const userData = useSelector((state:RootState)=>state.memberData.userData);
-  const onSubmit = useCallback(() => {
 
-    const user = new User(
-      userData.userId, editedMyPageProps.name, "", editedMyPageProps.nickname,
-      userData.gender, editedMyPageProps.birth, editedMyPageProps.email, editedMyPageProps.phoneNo,
-      userData.isSocial, editedMyPageProps.zipcode, "", editedMyPageProps.street, editedMyPageProps.addressDetail,
-      editedMyPageProps.picture, editedMyPageProps.picture.split("/").pop()||''
-    );
-    postUserModify(user, token);
-    }, []);
     useEffect(() => {
       getMemberData(dispatch, token);
+    },[]);
+    useEffect(() => {
       setMyPageProps({
         name:userData.username,
         nickname:userData.nickname,
@@ -138,19 +119,37 @@ function NonSocialMyPage({navigation} : NonSocialMyPageScreenProps){
         zipcode:userData.zipcode,
         street:userData.street,
         addressDetail:userData.addressDetail,
-        picture:userData.imageUrl,
+        imageUrl:userData.imageUrl,
+        imageName : userData.imageName,
         editEmail : true,
-      })
-    },[])
-    if(true){
+      });
+    }, [userData])
+    useEffect(() => {
+      console.log("called in component effect: " , myPageProps)
+    }, [myPageProps]);
+
+    const onSubmit = useCallback(() => {
+      if (myPageProps.imageUrl) {
+        myPageProps.imageName = (myPageProps.imageUrl.split("/").pop()) || '';
+      }
+      const user = new User(
+        userData.userId, myPageProps.name, "", myPageProps.nickname,
+        gender, myPageProps.birth, myPageProps.email, myPageProps.phoneNo,
+        userData.isSocial, myPageProps.zipcode, "", myPageProps.street, myPageProps.addressDetail,
+        myPageProps.imageUrl, myPageProps. imageName 
+      );
+      postUserModify(user, token);
+    }, [userData.userId, myPageProps.name, myPageProps.nickname, gender, myPageProps.birth,
+       myPageProps.email, myPageProps.phoneNo, userData.isSocial, myPageProps.zipcode, myPageProps.street,
+       myPageProps.addressDetail, myPageProps.imageUrl, myPageProps.imageName]);
+
+    if(myPageProps){
       return(
         <ScrollView>
           <View>
-            <Pressable
-             style = {styles.socialLoginButtonZone}
-             onPress = {onSocialLogin}>
-              <Text style = {styles.buttonText}>소셜 로그인 연동</Text>
-             </Pressable>
+            <Switch
+              value={switchState}
+              onValueChange={onChangeSwitch}/>
           </View>
           <View>
             <MyPage
@@ -172,12 +171,13 @@ function NonSocialMyPage({navigation} : NonSocialMyPageScreenProps){
             phoneNo = {myPageProps.phoneNo}
             onChangePhoneNo = {onChangePhoneNo}
             zipcode = {myPageProps.zipcode}
+            onChangeAddress = {onChangeAddress}
             onChangeZipcode = {onChangeZipcode}
             street = {myPageProps.street}
             onChangeStreet = {onChangeStreet}
             addressDetail={myPageProps.addressDetail}
             onChangeAddressDetail = {onChangeaddressDetail}
-            picture = {myPageProps.picture}
+            picture = {myPageProps.imageUrl}
             onChangePicture = {onChangePicture}/>
           </View>
           <View>
