@@ -42,10 +42,10 @@ function Login({navigation}: LogInScreenProps){
     const canGoNext = userId && password;
 
     const onChangeUserId = useCallback((text: string)=> {
-      setUserId(text.trim());
+      setUserId(text);
     }, []);
     const onChangePassword = useCallback((text: string) => {
-      setPassword(text.trim());
+      setPassword(text);
     }, []);
 
     const onSubmit = useCallback(async () => {
