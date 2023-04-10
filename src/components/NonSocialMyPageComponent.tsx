@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../model';
 import User from '../model/User/User';
 import postUserModify from '../model/User/postUserModify';
+import SocialLoginComponent from './SocialLoginComponent';
 import { Switch } from 'react-native-switch'; 
 
 type NonSocialMyPageScreenProps  = NativeStackScreenProps<RootStackParamList, 'NonSocialMyPage'>
@@ -147,6 +148,13 @@ function NonSocialMyPage({navigation} : NonSocialMyPageScreenProps){
       return(
         <ScrollView>
           <View>
+            <SocialLoginComponent
+              toAnimal={() => {
+                navigation.navigate('NonSocialMyPage');
+              }}
+              toSignup={() => {
+                navigation.navigate('NonSocialMyPage');
+              }}/>
             <Switch
               value={switchState}
               onValueChange={onChangeSwitch}/>

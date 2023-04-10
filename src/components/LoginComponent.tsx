@@ -1,29 +1,22 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {
-  Alert,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
   ActivityIndicator,
-  Linking,
-  Image
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
-import axios, {AxiosError} from 'axios';
-import SignUp from './SignUpComponent';
 import CheckBox from '@react-native-community/checkbox';
-import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import User from '../model/User/User';
 import postLogin from '../model/User/postLogin';
 import { useDispatch, useSelector } from 'react-redux';
 import getMemberData from '../model/User/getMemberData';
 import { RootState } from '../model';
 import SocialLoginComponent from './SocialLoginComponent';
-
-
+import deleteLogout from '../model/User/deleteMemberData';
+import deleteMemberData from '../model/User/deleteMemberData';
 
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -33,8 +26,9 @@ function Login({navigation}: LogInScreenProps){
     const [password, setPassword] = useState<string>('');
     const [selected, isSelected] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
-
+    const dispatch = useDispatch();
+    const token = useSelector((state: RootState) => state.login.accessToken);
+    const user = useSelector((state: RootState) => state.memberData.userData);
 
     const userIdRef = useRef<TextInput | null>(null);
     const passwordRef = useRef<TextInput | null>(null);
@@ -48,18 +42,16 @@ function Login({navigation}: LogInScreenProps){
       setPassword(text);
     }, []);
 
-    const onSubmit = useCallback(async () => {
-      const user = new FormData();
-      user.append("userId", userId);
-      user.append("password", password);
-      const res = await postLogin(user, dispatch, navigation.navigate('Main'));
-    },[userId, password, dispatch])
-      
-  const token = useSelector((state: RootState) => state.login.accessToken);
-  const user = useSelector((state: RootState) => state.memberData.userData);
-    const onSubmitToken = useCallback(()=>{
-      getMemberData(dispatch, token);
-    },[dispatch, token]);
+  const onSubmit = useCallback(async () => {
+    const user = new FormData();
+    user.append("userId", userId);
+    user.append("password", password);
+    const res = await postLogin(user, dispatch, toAnimal());
+  }, [userId, password, dispatch, navigation]);
+  
+  const onDeleteMember = useCallback(async () => {
+    deleteMemberData(dispatch, token, "");
+  }, [dispatch, token]);
     
   const toSignUp = useCallback(() => {
     navigation.navigate('SignUp');

@@ -16,12 +16,10 @@ import Config from "react-native-config";
 const SocialLoginComponent = ({toAnimal, toSignup}) => {
     
     const dispatch = useDispatch();
-    console.log(`${Config.GOOGLE_OAUTH}`)
     //google oauth server client id
     GoogleSignin.configure({
         webClientId: `${Config.GOOGLE_OAUTH}`,
         offlineAccess: true
-        
     });
     
     //useSelector is declared

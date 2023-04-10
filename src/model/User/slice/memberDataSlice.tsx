@@ -71,6 +71,31 @@ const memberDataSlice = createSlice({
         },
         postMemberDataFailure: (state) => {
             state.loading = false;
+        },
+        deleteMemberDataRequest: (state) => {
+            state.loading = true;
+        },
+        deleteMemberDataSuccess: (state, action) => {
+            state.userData = {
+                userId: "",
+                username: "",
+                nickname: "",
+                birth: "",
+                email: "",
+                phoneNo: "",
+                isSocial: false,
+                provider: "",
+                zipcode: "",
+                street: "",
+                addressDetail: "",
+                imageUrl: "",
+                imageName: "",
+                gender: 0,
+            };
+            state.loading = false;
+        },
+        deleteMemberDataFailure: (state) => {
+            state.loading = false;
         }
     }
 });
@@ -81,5 +106,9 @@ export const memberDataFailure = memberDataSlice.actions.memberDataFailure;
 export const postMemberDataRequest = memberDataSlice.actions.postMemberDataRequest;
 export const postMemberDataSuccess = memberDataSlice.actions.postMemberDataSuccess;
 export const postMemberDataFailure = memberDataSlice.actions.postMemberDataFailure;
+
+export const deleteMemberDataRequest = memberDataSlice.actions.deleteMemberDataRequest;
+export const deleteMemberDataSuccess = memberDataSlice.actions.deleteMemberDataSuccess;
+export const deleteMemberDataFailure = memberDataSlice.actions.deleteMemberDataFailure;
 
 export default memberDataSlice.reducer;

@@ -5,9 +5,10 @@ import Config from "react-native-config";
 const postLogin = async (user: FormData, dispatch: any, navigation:any) => {
     //Hooks must be top of the component
     //So, useDispatch passed from parameter dispatch
-
+    console.log(user);
     dispatch(loginRequest());
-        await axios.post(`${Config.SPRING_API}/member/login`,
+    const url = `${Config.SPRING_API}/member/login`
+        await axios.post(url,
             user,
             {
                 withCredentials: true,

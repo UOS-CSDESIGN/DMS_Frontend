@@ -20,11 +20,24 @@ const loginSlice = createSlice({
         },
         loginFailure: (state) => {
             state.loading = false;
+        },
+        logoutRequest: (state) => {
+            state.loading = true;
+        },
+        logoutSuccess: (state) => {
+            state.accessToken = null;
+            state.loading = false;
+        },
+        logoutFailure: (state) => {
+            state.loading = false;  
         }
     }
 });
 export const loginRequest = loginSlice.actions.loginRequest;
 export const loginSuccess = loginSlice.actions.loginSuccess;
 export const loginFailure = loginSlice.actions.loginFailure;
+export const logoutRequest = loginSlice.actions.logoutRequest;
+export const logoutSuccess = loginSlice.actions.logoutSuccess;
+export const logoutFailure = loginSlice.actions.logoutFailure;
 
 export default loginSlice.reducer;
