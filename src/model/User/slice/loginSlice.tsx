@@ -6,6 +6,7 @@ const loginSlice = createSlice({
         //SSL 통신 이후 refresh 파트 구현
         //refreshToken:'',
         accessToken: null,
+        idToken: null,
         loading: false,
     },
     reducers: {
@@ -30,14 +31,20 @@ const loginSlice = createSlice({
         },
         logoutFailure: (state) => {
             state.loading = false;  
+        },
+        setSocialToken: (state, action)=> {
+            state.idToken = action.payload;
         }
     }
 });
 export const loginRequest = loginSlice.actions.loginRequest;
 export const loginSuccess = loginSlice.actions.loginSuccess;
 export const loginFailure = loginSlice.actions.loginFailure;
+
 export const logoutRequest = loginSlice.actions.logoutRequest;
 export const logoutSuccess = loginSlice.actions.logoutSuccess;
 export const logoutFailure = loginSlice.actions.logoutFailure;
+
+export const setSocialToken = loginSlice.actions.setSocialToken;
 
 export default loginSlice.reducer;

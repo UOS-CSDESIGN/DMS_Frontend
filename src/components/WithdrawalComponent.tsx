@@ -2,16 +2,30 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { RootStackParamList } from "../AppInner";
 import { useCallback, useState } from "react";
+import { GoogleSignin, statusCodes, GoogleSigninButton } from "@react-native-google-signin/google-signin";
+import Config from "react-native-config";
+import deleteMemberData from "../model/User/deleteMemberData";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../model";
 
 function Withdrawl(props : any){
     const [password, setPassword] = useState<string>('');
+    const [data, setData] = useState<any>(null);
+
+    const dispatch = useDispatch();
+    const token = useSelector((state: RootState) => state.login.accessToken);
+    const idtoken = useSelector((state: RootState) => state.login.idToken);
 
     const onChangePassword = useCallback((text : string) => {
         setPassword(text);
+        setData(password);
     }, [password]);
     const onSubmit = useCallback(() => {
+        setData(idtoken);
+        deleteMemberData(dispatch, token, data);
+    }, [token, dispatch, data, password,idtoken]);  
 
-    },[])
+    
 
     return(
         <View style = {styles.screen}>
@@ -37,7 +51,8 @@ function Withdrawl(props : any){
                  style = {styles.textInput}
                  placeholder = "비밀번호"
                  onChangeText = {onChangePassword}/>
-            </View> : null}
+            </View> : null
+            }
             <View style = {styles.wrapperView}>
                 <Text style = {styles.topicText}>
                     정말로 회원을 탈퇴하시겠습니까?
@@ -56,8 +71,18 @@ function Withdrawl(props : any){
         </View>
     )
 }
-18
+
 const styles = StyleSheet.create({
+    socialLoginButton : {
+        marginTop : 20,
+        paddingHorizontal : 20,
+        justifyContent : "center",
+        alignItems : "center",
+      },
+      googleButton : {
+        width : 312,
+        height : 48,
+      },
     screen : {
         marginHorizontal : 15,
     },

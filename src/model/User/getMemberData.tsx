@@ -8,7 +8,7 @@ const getMemberData = async (dispatch:any, token:any) => {
 
     const bearer = `Bearer ${JSON.parse(token)}`;
 
-    const url = `${Config.SPRING_API}/member/getMemberData`
+    const url = `${Config.SPRING_API}/member/getMemberData`;
     await axios.get(
         url,
         {

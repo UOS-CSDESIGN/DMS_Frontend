@@ -5,23 +5,17 @@ import { deleteMemberDataFailure, deleteMemberDataRequest, deleteMemberDataSucce
 import qs from "qs";
 
 
-const deleteMemberData = async (dispatch: any, token: any, password: string) => {
-    
-    const bearer = `Bearer ${JSON.parse(token)}`;
-    const url = `${Config.SPRING_API}/member/delete`;
-    console.log(typeof(password));
-    
+const deleteMemberData = async (dispatch: any, token: any, data: string) => {
+
     dispatch(logoutRequest());
     dispatch(deleteMemberDataRequest());
-    const data = { "password": (password==="" ? null:password)  };
-    
-    let formdata = new FormData();
-    formdata.append("password", "124abcd");
-    
+
+    const bearer = `Bearer ${JSON.parse(token)}`;
+    const url = `${Config.SPRING_API}/member/delete`;
     axios.delete(
         url,
         {
-            data : qs.stringify(data),
+            data: qs.stringify({ password: data }),
             headers: {
                 Authorization: bearer,
                 "Content-Type": "application/x-www-form-urlencoded",
