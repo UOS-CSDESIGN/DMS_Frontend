@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useCallback, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import Swiper from "react-native-swiper";
+import Swiper from 'react-native-swiper';
 import { RootStackParamList } from "../AppInner";
 import Main from "./mainComponent";
 import Animal from "./AnimalComponent";
