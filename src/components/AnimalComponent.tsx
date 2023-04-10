@@ -20,6 +20,9 @@ import BirthComponent from './BirthComponent';
 import Picture from './PictureComponent';
 import BreedAuto from './breedAutoComponent';
 import Pet from '../model/Pet/Pet';
+import postPetRegister from '../model/Pet/postPetRegister';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../model';
 
 type AnimalScreenProps = NativeStackScreenProps<RootStackParamList, 'Animal'>;
 
@@ -78,17 +81,20 @@ function Animal({ navigation }: AnimalScreenProps) {
     } else {
       console.log('Selected image does not have assets');
     }
-    setShowButton(true);
+    setShowButton(true),[imageUrl, imageName]
   }
+  const dispatch = useDispatch();
+  const token = useSelector((state:RootState)=>state.login.accessToken)
 
   const onSubmit = useCallback(() => {
     console.log(breed);
     const pet = new Pet(
-      animalID, name, birth, gender, parseInt(breed, 10)+1,
-      parseInt(weight,10), 0, 0, 0, "", imageUrl, imageName
+      Number(animalID), name, birth, gender, 1,
+      0, 0, 0, imageUrl, imageName
     );
+    postPetRegister(pet, dispatch,token);
     console.log(pet.registerFormData);
-  }, [animalID, name, birth, gender, breed, weight, imageName, imageUrl]);
+  }, [animalID, name, birth, gender, breed, weight, imageUrl, imageName]);
 
 
   return (
