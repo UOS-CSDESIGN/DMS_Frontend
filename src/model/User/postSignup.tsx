@@ -3,14 +3,14 @@ import { signupFailure, signupRequest, signupSuccess } from "./slice/signupSlice
 import User from "./User";
 import Config from "react-native-config";
 
-const postSignup = async (user: User, dispatch:any) => {
+const postSignup = async (user: User, dispatch:any, toLogin:any) => {
     dispatch(signupRequest());
     await axios.post(`${Config.SPRING_API}/member/signup`,
         user.signupData,
         {
             headers: {
                 'Content-type': 'multipart/form-data',
-                'Access-Control-Allow-Origin': 'http://25.14.225.33:8080',
+                'Access-Control-Allow-Origin': `${Config.SPRING_API}`,
             },
             transformRequest: (data, headers) => {
                 return data;
@@ -19,6 +19,7 @@ const postSignup = async (user: User, dispatch:any) => {
     ).then((res) => {
         dispatch(signupSuccess(res.data));
         console.log("signup success");
+        toLogin();
     }).catch((error) => {
         dispatch(signupFailure());
         console.log("signup failed");

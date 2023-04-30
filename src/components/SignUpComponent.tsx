@@ -94,6 +94,9 @@ function SignUp({navigation}: SignUpScreenProps) {
   },[imageUrl, imageName]);
 
   const [token, setToken] = useState('');
+  const toLogin = async () => {
+    navigation.navigate('Login');
+  }
   const onSubmit = useCallback(async () => { 
     const user  = new User(
       userId, username, password, nickname, gender, birth, email, phoneNo, isSocial, "",zipcode, 
@@ -146,7 +149,8 @@ function SignUp({navigation}: SignUpScreenProps) {
         '비밀번호는 영문,숫자,특수문자($@^!%*#?&)를 모두 포함하여 8자 이상 입력해야합니다.',
       );
     }*/
-    postSignup(user, dispatch);
+    postSignup(user, dispatch, toLogin);
+    
   }, [navigation, userId, username, password, nickname, gender, birth, email, false, phoneNo, zipcode, street, addressDetail, imageUrl, imageName]);
 
   const canGoNext = userId && password && nickname && email && phoneNo && zipcode && street && addressDetail;
