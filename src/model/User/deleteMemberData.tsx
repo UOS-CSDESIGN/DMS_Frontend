@@ -3,13 +3,13 @@ import Config from "react-native-config"
 import { logoutFailure, logoutRequest, logoutSuccess } from "./slice/loginSlice";
 import { deleteMemberDataFailure, deleteMemberDataRequest, deleteMemberDataSuccess } from "./slice/memberDataSlice";
 import qs from "qs";
+import getMemberData from "./getMemberData";
 
 
-const deleteMemberData = async (dispatch: any, token: any, data: string) => {
+const deleteMemberData = async (dispatch: any, token: any, data: string, isSocial:boolean) => {
 
     dispatch(logoutRequest());
     dispatch(deleteMemberDataRequest());
-
     const bearer = `Bearer ${JSON.parse(token)}`;
     const url = `${Config.SPRING_API}/member/delete`;
     axios.delete(
