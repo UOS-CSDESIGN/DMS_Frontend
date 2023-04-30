@@ -1,4 +1,3 @@
-import { User } from "@react-native-google-signin/google-signin";
 import axios, { AxiosError } from "axios";
 import getMemberData from "./getMemberData";
 import { loginFailure, loginRequest, loginSuccess } from "./slice/loginSlice";
@@ -11,14 +10,18 @@ import Config from "react-native-config";
  * @param token : access toek store
  * @returns 200: already exist mail, 201: default goolge social, 202: need more info
  */
-
+interface tokens{
+    idToken: string,
+    accessToken: string
+}
 //get accessToken by passing id_Token and checking if needs signup.
-const getGoogleSignin = async (userInfo: User, dispatch: any, user:any) => {
+const getGoogleSignin = async (tokens: tokens, dispatch: any, user:any) => {
 
     dispatch(loginRequest());
 
-    console.log(`${Config.SPRING_API}/api/oauth2/google?id_token=${userInfo.idToken}`);
-    const url = `${Config.SPRING_API}/api/oauth2/google?id_token=${userInfo.idToken}`;
+    console.log(`${Config.SPRING_API}/api/oauth2/google?id_token=${tokens.idToken}`);
+    const url = `${Config.SPRING_API}/api/oauth2/google?id_token=${tokens.idToken}`;
+    
     return await axios.get(url,
         {
             withCredentials: true,
@@ -29,7 +32,7 @@ const getGoogleSignin = async (userInfo: User, dispatch: any, user:any) => {
         .then((res) => {
             dispatch(loginSuccess(JSON.stringify(res.data.accessToken)));
             getMemberData(dispatch, JSON.stringify(res.data.accessToken));
-            
+            console.log(res.data);
             if (res.status === 200) {
                 //go to main
                 return 200;
