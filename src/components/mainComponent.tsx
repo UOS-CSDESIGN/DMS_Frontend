@@ -95,14 +95,6 @@ function Main({navigation} : MainScreenProps){
     setTempWeight(weight);
   },[])
 
-  const openObesity = useRef(navigation.navigate('Obesity'));
-  const openButton = () => {
-    Animated.timing(openObesity, {
-      toValue : 1,
-      duration : 5000,
-      useNativeDriver : true,
-    }).start();
-  }
 
     return(
       <View>
