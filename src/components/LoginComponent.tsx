@@ -52,7 +52,7 @@ function Login({navigation}: LogInScreenProps){
       user.append("userId", userId);
       user.append("password", password);
       postLogin(user, dispatch);
-      navigation.navigate('Main');
+      navigation.navigate('MultiProfile');
     },[userId, password, dispatch])
       
   const token = useSelector((state: RootState) => state.login.accessToken);
@@ -72,8 +72,8 @@ function Login({navigation}: LogInScreenProps){
     navigation.navigate('Animal');
   }, [navigation]);
 
-  const toSocialGoogle = useCallback(() => {
-    navigation.navigate('SocialGoogle')
+  const toObesity = useCallback(() => {
+    navigation.navigate('Obesity')
   },[navigation]);
 
   const toMain = useCallback(() => {
@@ -163,8 +163,8 @@ function Login({navigation}: LogInScreenProps){
       </View>
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
-          onPress={toSocialGoogle}>
-          <Text style={styles.loginButtonText}>소셜로그인</Text>
+          onPress={toObesity}>
+          <Text style={styles.loginButtonText}>비만도</Text>
         </Pressable>
       </View>
       <View style = {styles.buttonZone}>
