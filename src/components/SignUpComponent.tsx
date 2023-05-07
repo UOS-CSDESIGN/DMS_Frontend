@@ -81,7 +81,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangeDetailAddress = useCallback((text:string)=>{
     setAddressDetail(text.trim())
   }, []);
-  const onChangeImage = useCallback(async() => async (selectedImage : any)=>{
+  const onChangeImage = useCallback(() => async(selectedImage : any)=>{
     if (selectedImage!==null) {
       setImageUrl(selectedImage);
       if(selectedImage){
@@ -106,7 +106,6 @@ function SignUp({navigation}: SignUpScreenProps) {
       userId, username, password, nickname, gender, birth, email, phoneNo, isSocial, "",zipcode, 
       street, addressDetail, imageUrl, imageName
     );
-    console.log(imageName);
     postSignup(user, dispatch);
   }, [userId, username, password, nickname, gender, birth, email, phoneNo, zipcode, street, addressDetail, imageUrl, imageName]);
 
