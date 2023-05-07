@@ -22,7 +22,6 @@ const SocialLoginComponent = ({toAnimal, toSignup}) => {
         webClientId: `${Config.GOOGLE_OAUTH}`,
         offlineAccess: true
     });
-    
     //useSelector is declared
     //if user or token value is chaged, immediately applied
     const user = useSelector((state: RootState) => state.memberData.userData);
@@ -34,11 +33,15 @@ const SocialLoginComponent = ({toAnimal, toSignup}) => {
             await GoogleSignin.hasPlayServices
                 ({ showPlayServicesUpdateDialog: true });
             //google oauth
-            //return value is google infomation
-            const userInfo = await GoogleSignin.signIn();
-            dispatch(setSocialToken(userInfo.idToken));
+            //return value is google infomation(authcode include)
+            //const userInfo = await GoogleSignin.signIn();
+
+            //tokens : idToken, accessToken
+            const tokens = await GoogleSignin.getTokens();
+            dispatch(setSocialToken(tokens));
+
             //get accessToken from Spring Server
-            const isSigned = await getGoogleSignin(userInfo, dispatch, user);
+            const isSigned = await getGoogleSignin(tokens, dispatch, user);
             console.log(isSigned);
             if(isSigned === 201){
                 console.log('not Signed');

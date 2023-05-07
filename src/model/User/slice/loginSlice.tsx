@@ -7,6 +7,7 @@ const loginSlice = createSlice({
         //refreshToken:'',
         accessToken: null,
         idToken: null,
+        googleAccessToken : null,
         loading: false,
     },
     reducers: {
@@ -33,7 +34,8 @@ const loginSlice = createSlice({
             state.loading = false;  
         },
         setSocialToken: (state, action)=> {
-            state.idToken = action.payload;
+            state.idToken = action.payload.idToken;
+            state.googleAccessToken = action.payload.accessToken;
         }
     }
 });

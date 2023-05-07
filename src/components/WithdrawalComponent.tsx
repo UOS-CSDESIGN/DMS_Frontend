@@ -15,14 +15,18 @@ function Withdrawl(props : any){
     const dispatch = useDispatch();
     const token = useSelector((state: RootState) => state.login.accessToken);
     const idtoken = useSelector((state: RootState) => state.login.idToken);
+    //isSocial true -> google signin button, false-> password input
+    const isSocial = useSelector((state: RootState) => state.memberData.userData.isSocial);
 
     const onChangePassword = useCallback((text : string) => {
         setPassword(text);
         setData(password);
     }, [password]);
     const onSubmit = useCallback(() => {
-        setData(idtoken);
-        deleteMemberData(dispatch, token, data);
+        setData("asdf1234");
+        console.log(data);
+        console.log(password);
+        deleteMemberData(dispatch, token, data, isSocial);
     }, [token, dispatch, data, password,idtoken]);  
 
     

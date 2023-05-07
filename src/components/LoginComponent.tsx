@@ -46,7 +46,14 @@ function Login({navigation}: LogInScreenProps){
     const user = new FormData();
     user.append("userId", userId);
     user.append("password", password);
-    const res = await postLogin(user, dispatch, toAnimal());
+    const res: Promise<number> = await postLogin(user, dispatch)
+      .then((value) => {
+        navigation.navigate("Animal");
+      })
+      .catch((error) => {
+        //alert
+        navigation.navigate("Login");
+      });
   }, [userId, password, dispatch, navigation]);
   
   const onDeleteMember = useCallback(async () => {
@@ -60,6 +67,7 @@ function Login({navigation}: LogInScreenProps){
     navigation.navigate('Find');
   }, [navigation]);
   const toAnimal = useCallback(() => {
+    console.log('in animal');
     navigation.navigate('Animal');
   }, [navigation]);
   const toSocialMyPage = useCallback(() => {
