@@ -21,10 +21,8 @@ const getGoogleSignin = async (tokens: tokens, dispatch: any, user:User) => {
     dispatch(loginRequest());
 
     console.log(tokens.idToken);
-    console.log(user.idToken);
-
     console.log(`${Config.SPRING_API}/api/oauth2/google?id_token=${tokens.idToken}`);
-    const url = `${Config.SPRING_API}/api/oauth2/google?id_token=${user.idToken}`;
+    const url = `${Config.SPRING_API}/api/oauth2/google?id_token=${tokens.idToken}`;
     
     return await axios.get(url,
         {

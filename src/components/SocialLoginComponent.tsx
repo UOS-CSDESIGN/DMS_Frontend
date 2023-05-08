@@ -34,14 +34,14 @@ const SocialLoginComponent = ({toAnimal, toSignup}) => {
                 ({ showPlayServicesUpdateDialog: true });
             //google oauth
             //return value is google infomation(authcode include)
-            //const userInfo = await GoogleSignin.signIn();
+            const userInfo = await GoogleSignin.signIn();
 
             //tokens : idToken, accessToken
             const tokens = await GoogleSignin.getTokens();
             dispatch(setSocialToken(tokens));
 
             //get accessToken from Spring Server
-            const isSigned = await getGoogleSignin(tokens, dispatch, user);
+            const isSigned = await getGoogleSignin(tokens, dispatch, userInfo);
             console.log(isSigned);
             if(isSigned === 201){
                 console.log('not Signed');

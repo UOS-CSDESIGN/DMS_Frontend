@@ -81,11 +81,11 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangeDetailAddress = useCallback((text:string)=>{
     setAddressDetail(text.trim())
   }, []);
-  const onChangeImage = useCallback(() => async(selectedImage : any)=>{
+  const onChangeImage = useCallback((selectedImage : any)=>{
     if (selectedImage!==null) {
       setImageUrl(selectedImage);
       if(selectedImage){
-        await setImageName(imageUrl.split("/").pop()||'');
+        setImageName(imageUrl.split("/").pop()||'');
       }
     } else {
       console.log('Selected image does not have assets');
