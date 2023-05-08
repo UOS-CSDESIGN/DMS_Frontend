@@ -46,7 +46,7 @@ function Login({navigation}: LogInScreenProps){
     const user = new FormData();
     user.append("userId", userId);
     user.append("password", password);
-    const res: Promise<number> = await postLogin(user, dispatch)
+    await postLogin(user, dispatch)
       .then((value) => {
         navigation.navigate("Animal");
       })

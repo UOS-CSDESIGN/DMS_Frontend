@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 import getMemberData from "./getMemberData";
 import { loginFailure, loginRequest, loginSuccess } from "./slice/loginSlice";
 import Config from "react-native-config";
+import { User } from "@react-native-google-signin/google-signin";
 
 /**
  * @param userInfo : google social infomation
@@ -15,12 +16,15 @@ interface tokens{
     accessToken: string
 }
 //get accessToken by passing id_Token and checking if needs signup.
-const getGoogleSignin = async (tokens: tokens, dispatch: any, user:any) => {
+const getGoogleSignin = async (tokens: tokens, dispatch: any, user:User) => {
 
     dispatch(loginRequest());
 
+    console.log(tokens.idToken);
+    console.log(user.idToken);
+
     console.log(`${Config.SPRING_API}/api/oauth2/google?id_token=${tokens.idToken}`);
-    const url = `${Config.SPRING_API}/api/oauth2/google?id_token=${tokens.idToken}`;
+    const url = `${Config.SPRING_API}/api/oauth2/google?id_token=${user.idToken}`;
     
     return await axios.get(url,
         {
@@ -52,7 +56,6 @@ const getGoogleSignin = async (tokens: tokens, dispatch: any, user:any) => {
             dispatch(loginFailure());
             console.log(error);
             console.log(error.message);
-            console.log("endOfgoogleFUnction")
             throw error;
         });
 }
