@@ -26,7 +26,7 @@ function BirthComponent({onBirthSelected} : BirthProps){
     return(
         <View>
           <Pressable onPress = {showModal}>
-            <Icon name = 'calendar' size = {25} color = "#000"/>
+            <Icon name = 'calendar' size = {20} color = "#000"/>
           </Pressable>
           <Modal style = {styles.modal}
             isVisible = {visible}>
