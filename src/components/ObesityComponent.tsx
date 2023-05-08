@@ -91,7 +91,7 @@ function Obesity({navigation} : ObesityScreenProps){
     },[weightDate2]);
 
     const [dateSet, setDateSet] = useState<WeightData[]>([]);
-    //서버로부터 날짜를 받아옴
+    //서버로부터 날짜+몸무게를 받아옴
     //const xValues = dateSet.map((data) => data.date);
     //const yValues = dateSet.map((data) => parseFloat(data.weight));
     const xValues = ["January", "February", "March", "April", "June"];
