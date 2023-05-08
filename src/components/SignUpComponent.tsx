@@ -38,6 +38,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [zipcode, setZipcode] = useState<string>('');
   const [street, setStreet] = useState<string>('');
   const [addressDetail, setAddressDetail] = useState<string>('');
+  const [provider, setProvider] = useState<string>('');
   const [imageUrl, setImageUrl] = useState<string>('');
   const [imageName, setImageName] = useState<string>('');
 
@@ -96,41 +97,8 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onSubmit = useCallback(async () => { 
     const user  = new User(
       userId, username, password, nickname, gender, birth, email, phoneNo, false, zipcode, 
-      street, addressDetail, imageUrl, imageName
+      street, addressDetail, provider, imageUrl, imageName
     );
-    if(loading){
-      return
-    }
-    if (!userId || !userId.trim()) {
-      return Alert.alert('알림', '아이디를 입력해주세요.');
-    }
-    if (!password || !password.trim()) {
-      return Alert.alert('알림', '비밀번호를 입력해주세요.');
-    }
-    if (!nickname || !nickname.trim()) {
-      return Alert.alert('알림', '이름을 입력해주세요.');
-    }
-    if (!gender) {
-        return Alert.alert('알림', '성별을 선택해주세요.');
-      }
-    if (!birth) {
-        return Alert.alert('알림', '생년월일을 입력해주세요.');
-    }
-    if (!email || !email.trim()) {
-        return Alert.alert('알림', '이메일을 입력해주세요.');
-    }
-    if (!phoneNo || !phoneNo.trim()) {
-        return Alert.alert('알림', '전화번호를 입력해주세요.');
-    }
-    if (!zipcode) {
-        return Alert.alert('알림', '우편번호를 입력해주세요.');
-    }
-    if (!street || !street.trim()) {
-        return Alert.alert('알림', ' 도로명주소를 입력해주세요.');
-    }
-    if (!addressDetail|| !addressDetail.trim()) {
-        return Alert.alert('알림', '상세주소를 입력해주세요.');
-    }
     /*
     if (
       !/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(
