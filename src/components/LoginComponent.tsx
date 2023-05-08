@@ -52,7 +52,7 @@ function Login({navigation}: LogInScreenProps){
       user.append("userId", userId);
       user.append("password", password);
       postLogin(user, dispatch);
-      navigation.navigate('MultiProfile');
+      navigation.navigate('MyPage');
     },[userId, password, dispatch])
       
   const token = useSelector((state: RootState) => state.login.accessToken);
