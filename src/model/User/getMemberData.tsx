@@ -7,7 +7,7 @@ const getMemberData = async (dispatch:any, token:any) => {
 
     const bearer = `Bearer ${JSON.parse(token)}`;
 
-    await axios.get("http://25.12.74.132:8080/member/getMemberData",
+    await axios.get("http://localhost:8080/member/getMemberData",
         {
             headers: {
                 //Authorization key value must be assigned literal

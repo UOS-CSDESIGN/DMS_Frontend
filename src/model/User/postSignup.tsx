@@ -4,12 +4,11 @@ import User from "./User";
 
 const postSignup = async (user: User, dispatch:any) => {
     dispatch(signupRequest());
-    await axios.post("http://25.12.74.132:8080/member/signup",
+    await axios.post("http://103.51.189.103:8080/member/signup",
         user.signupData,
         {
             headers: {
                 'Content-type': 'multipart/form-data',
-                'Access-Control-Allow-Origin': 'http://25.12.74.132:8080',
             },
             transformRequest: (data, headers) => {
                 return data;
@@ -20,6 +19,7 @@ const postSignup = async (user: User, dispatch:any) => {
         console.log("signup success");
     }).catch((error) => {
         dispatch(signupFailure());
+        console.log(error)
         console.log("signup failed");
     })
 };

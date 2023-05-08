@@ -6,13 +6,13 @@ const postLogin = async (user: FormData, dispatch: any) => {
     //So, useDispatch passed from parameter dispatch
 
     dispatch(loginRequest());
-        await axios.post("http://25.12.74.132:8080/member/login",
+        await axios.post("http://172.18.0.2:8080/member/login",
             user,
             {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    'Access-Control-Allow-Origin': 'http://25.12.74.132:8080',
+                    'Access-Control-Allow-Origin': 'http://172.18.0.2:8080',
                 },
                 transformRequest: (data, headers) => {
                     return data;
