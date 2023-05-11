@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
 import getGoogleSignin from "../model/User/getGoogleSignin";
 import Config from "react-native-config";
+import { setSocialToken } from "../model/User/slice/loginSlice";
 /**
  * 
  * @param toAnimal : navigate function to animal page
@@ -16,14 +17,11 @@ import Config from "react-native-config";
 const SocialLoginComponent = ({toAnimal, toSignup}) => {
     
     const dispatch = useDispatch();
-    console.log(`${Config.GOOGLE_OAUTH}`)
     //google oauth server client id
     GoogleSignin.configure({
         webClientId: `${Config.GOOGLE_OAUTH}`,
         offlineAccess: true
-        
     });
-    
     //useSelector is declared
     //if user or token value is chaged, immediately applied
     const user = useSelector((state: RootState) => state.memberData.userData);
@@ -35,10 +33,15 @@ const SocialLoginComponent = ({toAnimal, toSignup}) => {
             await GoogleSignin.hasPlayServices
                 ({ showPlayServicesUpdateDialog: true });
             //google oauth
-            //return value is google infomation
+            //return value is google infomation(authcode include)
             const userInfo = await GoogleSignin.signIn();
+
+            //tokens : idToken, accessToken
+            const tokens = await GoogleSignin.getTokens();
+            dispatch(setSocialToken(tokens));
+
             //get accessToken from Spring Server
-            const isSigned = await getGoogleSignin(userInfo, dispatch, user);
+            const isSigned = await getGoogleSignin(tokens, dispatch, userInfo);
             console.log(isSigned);
             if(isSigned === 201){
                 console.log('not Signed');
