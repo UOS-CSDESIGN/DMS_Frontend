@@ -12,9 +12,9 @@ import { setSocialToken } from "../model/User/slice/loginSlice";
  * 
  * @param toAnimal : navigate function to animal page
  * @param toSignup : navigate function to signup page
- * @returns Google singup Buuton JSX
+ * @returns Google singup Button JSX
  */
-const SocialLoginComponent = ({toAnimal, toSignup}) => {
+const SocialLoginComponent = ({toAnimal, toSignup} : any) => {
     
     const dispatch = useDispatch();
     //google oauth server client id
@@ -89,7 +89,7 @@ const SocialLoginComponent = ({toAnimal, toSignup}) => {
         </View>
     );
 }
-export default SocialLoginComponent;
+
 const styles = StyleSheet.create({
     socialLoginButton : {
         marginTop : 20,
@@ -102,3 +102,5 @@ const styles = StyleSheet.create({
         height : 48,
       },
 })
+
+export default SocialLoginComponent;
