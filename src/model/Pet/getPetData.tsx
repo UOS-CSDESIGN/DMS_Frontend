@@ -2,13 +2,15 @@ import { getPetDataFailure, getPetDataRequest, getPetDataSuccess } from "./slice
 import axios from "axios";
 import Pet from "./Pet";
 import petDataMapper from "./mapper/petDataMapper";
+import Config from "react-native-config";
 
 const getPetData = async (dispatch:any, token:any) => {
         
     const bearer = `Bearer ${JSON.parse(token)}`;
     dispatch(getPetDataRequest());
 
-    await axios.get("http://25.12.74.132:8080/pet/getPetList",
+    const url = `${Config.SPRING_API}/pet/getPetList`;
+    await axios.get(url,
         {
             headers: {
                 Authorization: bearer,
