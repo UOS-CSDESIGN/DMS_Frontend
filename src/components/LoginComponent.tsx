@@ -7,17 +7,11 @@ import {
   TextInput,
   View,
   ActivityIndicator,
-  Linking,
-  Image
 } from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
-import axios, {AxiosError} from 'axios';
-import SignUp from './SignUpComponent';
 import CheckBox from '@react-native-community/checkbox';
-import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import User from '../model/User/User';
 import postLogin from '../model/User/postLogin';
 import { useDispatch, useSelector } from 'react-redux';
 import getMemberData from '../model/User/getMemberData';
@@ -25,6 +19,7 @@ import { RootState } from '../model';
 import SocialLoginComponent from './SocialLoginComponent';
 import postPetRegister from '../model/Pet/postPetRegister';
 import Pet from '../model/Pet/Pet';
+import getPetData from '../model/Pet/getPetData';
 
 
 
@@ -83,7 +78,7 @@ function Login({navigation}: LogInScreenProps){
     navigation.navigate('MultiProfile')
   }, [navigation]);
   const toMyPage = useCallback(() => {
-    navigation.navigate('MyPage');
+    getPetData(dispatch, token);
   }, [navigation]);
 
   const petRegister = useCallback(() => {
@@ -164,12 +159,12 @@ function Login({navigation}: LogInScreenProps){
       
       <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialGoogle} />
       
-      {/* <View style={styles.buttonZone}>
+      <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
           onPress={toMyPage}>
           <Text style={styles.loginButtonText}>버튼</Text>
         </Pressable>
-      </View> */}
+      </View> 
       <View style={styles.buttonZone}>
         <Pressable style={styles.loginButton}
           onPress={toAnimal}>
