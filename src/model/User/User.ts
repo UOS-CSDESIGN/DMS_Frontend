@@ -1,5 +1,3 @@
-import { List } from "reselect/es/types";
-
 class User{
     userId: string;
     username: string;
@@ -59,14 +57,12 @@ class User{
         data.append("imageUrl", this.imageUrl);
         data.append("imageName", this.imageName);
 
-        if (!(this.imageUrl === "" || this.imageName ==="")) {
-            file = {
-                uri: this.imageUrl,
-                type: 'multipart/form-data',
-                name: this.imageName
-            }
-            data.append("memberImage", file);
+        file = {
+            uri: this.imageUrl,
+            type: 'multipart/form-data',
+            name: this.imageName
         }
+        data.append("memberImage", file);
         
         return data;
     }
