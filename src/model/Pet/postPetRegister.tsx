@@ -22,14 +22,14 @@ const postPetRegister = async (pet: Pet, dispatch: any, token:any) => {
         //getPetData(dispatch, token);
         console.log("success post pet data");
         console.log(res.data);
+        return Promise.resolve();
 
     }).catch((error: AxiosError) => {
         dispatch(postPetDataFailure());
         console.log("failed post pet data");
         console.log(error);
         console.log(error.message);
-        
-        throw error;
+        return Promise.reject();
     });
 };
 

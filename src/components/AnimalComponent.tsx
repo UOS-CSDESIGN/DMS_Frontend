@@ -86,13 +86,20 @@ function Animal({ navigation }: AnimalScreenProps) {
   const dispatch = useDispatch();
   const token = useSelector((state:RootState)=>state.login.accessToken)
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     console.log(breed);
     const pet = new Pet(
       Number(animalID), name, birth, gender, 1,
       0, 0, 0, imageUrl, imageName
     );
-    postPetRegister(pet, dispatch,token);
+    await postPetRegister(pet, dispatch, token)
+      .then(() => {
+        navigation.navigate('MultiProfile');
+      })
+      .catch(() => {
+        navigation.navigate('Animal');
+      });
+
     console.log(pet.registerFormData);
   }, [animalID, name, birth, gender, breed, weight, imageUrl, imageName]);
 
