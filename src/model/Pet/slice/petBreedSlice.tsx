@@ -15,6 +15,7 @@ const petBreedSlice = createSlice({
             state.List = action.payload.map((item: any) => (
                 item.breedName
             ));
+            console.log(state.List);
         },
         getBreedFailure: (state) => {
             state.loading = false;

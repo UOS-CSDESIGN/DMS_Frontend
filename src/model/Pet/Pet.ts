@@ -49,16 +49,14 @@ class Pet{
         data.append("weight", this.weight);
         //petImage(multipart/form-data)
         //profileImage
-        if (!(this.petPicUrl === "" || this.petPicName === "")) {
-            file = {
-                uri: this.petPicUrl,
-                type: 'multipart/form-data',
-                name: this.petPicName,
-            }
-            console.log(file);
-            //key value may be changed
-            data.append("petDogImage", file);
+        file = {
+            uri: this.petPicUrl,
+            type: 'multipart/form-data',
+            name: this.petPicName,
         }
+        console.log(file);
+        //key value may be changed
+        data.append("petDogImage", file);
         return data;
     }
 }
