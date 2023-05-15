@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator, DrawerToggleButton} from '@react-navigation/drawer'
 import {useState} from 'react';
 import Login from './components/LoginComponent';
 import SignUp from './components/SignUpComponent';
@@ -11,7 +11,9 @@ import Animal from './components/AnimalComponent';
 import SocialGoogle from './components/socialGoogle';
 import Find from './components/FindComponent';
 import MultiProfile from './components/MultiProfileComponent';
-import Obesity from './components/ObesityComponent';
+import ObesityPage from './pages/obesityPage';
+import { Pressable } from 'react-native';
+import {Text} from 'react-native'
 
 
 export type RootStackParamList = {
@@ -25,59 +27,114 @@ export type RootStackParamList = {
   MultiProfile : undefined;
   Shop : undefined;
   Community : undefined;
-  Obesity : undefined;
+  ObesityPage : undefined;
   MapPage : undefined;
+  navbar : undefined;
 };
 
-const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const Drawer = createDrawerNavigator();
+
+const option = {
+  headerLeft : () => null,
+  headerRight : () => <DrawerButton/>,
+  headerBackVisible : true 
+}
+
+
+
+function DrawerButton(){
+  return(
+    <Pressable onPress = {MainDrawerNavigator}>
+      <Text>메뉴</Text>
+    </Pressable>
+  )
+}
+
+
+function MainStackNavigator(){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{...option}}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{...option}}
+      />
+      <Stack.Screen
+        name = "MyPage"
+        component = {MyPage}
+        options={{...option}}
+      />
+      <Stack.Screen
+        name = "Animal"
+        component = {Animal}
+        options={{...option}}
+        />
+      <Stack.Screen
+        name = "Main"
+        component = {Main}
+        options={{
+          headerLeft : () => null,
+          headerRight : () => <DrawerToggleButton/>,
+          headerBackVisible : true }}/>
+      <Stack.Screen
+        name = "SocialGoogle"
+        component = {SocialGoogle}
+        options={{
+          headerLeft : () => null,
+          headerRight : () => <DrawerToggleButton/>,
+          headerBackVisible : true }}/>
+      <Stack.Screen
+        name = "Find"
+        component = {Find}
+        options={{
+          headerLeft : () => null,
+          headerRight : () => <DrawerToggleButton/>,
+          headerBackVisible : true }}/>
+      <Stack.Screen
+        name = "MultiProfile"
+        component = {MultiProfile}
+        options={{
+          headerLeft : () => null,
+          headerRight : () => <DrawerToggleButton/>,
+          headerBackVisible : true }}/>
+      <Stack.Screen
+        name = "ObesityPage"
+        component = {ObesityPage}
+        options={{
+          headerLeft : () => null,
+          headerRight : () => <DrawerToggleButton/>,
+          headerBackVisible : true }}/>
+  </Stack.Navigator>
+  )
+}
+
+
+
+function MainDrawerNavigator(){
+  return(
+    <Drawer.Navigator
+     backBehavior="history"
+     screenOptions={{
+      drawerPosition : 'right',
+      headerShown : false,
+     }}>
+      <Drawer.Screen name = "MyPage" component={MyPage}/>
+      {/* <Drawer.Screen name = "ObesityPage" component={ObesityPage}/> */}
+
+    </Drawer.Navigator>
+  )
+}
 
 function AppInner() {
-  const [isLoggedIn, setLoggedIn] = useState(false);
   return (
     <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{title: '로그인'}}
-          />
-          <Stack.Screen
-            name="SignUp"
-            component={SignUp}
-            options={{title: '회원가입'}}
-          />
-          <Stack.Screen
-            name = "MyPage"
-            component = {MyPage}
-            options = {{title : '마이페이지'}}
-          />
-          <Stack.Screen
-            name = "Animal"
-            component = {Animal}
-            options = {{title : '애완견'}}
-            />
-          <Stack.Screen
-            name = "Main"
-            component = {Main}
-            options = {{title : '메인페이지'}}/>
-          <Stack.Screen
-            name = "SocialGoogle"
-            component = {SocialGoogle}
-            options = {{title : '구글로그인'}}/>
-          <Stack.Screen
-            name = "Find"
-            component = {Find}
-            options = {{title : '아이디 · 비밀번호 찾기'}}/>
-          <Stack.Screen
-            name = "MultiProfile"
-            component = {MultiProfile}
-            options = {{title : '멀티프로필'}}/>
-          <Stack.Screen
-            name = "Obesity"
-            component = {Obesity}
-            options = {{title : '비만도'}}/>
-        </Stack.Navigator>
+      <MainStackNavigator/>
     </NavigationContainer>
   );
 }
