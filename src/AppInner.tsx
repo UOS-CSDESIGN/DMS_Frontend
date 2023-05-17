@@ -2,7 +2,7 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 import LoginPage from './pages/loginPage';
 import SignUpPage from './pages/signUpPage';
 import Main from './components/mainComponent';
@@ -39,6 +39,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function AppInner() {
   const [isLoggedIn, setLoggedIn] = useState(false);
+  
   return (
     <NavigationContainer>
       {isLoggedIn ? (
