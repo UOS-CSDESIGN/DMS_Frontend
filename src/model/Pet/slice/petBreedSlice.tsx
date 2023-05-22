@@ -3,8 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const petBreedSlice = createSlice({
     name: "petBreed",
     initialState: {
-        petBreed: [],
-        currentPage: 0,
+        List: [],
         loading: false,
     },
     reducers: {
@@ -13,8 +12,10 @@ const petBreedSlice = createSlice({
         },
         getBreedSuccess: (state, action) => {
             state.loading = false;
-            state.petBreed = state.petBreed.concat(action.payload.breedList);
-            state.currentPage = action.payload.currentPage + 1;
+            state.List = action.payload.map((item: any) => (
+                item.breedName
+            ));
+            console.log(state.List);
         },
         getBreedFailure: (state) => {
             state.loading = false;

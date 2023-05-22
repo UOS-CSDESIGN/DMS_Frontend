@@ -1,12 +1,15 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useCallback, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import Swiper from "react-native-swiper";
+import Swiper from 'react-native-swiper';
 import { RootStackParamList } from "../AppInner";
 import Main from "./mainComponent";
 import Animal from "./AnimalComponent";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { Dimensions} from "react-native";
+
+const height = Dimensions.get('screen').height;
 
 type MultiProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'MultiProfile'>;
 
@@ -28,12 +31,11 @@ function MultiProfile({navigation} : MultiProfileScreenProps){
     const toAnimal = useCallback(() =>{
       navigation.navigate('Animal');
     }, [navigation]);
-
-    const [index, setIndex] = useState<number>(4);
+    const [index, setIndex] = useState<number>(2);
     const views = [];
     for(let i = 1; i<index;i++){
-        views.push(<Main 
-           key = {i}/>)
+        views.push(<Main key = {i}/>)
+
     }
     views.push(
       <View
@@ -50,7 +52,9 @@ function MultiProfile({navigation} : MultiProfileScreenProps){
     ); 
 
     return(
-        <Swiper loop = {false}>
+        <Swiper
+         loop = {false}
+         showsPagination = {false}>
             {views}
         </Swiper>
     )

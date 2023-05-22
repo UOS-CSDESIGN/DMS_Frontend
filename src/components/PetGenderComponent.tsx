@@ -6,49 +6,49 @@ type GenderProps = {
     onGenderChange : (gender : number) => void;
 }
 
-function GenderComponent({onGenderChange} : GenderProps){
-    const [etc, setEtc] = useState(false);
+function PetGenderComponent({onGenderChange} : GenderProps){
     const [male, setMale] = useState(false);
     const [female, setFemale] = useState(false);
-    const onChangeEtc = useCallback(() => {
-        setEtc(true);
-        setMale(false);
-        setFemale(false);
-        onGenderChange(0);
-    }, [])
+    const [neutral, setNeutral] = useState(false);
     const onChangeMale = useCallback(() => {
         setMale(true);
         setFemale(false);
-        setEtc(false);
+        setNeutral(false);
         onGenderChange(1);
     }, [])
     const onChangeFemale = useCallback(() => {
         setFemale(true);
         setMale(false);
-        setEtc(false);
+        setNeutral(false);
         onGenderChange(2);
+    }, [])
+    const onChangeNeutral = useCallback(() => {
+        setNeutral(true);
+        setMale(false);
+        setFemale(false);
+        onGenderChange(0);
     }, [])
     
     return(
         <View style = {styles.genderBox}>
             <CheckBox
                 disabled = {false}
-                value = {etc}
-                onValueChange = {onChangeEtc}
-            />
-            <Text style = {styles.gender}>기타</Text>
-            <CheckBox
-                disabled = {false}
                 value = {male}
                 onValueChange= {onChangeMale}
             />
-            <Text style = {styles.gender}>남성</Text>
+            <Text style = {styles.gender}>수컷</Text>
             <CheckBox
                 disabled = {false}
                 value = {female}
                 onValueChange = {onChangeFemale}
             />
-            <Text style = {styles.gender}>여성</Text>
+            <Text style = {styles.gender}>암컷</Text>
+            <CheckBox
+                disabled = {false}
+                value = {neutral}
+                onValueChange = {onChangeNeutral}
+            />
+            <Text style = {styles.gender}>중성</Text>
         </View>
     )
 }
@@ -62,4 +62,4 @@ const styles = ({
     }
 })
 
-export default GenderComponent;
+export default PetGenderComponent;

@@ -1,4 +1,6 @@
-class image {
+
+class PetImage {
+
     id: number;
     uuid: string;
     fileName: string;
@@ -27,4 +29,4 @@ class image {
         });
     }
 }
-export default image;
+export default PetImage;

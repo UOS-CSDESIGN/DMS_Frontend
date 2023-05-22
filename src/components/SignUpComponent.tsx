@@ -1,7 +1,5 @@
-import React, {useCallback, useState} from 'react';
+import React from 'react';
 import {
-  Alert,
-  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -9,251 +7,182 @@ import {
   View,
   ScrollView,
   Image,
+  Keyboard
 } from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import { RootStackParamList } from '../AppInner';
 import Picture from './PictureComponent';
-import User from '../model/User/User';
 import GenderComponent from './genderComponent';
-import { useDispatch } from 'react-redux';
-import postSignup from '../model/User/postSignup';
 import ZipCode from './ZipCodeComponent';
 import BirthComponent from './BirthComponent';
 
+interface SignUpProps {
+  userId : string;
+  password : string;
+  passwordConfirm : string;
+  username : string;
+  nickname : string;
+  gender : number;
+  birth : string;
+  email : string;
+  phoneNo : string;
+  zipcode : string;
+  street : string;
+  addressDetail : string;
+  imageUrl : string;
+  imageName : string;
+  canGoNext : boolean;
+  onChangeUserId : (text : string) => void;
+  onChangePassword : (text : string) => void;
+  onChangePasswordConfirm : (text : string) => void;
+  onChangeUsername : (text : string) => void;
+  onChangeNickname : (text : string) => void;
+  onChangeGender : (gender : number) => void;
+  onChangeBirth : (text : string) => void;
+  onChangeEmail : (text : string) => void;
+  onChangePhoneNo : (text : string) => void;
+  onChangeZipCode : (address : {
+    zonecode : string,
+    street : string }) => void;
+  onChangeAddressDetail : (text : string) => void;
+  onChangeImage : (text : string) => void;
+}
 
-type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
-
-function SignUp({navigation}: SignUpScreenProps) {
-  const [loading, setLoading] = useState(false);
-  const [userId, setUserId] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [passwordconfirm, setPasswordconfirm] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
-  const [nickname, setNickname] = useState<string>('');
-  const [gender, setGender] = useState<number>(0);
-  const [birth, setBirth] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [phoneNo, setPhoneNo] = useState<string>('');
-  const [zipcode, setZipcode] = useState<string>('');
-  const [street, setStreet] = useState<string>('');
-  const [addressDetail, setAddressDetail] = useState<string>('');
-  const [provider, setProvider] = useState<string>('');
-  const [imageUrl, setImageUrl] = useState<string>('');
-  const [imageName, setImageName] = useState<string>('');
-
-  const dispatch = useDispatch();
-  
-
-  const onChangeUserId = useCallback((text:string) => {
-    setUserId(text.trim());
-  }, []);
-  const onChangePassword = useCallback((text:string) => {
-    setPassword(text.trim());
-  }, []);
-  const onChangePasswordConfirm = useCallback((text:string) =>{
-    setPasswordconfirm(text.trim());
-  }, []);
-  const onChangeUsername = useCallback((text : string) => {
-    setUsername(text.trim());
-  }, []);
-  const onChangeNickname = useCallback((text:string) => {
-    setNickname(text.trim());
-  }, []);
-  const onChangeGender = useCallback((gender : number) =>{
-    setGender(gender);
-    console.log(gender);
-  }, [])
-  const onChangeBirth = useCallback((date : string) => {
-    setBirth(date);
-    console.log(birth);
-  }, []);
-  const onChangeEmail = useCallback((text:string) => {
-    setEmail(text.trim());
-  }, []);
-  const onChangePhoneNo = useCallback((text:string)=> {
-    setPhoneNo(text.trim());
-  }, []);
-  const onChangeZipCode = useCallback((address : {zonecode : string, street : string})=> {
-    setZipcode(address.zonecode);
-    setStreet(address.street);
-  }, [zipcode, street]);
-  const onChangeDetailAddress = useCallback((text:string)=>{
-    setAddressDetail(text.trim())
-  }, []);
-  const onChangeImage = useCallback((selectedImage : any)=>{
-    if (selectedImage!==null) {
-      setImageUrl(selectedImage);
-      if(imageUrl!==undefined){
-        const tempName = imageUrl.split("/").pop();
-        setImageName(tempName || '');
-      }
-    } else {
-      console.log('Selected image does not have assets');
-    }
-  },[imageUrl, imageName]);
-
-  const [token, setToken] = useState('');
-  const onSubmit = useCallback(async () => { 
-    const user  = new User(
-      userId, username, password, nickname, gender, birth, email, phoneNo, false, zipcode, 
-      street, addressDetail, provider, imageUrl, imageName
-    );
-    /*
-    if (
-      !/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(
-        userId,
-      )
-    ) {
-      return Alert.alert('알림', '올바른 아이디 형식이 아닙니다.');
-    }
-    if (!/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@^!%*#?&]).{8,50}$/.test(password)) {
-      return Alert.alert(
-        '알림',
-        '비밀번호는 영문,숫자,특수문자($@^!%*#?&)를 모두 포함하여 8자 이상 입력해야합니다.',
-      );
-    }*/
-    postSignup(user, dispatch);
-  }, [navigation, userId, username, password, nickname, gender, birth, email, false, phoneNo, zipcode, street, addressDetail, imageUrl, imageName]);
-
-  const canGoNext = userId && password && nickname && email && phoneNo && zipcode && street && addressDetail;
+function SignUp(props : SignUpProps) {
   return (
     <ScrollView style = {styles.SignUpPage}>
       <View style={styles.wrapper}>
         <Text style={styles.text}>아이디</Text>
         <TextInput
           style={styles.textInput}
-          onChangeText={onChangeUserId}
+          onChangeText={props.onChangeUserId}
           placeholder="아이디"
           placeholderTextColor="#666"
-          value={userId}
+          value={props.userId}
           returnKeyType="next"
           clearButtonMode="while-editing"
           blurOnSubmit={false}
-        />
+          onSubmitEditing={()=>Keyboard.dismiss()}/>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>이름</Text>
         <TextInput
           style = {styles.textInput}
-          onChangeText = {onChangeUsername}
+          onChangeText = {props.onChangeUsername}
           placeholder = "이름"
           placeholderTextColor = "#666"
-          value = {username}
+          value = {props.username}
           returnKeyType = "next"
           clearButtonMode = "while-editing"
-          blurOnSubmit = {false}/>
+          blurOnSubmit = {false}
+          onSubmitEditing={()=>Keyboard.dismiss()}/>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>비밀번호</Text>
         <TextInput
           style = {styles.textInput}
-          onChangeText = {onChangePassword}
+          onChangeText = {props.onChangePassword}
           placeholder = "비밀번호"
           placeholderTextColor = "#666"
           secureTextEntry = {true}
-          value = {password}
+          value = {props.password}
           returnKeyType = "next"
           clearButtonMode = "while-editing"
-          blurOnSubmit = {false}/>
+          blurOnSubmit = {false}
+          onSubmitEditing={()=>Keyboard.dismiss()}/>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>비밀번호 확인</Text>
         <TextInput
           style = {styles.textInput}
-          onChangeText = {onChangePasswordConfirm}
+          onChangeText = {props.onChangePasswordConfirm}
           secureTextEntry = {true}
-          value = {passwordconfirm}
+          value = {props.passwordConfirm}
           returnKeyType = "next"
           clearButtonMode = "while-editing"
-          blurOnSubmit = {false}/>
+          blurOnSubmit = {false}
+          onSubmitEditing={()=>Keyboard.dismiss()}/>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>별명</Text>
         <TextInput
           style = {styles.textInput}
-          onChangeText = {onChangeNickname}
+          onChangeText = {props.onChangeNickname}
           placeholder = "별명"
           placeholderTextColor = "#666"
-          value = {nickname}
+          value = {props.nickname}
           returnKeyType = "next"
           clearButtonMode = "while-editing"
-          blurOnSubmit = {false}/>
+          blurOnSubmit = {false}
+          onSubmitEditing={()=>Keyboard.dismiss()}/>
       </View>
       <View style = {styles.wrapperGender}>
         <Text style = {styles.text}>성별</Text>
-        <GenderComponent onGenderChange = {onChangeGender}/>
+        <GenderComponent onGenderChange = {props.onChangeGender}/>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>생년월일</Text>
         <View style = {styles.wrapperComponent}>
-          <Text style = {[styles.data, {paddingRight : birth ? 15 : 0}]}>생일 : {birth} </Text>
-          <BirthComponent onBirthSelected={onChangeBirth}/>
+          <Text style = {[styles.data, {paddingRight : props.birth ? 15 : 0}]}>생일 : {props.birth} </Text>
+          <BirthComponent onBirthSelected={props.onChangeBirth}/>
         </View>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>이메일</Text>
         <TextInput
           style = {styles.textInput}
-          onChangeText = {onChangeEmail}
+          onChangeText = {props.onChangeEmail}
           placeholder= '이메일'
           placeholderTextColor = "#666"
-          value = {email}
+          value = {props.email}
           returnKeyType = "next"
           clearButtonMode = "while-editing"
           keyboardType = "email-address"
-          blurOnSubmit = {false}/>
+          blurOnSubmit = {false}
+          onSubmitEditing={()=>Keyboard.dismiss()}/>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>전화번호</Text>
         <TextInput
           style = {styles.textInput}
-          onChangeText = {onChangePhoneNo}
+          onChangeText = {props.onChangePhoneNo}
           placeholder = "- 없이 입력"
           placeholderTextColor = "#666"
-          value = {phoneNo}
+          value = {props.phoneNo}
           returnKeyType = "next"
           clearButtonMode = "while-editing"
           blurOnSubmit = {false}
-          keyboardType = "number-pad"/>
+          keyboardType = "number-pad"
+          onSubmitEditing={()=>Keyboard.dismiss()}/>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>우편번호</Text>
         <View style = {styles.wrapperComponent}>
-        <Text style={[styles.value, { paddingRight: zipcode ? 15 : 0 }]}>우편번호 : {zipcode}</Text>
-          <ZipCode onAddressSelected={onChangeZipCode}/>
+        <Text style={[styles.value, { paddingRight: props.zipcode ? 15 : 0 }]}>우편번호 : {props.zipcode}</Text>
+          <ZipCode onAddressSelected={props.onChangeZipCode}/>
         </View>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>주소</Text>
-        <Text>주소 : {street}</Text>
+        <Text>주소 : {props.street}</Text>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>상세주소</Text>
         <TextInput
           style = {styles.textInput}
-          onChangeText = {onChangeDetailAddress}
+          onChangeText = {props.onChangeAddressDetail}
           placeholder = "상세주소"
           placeholderTextColor = "#666"
-          value = {addressDetail}
+          value = {props.addressDetail}
           clearButtonMode = "while-editing"
-          blurOnSubmit = {false}/>
+          blurOnSubmit = {false}
+          onSubmitEditing={()=>Keyboard.dismiss()}/>
       </View>
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>사진</Text>
-        <Picture onPictureSelected = {onChangeImage}/>
-        {imageUrl ? <Image 
-        source = {{uri : imageUrl}}
+        <Picture onPictureSelected = {props.onChangeImage}/>
+        {props.imageUrl ? <Image 
+        source = {{uri : props.imageUrl}}
         style = {styles.image}/> : null}
-      </View>
-      <View style = {styles.button}>
-        <Pressable
-          style = {canGoNext ? StyleSheet.compose(styles.signUpButton, styles.signUpButtonActive)
-          : styles.signUpButton}
-          //disabled = {!canGoNext || loading}
-          onPress = {onSubmit}>
-         <Text style = {styles.signUpButtonText}>회원가입하기</Text>
-        </Pressable>
       </View>
     </ScrollView>
   );
@@ -283,9 +212,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     paddingTop : 3,
-  },
-  button : {
-    alignItems : 'center',
   },
   birthButton : {
     marginLeft : 5,
@@ -318,20 +244,6 @@ const styles = StyleSheet.create({
   data : {
     color : 'black',
     justifyContent : 'center',
-  },
-  signUpButton : {
-    backgroundColor : 'gray',
-    paddingHorizontal : 20,
-    paddingVertical : 10,
-    borderRadius : 5,
-    marginBottom : 10,
-  },
-  signUpButtonActive:{
-    backgroundColor : 'blue',
-  },
-  signUpButtonText:{
-    color : 'white',
-    fontSize : 16,
   },
   image : {
     width : 200,

@@ -1,30 +1,30 @@
 import {
-    GoogleSignin, User, statusCodes,
+    GoogleSignin, statusCodes,
     GoogleSigninButton
 } from "@react-native-google-signin/google-signin";
-import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
-import postSocialSignin from "../model/User/getGoogleSignin";
-
-const SocialLoginComponent = ({navigation}) => {
-    GoogleSignin.configure({
-        webClientId: '984908362495-kolhf54om4me453ha1gnl7u4thcqlp20.apps.googleusercontent.com',
-        offlineAccess: true
-
-    });
+import getGoogleSignin from "../model/User/getGoogleSignin";
+import Config from "react-native-config";
+import { setSocialToken } from "../model/User/slice/loginSlice";
+/**
+ * 
+ * @param toAnimal : navigate function to animal page
+ * @param toSignup : navigate function to signup page
+ * @returns Google singup Button JSX
+ */
+const SocialLoginComponent = ({toAnimal, toSignup} : any) => {
+    
     const dispatch = useDispatch();
-
+    //google oauth server client id
+    GoogleSignin.configure({
+        webClientId: `${Config.GOOGLE_OAUTH}`,
+        offlineAccess: true
+    });
     //useSelector is declared
     //if user or token value is chaged, immediately applied
-    const { user, token } = useSelector((state: RootState) => ({
-            user: state.memberData.userData,
-            token: state.login.accessToken,
-        }));
-    useEffect(() => {
-        console.log(`changed token : ${token}`);
-    }, [token]);
+    const user = useSelector((state: RootState) => state.memberData.userData);
 
     const googleSignin = async () => {
         try {
@@ -33,11 +33,26 @@ const SocialLoginComponent = ({navigation}) => {
             await GoogleSignin.hasPlayServices
                 ({ showPlayServicesUpdateDialog: true });
             //google oauth
-            //return value is google infomation
+            //return value is google infomation(authcode include)
             const userInfo = await GoogleSignin.signIn();
-            console.log(token);
+
+            //tokens : idToken, accessToken
+            const tokens = await GoogleSignin.getTokens();
+            dispatch(setSocialToken(tokens));
+
             //get accessToken from Spring Server
-            postSocialSignin(userInfo, dispatch, user, token, navigation);
+            const isSigned = await getGoogleSignin(tokens, dispatch, userInfo);
+            console.log(isSigned);
+            if(isSigned === 201){
+                console.log('not Signed');
+                toSignup();
+            } else if(isSigned === 200){
+                console.log('signed');
+                toAnimal();
+            } else if (isSigned === 202) {
+                //alert
+                //gmail already exist. So, Link account to Google Social
+            }
         }
         catch (error:any) {
             //GoogleSignin error catch
@@ -74,7 +89,7 @@ const SocialLoginComponent = ({navigation}) => {
         </View>
     );
 }
-export default SocialLoginComponent;
+
 const styles = StyleSheet.create({
     socialLoginButton : {
         marginTop : 20,
@@ -87,3 +102,5 @@ const styles = StyleSheet.create({
         height : 48,
       },
 })
+
+export default SocialLoginComponent;

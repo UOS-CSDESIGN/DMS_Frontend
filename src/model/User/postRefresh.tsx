@@ -1,32 +1,59 @@
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from ".."
-import axios, { AxiosResponse } from 'axios';
-import { loginFailure, loginSuccess } from "./slice/loginSlice";
+import axios, { AxiosError } from 'axios';
+import { refreshFailure, refreshRequest, refreshSuccess } from "./slice/loginSlice";
+import Config from "react-native-config";
+import jwt_decode from "jwt-decode";
+import moment from "moment";
 
-const postRefresh = async () => {
-    //const refresh = useSelector((state: RootState) => state.login.refreshToken);
-    const access = useSelector((state: RootState) => state.login.accessToken);
+//insert this function where main page at mounted time
+//follow format
+//axios.interceptors.request.use(postRefresh(params));
+const postRefresh = async (dispatch: any, accessToken:string, refreshToken:string, exp: number) => {
+    dispatch(refreshRequest());
+    const url = `${Config.SPRING_API}/api/refreshToken`
+    const bearer = `Bearer ${JSON.parse(refreshToken)}`;
 
-    const dispatch = useDispatch();
+    const currTime = new Date();
+    const utc = currTime.getTime() +
+        (currTime.getTimezoneOffset() * 60 * 1000);
+    const expTime = new Date(utc + (9 * 60 * 60 * 1000) + exp / 1000);
 
-    try {
-        const res: AxiosResponse = await axios.post("http://25.15.132.100:8080/api/refershToken",
-            {
-                //refreshToken: refresh,
-                accessToken: access
-            },//여기가 json형태로 바꾸든, 아니면 헤더에 넣든 해야될듯...
+    if (moment(expTime).diff(moment()) < 100) {
+        console.log("token refresh occured");
+        
+        await axios.post(url,
+            accessToken,
             {
                 withCredentials: true,
                 headers: {
-                    'Access-Control-Allow-Origin': 'http://25.15.132.100:8080',
-                    
-                },
-            }
-        )
-        dispatch((loginSuccess(res)));
-    } catch (e) {
-        dispatch(loginFailure());
-        throw e;
+                    'Access-Control-Allow-Origin': `${Config.SPRING_API}`,
+                    Authorization: bearer,
+                }
+            },
+        ).then((res) => {
+            const auth = res.headers.authorization.substring(7);
+            const data = jwt_decode(auth);
+        
+            const currTime = new Date();
+            const utc = currTime.getTime() +
+                (currTime.getTimezoneOffset() * 60 * 1000);
+            //utc + (9*60*60*1000) == korean locale
+            const exp = new Date(utc + (9 * 60 * 60 * 1000) + data.exp / 1000);
+        
+            const refresh = res.headers["set-cookie"]?.toString().split(";");
+            const loginInfo = {
+                accessToken: auth,
+                refreshToken: refresh[0].substring(14),
+                exp: exp.getTime(),
+            };
+            dispatch(refreshSuccess(loginInfo));
+        
+            return Promise.resolve(0);
+        }).catch((error: AxiosError) => {
+            dispatch(refreshFailure());
+            console.log("refresh error");
+            console.log(error);
+            return Promise.reject(1);
+        });
     }
 };
 export default postRefresh;

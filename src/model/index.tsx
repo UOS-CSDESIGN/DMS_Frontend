@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import loginReducer from './User/slice/loginSlice';
 import signupReducer from './User/slice/signupSlice';
 import memberDataReducer from './User/slice/memberDataSlice';
+import petBreedReducer from './Pet/slice/petBreedSlice';
 import petDataReducer from './Pet/slice/petDataSlice';
 import petObesityReducer from './PetObesity/slice/petObesitySlice';
 
@@ -12,6 +13,7 @@ export const store = configureStore({
         memberData: memberDataReducer,
         petData: petDataReducer,
         petObesityData : petObesityReducer,
+        petBreed: petBreedReducer,
     }
 });
 export type RootState = ReturnType<typeof store.getState>;
