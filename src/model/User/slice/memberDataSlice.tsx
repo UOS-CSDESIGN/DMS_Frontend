@@ -13,6 +13,7 @@ const memberDataSlice = createSlice({
             isSocial: false,
             zipcode: "",
             gender:0,
+            provider : "",
             street: "",
             addressDetail: "",
             imageUrl: "",
@@ -33,13 +34,13 @@ const memberDataSlice = createSlice({
                 birth: action.payload.birth,
                 email: action.payload.email,
                 phoneNo: action.payload.phoneNo,
-                isSocial: action.payload.isSocial,
+                isSocial: action.payload.social,
                 provider: action.payload.provider,
                 zipcode: action.payload.zipcode,
                 street: action.payload.street,
                 addressDetail: action.payload.addressDetail,
-                imageUrl: action.payload.imageUrl,
-                imageName: action.payload.imageName,
+                imageUrl: action.payload.memberImage.fileUrl,
+                imageName: action.payload.memberImage.fileName,
                 gender:action.payload.gender,
             };
         },
@@ -69,6 +70,31 @@ const memberDataSlice = createSlice({
         },
         postMemberDataFailure: (state) => {
             state.loading = false;
+        },
+        deleteMemberDataRequest: (state) => {
+            state.loading = true;
+        },
+        deleteMemberDataSuccess: (state, action) => {
+            state.userData = {
+                userId: "",
+                username: "",
+                nickname: "",
+                birth: "",
+                email: "",
+                phoneNo: "",
+                isSocial: false,
+                provider: "",
+                zipcode: "",
+                street: "",
+                addressDetail: "",
+                imageUrl: "",
+                imageName: "",
+                gender: 0,
+            };
+            state.loading = false;
+        },
+        deleteMemberDataFailure: (state) => {
+            state.loading = false;
         }
     }
 });
@@ -79,5 +105,9 @@ export const memberDataFailure = memberDataSlice.actions.memberDataFailure;
 export const postMemberDataRequest = memberDataSlice.actions.postMemberDataRequest;
 export const postMemberDataSuccess = memberDataSlice.actions.postMemberDataSuccess;
 export const postMemberDataFailure = memberDataSlice.actions.postMemberDataFailure;
+
+export const deleteMemberDataRequest = memberDataSlice.actions.deleteMemberDataRequest;
+export const deleteMemberDataSuccess = memberDataSlice.actions.deleteMemberDataSuccess;
+export const deleteMemberDataFailure = memberDataSlice.actions.deleteMemberDataFailure;
 
 export default memberDataSlice.reducer;

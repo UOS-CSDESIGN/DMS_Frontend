@@ -7,14 +7,18 @@ import Config from "react-native-config";
 const postUserModify = async (user: User, token:any) => {
 
     const bearer = `Bearer ${JSON.parse(token)}`;
+    console.log(user);
     const url = `${Config.SPRING_API}/member/modify`
     await axios.post(url,
         user.modifiedData,
         {
             headers: {
                 'Content-type': 'multipart/form-data',
-                'Access-Control-Allow-Origin': "http://25.12.74.132:8080",
+                'Access-Control-Allow-Origin': "http://25.14.225.33:8080",
                 Authorization: bearer,
+            },
+            transformRequest: (data, headers) => {
+                return data;
             },
         }
     ).then((res) => {

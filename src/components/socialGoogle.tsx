@@ -83,7 +83,7 @@ function SocialGoogle({ navigation }: SocialScreenProps) {
     const onSubmit = useCallback(async () => {
         const user = new User(
             memberData.userId, memberData.username, "",
-            nickname, gender, birth, memberData.email, phoneNo, memberData.isSocial, memberData.provider,
+            nickname, gender, birth, memberData.email, phoneNo, memberData.isSocial, "",
             zipcode, street, addressDetail, imageUrl, imageName
         );
         const res = await postUserModify(user, token);

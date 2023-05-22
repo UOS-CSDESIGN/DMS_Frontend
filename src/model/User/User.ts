@@ -1,5 +1,3 @@
-import { List } from "reselect/es/types";
-
 class User{
     userId: string;
     username: string;
@@ -42,31 +40,23 @@ class User{
     get signupData() {
 
         let data: FormData = new FormData();
-        let file = {};
-
+        let file = {
+            uri: this.imageUrl,
+            type: 'multipart/form-data',
+            name: this.imageName
+        }
         data.append("userId", this.userId);
-        data.append("password", this.password);
         data.append("username", this.username);
+        data.append("password", this.password);
         data.append("nickname", this.nickname);
         data.append("gender", this.gender);
         data.append("birth", this.birth);
-        data.append("social", this.social);
         data.append("email", this.email);
         data.append("phoneNo", this.phoneNo);
         data.append("zipcode", this.zipcode);
         data.append("street", this.street);
         data.append("addressDetail", this.addressDetail);
-        data.append("imageUrl", this.imageUrl);
-        data.append("imageName", this.imageName);
-
-        if (!(this.imageUrl === "" || this.imageName ==="")) {
-            file = {
-                uri: this.imageUrl,
-                type: 'multipart/form-data',
-                name: this.imageName
-            }
-            data.append("memberImage", file);
-        }
+        data.append("memberImage", file);
         
         return data;
     }
