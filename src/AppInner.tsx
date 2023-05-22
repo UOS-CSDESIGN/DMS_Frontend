@@ -9,6 +9,9 @@ import Main from './components/mainComponent';
 import SocialMyPage from './components/SocialMyPageComponent';
 import Animal from './components/AnimalComponent';
 import SocialGoogle from './components/socialGoogle';
+import Find from './components/FindComponent';
+import MultiProfile from './components/MultiProfileComponent';
+import Album from './components/AlbumComponent';
 import NonSocialMyPage from './components/NonSocialMyPageComponent';
 import NonSocialWithdrawal from './components/NonSocialWithdrawalComponent';
 import SocialWithdrawal from './components/SocialWithdrawalComponent';
@@ -21,17 +24,21 @@ export type BottomTabParamList = {
 }
 
 export type RootStackParamList = {
+
   LoginPage : undefined;
   SignUpPage : undefined;
   SocialMyPage : undefined;
   NonSocialMyPage : undefined;
   googleSignUp : undefined;
+
   Find : undefined;
   Animal : undefined;
   Main : undefined;
   SocialGoogle : undefined;
+
   NonSocialWithdrawal : undefined;
   SocialWithdrawal : undefined;
+
 };
 
 const Tab = createBottomTabNavigator();
@@ -91,7 +98,6 @@ function AppInner() {
             name = "SocialWithdrawal"
             component = {SocialWithdrawal}
             options = {{title : '소셜회원탈퇴'}}/>
-          
         </Stack.Navigator>
         
       )}

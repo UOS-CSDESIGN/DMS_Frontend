@@ -3,37 +3,41 @@ import { createSlice } from "@reduxjs/toolkit";
 const petDataSlice = createSlice({
     name: "petData",
     initialState: {
-        petData: [{}],
+        petData: [],
         loading: false,
     },
     reducers: {
+        //reducer about get pet data
         getPetDataRequest: (state) => {
             state.loading = true;
         },
         getPetDataSuccess: (state, action) => {
             state.loading = false;
-            
-            state.petData = state.petData.concat({
-                id: action.payload.id,
-                name: action.payload.name,
-                birthdate: action.payload.birthdate,
-                gender: action.payload.gender,
-                breed: action.payload.breed,
-                weight: action.payload.weight,
-                memberId: action.payload.memberId,
-                calorieGoal: action.payload.calorieGoal,
-                petPicUrl: action.payload.petPicUrl,
-                petPicName: action.payload.petPicName,
-                obesity: action.payload.obesity,
-            });
+            state.petData = action.payload.petList;
         },
         getPetDataFailure: (state) => {
+            state.loading = false;
+        },
+
+        //reducer about post pet data
+        postPetDataRequest: (state) => {
+            state.loading = true;
+        },
+        postPetDataSuccess: (state) => {
+            state.loading = false;
+        },
+        postPetDataFailure: (state) => {
             state.loading = false;
         }
     }
 });
+
 export const getPetDataRequest = petDataSlice.actions.getPetDataRequest;
 export const getPetDataSuccess = petDataSlice.actions.getPetDataSuccess;
 export const getPetDataFailure = petDataSlice.actions.getPetDataFailure;
+
+export const postPetDataRequest = petDataSlice.actions.postPetDataRequest;
+export const postPetDataSuccess = petDataSlice.actions.postPetDataSuccess;
+export const postPetDataFailure = petDataSlice.actions.postPetDataFailure;
 
 export default petDataSlice.reducer;

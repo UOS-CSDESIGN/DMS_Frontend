@@ -8,80 +8,55 @@
 //memberId
 //calorieGoal
 //imageUrl & name
+
 class Pet{
     //Is id random data from Spring Server?
-    id: number;
+    petId : number;
     name: string;
-    birthdate: number;
+    birth: string;
     gender: number;
-    breed: string;
-    weight: string;
-    memberId: string;
-    calorieGoal: number;
-    petPicUrl: string;
-    petPicName: string;
+    breedId: number;
+    weight: number;
     obesity: number;
-
+    calorieGoal: number;
+    petPicUrl : string;
+    petPicName : string;
     constructor(
-        id: number, name: string, birthdate: number, gender: number,
-        breed: string, weigth: string, memberId: string, calorieGoal: number,
-        petPicUrl:string, petPicName: string, obesity: number
+        petId: number, name: string, birth: string, gender: number,
+        breedId: number, weight: number, obesity: number, calorieGoal: number,
+        petPicUrl:string, petPicName: string
     ) {
-        this.id = id;
+        this.petId = petId;
         this.name = name;
-        this.birthdate = birthdate;
+        this.birth = birth;
         this.gender = gender;
-        this.breed = breed;
-        this.weight = weigth;
-        this.memberId = memberId;
+        this.breedId = breedId;
+        this.weight = weight;
         this.calorieGoal = calorieGoal;
         this.petPicUrl = petPicUrl;
         this.petPicName = petPicName;
         this.obesity = obesity;
     }
-    get formDataWithId() {
+    get registerFormData() {
         let data = new FormData();
+        let file = {};
 
-        data.append("id", this.id);
+        data.append("petId", this.petId);
         data.append("name", this.name);
-        data.append("birthdate", this.birthdate);
+        data.append("birth", this.birth);
         data.append("gender", this.gender);
-        data.append("breed", this.gender);
+        data.append("breedId", this.breedId);
         data.append("weight", this.weight);
-        data.append("memberId", this.memberId);
-        data.append("calorieGoal", this.calorieGoal);
         //petImage(multipart/form-data)
-        if (!(this.petPicUrl === "" && this.petPicUrl === "")) {
-            const imageFile = {
-                url: this.petPicUrl,
-                type: 'multipart/form-data',
-                name: this.petPicName,
-            }
-            //key value may be changed
-            data.append("PetDogImage", imageFile);
+        //profileImage
+        file = {
+            uri: this.petPicUrl,
+            type: 'multipart/form-data',
+            name: this.petPicName,
         }
-        return data;
-    }
-    get formDataWithoutId() {
-        let data = new FormData();
-
-        data.append("name", this.name);
-        data.append("birthdate", this.birthdate);
-        data.append("gender", this.gender);
-        data.append("breed", this.gender);
-        data.append("weight", this.weight);
-        data.append("memberId", this.memberId);
-        data.append("calorieGoal", this.calorieGoal);
-        //petImage(multipart/form-data)
-        if (!(this.petPicUrl === "" && this.petPicUrl === "")) {
-            const imageFile = {
-                url: this.petPicUrl,
-                type: 'multipart/form-data',
-                name: this.petPicName,
-            }
-            //key value may be changed
-            data.append("PetDogImage", imageFile);
-        }
+        console.log(file);
+        //key value may be changed
+        data.append("petDogImage", file);
         return data;
     }
 }

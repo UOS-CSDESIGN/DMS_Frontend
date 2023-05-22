@@ -8,7 +8,7 @@ class User{
     email: string;
     phoneNo: string;
     social: boolean;
-    provider: string
+    provider: string;
     zipcode: string;
     street: string;
     addressDetail: string;
@@ -62,7 +62,9 @@ class User{
     }
     get modifiedData() {
         let data: FormData = new FormData();
-        
+        let imageFile = {
+            uri:this.imageUrl
+        }
         data.append("userId", this.userId);
         data.append("username", this.username);
         data.append("password", null);

@@ -16,7 +16,6 @@ interface login{
   passwordRef : any;
   onSubmit : () => void;
 }
-
 function Login(props : login){
   return (
     <View style={styles.loginPage}>
