@@ -2,11 +2,10 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {useState} from 'react';
-import Login from './components/LoginComponent';
-import SignUp from './components/SignUpComponent';
+import { useState, useEffect } from 'react';
+import LoginPage from './pages/loginPage';
+import SignUpPage from './pages/signUpPage';
 import Main from './components/mainComponent';
-import MyPage from './components/MyPageComponent';
 import SocialMyPage from './components/SocialMyPageComponent';
 import Animal from './components/AnimalComponent';
 import SocialGoogle from './components/socialGoogle';
@@ -22,8 +21,8 @@ export type BottomTabParamList = {
 }
 
 export type RootStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
+  LoginPage : undefined;
+  SignUpPage : undefined;
   SocialMyPage : undefined;
   NonSocialMyPage : undefined;
   googleSignUp : undefined;
@@ -40,6 +39,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function AppInner() {
   const [isLoggedIn, setLoggedIn] = useState(false);
+  
   return (
     <NavigationContainer>
       {isLoggedIn ? (
@@ -53,13 +53,13 @@ function AppInner() {
       ) : (
         <Stack.Navigator>
           <Stack.Screen
-            name="Login"
-            component={Login}
+            name="LoginPage"
+            component={LoginPage}
             options={{title: '로그인'}}
           />
           <Stack.Screen
-            name="SignUp"
-            component={SignUp}
+            name="SignUpPage"
+            component={SignUpPage}
             options={{title: '회원가입'}}
           />
           <Stack.Screen

@@ -1,0 +1,60 @@
+version: "3"
+services:
+  8amDB:
+    container_name: 8amDB
+    image: mysql:8.0.32
+    restart: always
+    volumes:
+      - mysql_volume:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=jj4509!@
+      - MYSQL_DATABASE=dms
+      - MYSQL_USER=dms_admin
+      - MYSQL_PASSWORD=jj4509!@
+    ports:
+      - "3306:3306"
+    networks:
+      - 8am-net
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 10s
+      retries: 10
+
+  8amServer:
+    container_name: 8amServer
+    ports:
+      - "8080:8080"
+    image: tank3a/8am_backend_server
+    volumes:
+      - 8am_images:/app/8am/images
+    networks:
+      - 8am-net
+    depends_on:
+      8amDB:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://8amDB:3306/dms
+      SPRING_REDIS_HOST: 8amRedisDB
+      SPRING_SERVLET_MULTIPART_LOCATION: /app/8am/images
+
+  8amRedisDB:
+    container_name: 8amRedisDB
+    command: redis-server --port 6379
+    ports:
+      - "6379:6379"
+    image: redis
+    volumes:
+      - redis_volume:/data
+    networks:
+      - 8am-net
+
+networks:
+  8am-net:
+    driver: bridge
+volumes:
+  mysql_volume:
+    driver: local
+  8am_images:
+    driver: local
+  redis_volume:
+    driver: local
