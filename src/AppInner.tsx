@@ -2,9 +2,9 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator, DrawerItem, DrawerToggleButton} from '@react-navigation/drawer'
-import {useState} from 'react';
-import Login from './components/LoginComponent';
-import SignUp from './components/SignUpComponent';
+import { useState } from 'react';
+import LoginPage from './pages/loginPage';
+import SignUpPage from './pages/signUpPage';
 import Main from './components/mainComponent';
 import MyPage from './components/MyPageComponent';
 import Animal from './components/AnimalComponent';
@@ -18,8 +18,8 @@ import { Alert, Pressable, Text, View } from 'react-native'
 
 
 export type RootStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
+  LoginPage: undefined;
+  SignUpPage: undefined;
   MyPage : undefined;
   Find : undefined;
   Animal : undefined;
@@ -29,9 +29,12 @@ export type RootStackParamList = {
   Shop : undefined;
   ObesityPage : undefined;
   MapPage : undefined;
-  Root : undefined;
+  Root: undefined;
+  NonSocialMyPage: undefined;
+  SocialMyPage: undefined;
   ObesityDetailPage : undefined;
-  CommunityPage : undefined;
+  CommunityPage: undefined;
+  SocialWithdrawal: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -79,12 +82,12 @@ function MainStackNavigator(){
           component={MainDrawerNavigator}
           options={{...optionStack}}/>
       <Stack.Screen
-        name="Login"
-        component={Login}
+        name="LoginPage"
+        component={LoginPage}
         options={{...optionStack}}/>
       <Stack.Screen
-        name="SignUp"
-        component={SignUp}
+        name="SignUpPage"
+        component={SignUpPage}
         options={{...optionStack}}/>
       <Stack.Screen
         name = "MyPage"
@@ -121,12 +124,10 @@ function MainStackNavigator(){
       <Stack.Screen
         name = "CommunityPage"
         component = {CommunityPage}
-        options={{...optionStack}}/>
+        options={{ ...optionStack }} />
   </Stack.Navigator>
   )
 }
-
-
 
 
 
@@ -162,9 +163,14 @@ function AppInner() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   return (
     <NavigationContainer>
-        <MainStackNavigator/> 
+      {isLoggedIn ?
+        <MainStackNavigator /> :
+        <Stack.Navigator>
+          <Stack.Screen name="LoginPage" component={LoginPage} />
+        </Stack.Navigator>
+      }
     </NavigationContainer>
-  )
+  );
 }
 
 {/* <NavigationContainer>

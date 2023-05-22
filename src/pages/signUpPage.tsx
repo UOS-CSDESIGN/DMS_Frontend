@@ -11,7 +11,6 @@ import User from '../model/User/User';
 import { useDispatch } from 'react-redux';
 import postSignup from '../model/User/postSignup';
 import SignUp from '../components/SignUpComponent';
-import { Text } from 'react-native-animatable';
 import ButtonComponent from '../components/ButtonComponent';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUpPage'>

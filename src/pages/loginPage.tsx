@@ -19,7 +19,6 @@ import ButtonComponent from '../components/ButtonComponent';
 import postLogin from '../model/User/postLogin';
 import { Dimensions } from 'react-native';
 
-
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginPage'>;
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -45,10 +44,10 @@ function LoginPage({navigation} : LogInScreenProps){
     },[navigation])
     const toSignUp = useCallback(() => {
         navigation.navigate('SignUpPage');
-    },[])
+    },[navigation])
     const toFind = useCallback(() => {
         navigation.navigate('Find');
-    },[])
+    },[navigation])
 
     const [canGoNext,setCanGoNext] = useState<boolean>(false);
     useEffect(() => {
@@ -69,11 +68,11 @@ function LoginPage({navigation} : LogInScreenProps){
         user.append("password", password);
         await postLogin(user, dispatch)
           .then((value) => {
-            navigation.navigate("Animal");
+            navigation.navigate("Main");
           })
           .catch((error) => {
             //alert
-            navigation.navigate("LoginPage");
+            navigation.navigate('LoginPage');
           });
       }, [userId, password, dispatch, navigation]);
       
