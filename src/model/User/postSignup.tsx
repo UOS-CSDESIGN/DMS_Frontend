@@ -25,6 +25,7 @@ const postSignup = async (user: User, dispatch:any, toLogin:any) => {
         toLogin();
     }).catch((error) => {
         dispatch(signupFailure());
+        console.log(error)
         console.log("signup failed");
     })
 };

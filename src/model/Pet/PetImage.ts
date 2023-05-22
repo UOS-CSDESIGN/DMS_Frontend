@@ -1,4 +1,6 @@
+
 class PetImage {
+
     id: number;
     uuid: string;
     fileName: string;

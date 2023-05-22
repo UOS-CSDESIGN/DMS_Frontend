@@ -31,11 +31,11 @@ function MultiProfile({navigation} : MultiProfileScreenProps){
     const toAnimal = useCallback(() =>{
       navigation.navigate('Animal');
     }, [navigation]);
-
     const [index, setIndex] = useState<number>(2);
     const views = [];
     for(let i = 1; i<index;i++){
         views.push(<Main key = {i}/>)
+
     }
     views.push(
       <View

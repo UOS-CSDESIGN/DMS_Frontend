@@ -1,13 +1,8 @@
+
 import axios, { AxiosError } from "axios";
 import { getBreedFailure, getBreedRequest, getBreedSuccess } from "./slice/petBreedSlice";
 import Config from "react-native-config";
-/**
- * @param page current page from store petBreedSlice 
- * @param dispatch redux action function
- * @param token asscess token
- * @param breedList breed List
- * @returns breed List consist of breedId and breedType
- */
+
 const getBreed = async (dispatch:any) => {
     
     dispatch(getBreedRequest());

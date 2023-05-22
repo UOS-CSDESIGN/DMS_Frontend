@@ -33,8 +33,12 @@ class Pet{
         this.breedId = breedId;
         this.weight = weight;
         this.calorieGoal = calorieGoal;
-        this.petPicUrl = petPicUrl;
-        this.petPicName = petPicName;
+        this.image = {
+            id: petPicId,
+            uuid: petPicUuid,
+            fileName: petPicName,
+            fileUrl: petPicUrl
+        };
         this.obesity = obesity;
     }
     get registerFormData() {

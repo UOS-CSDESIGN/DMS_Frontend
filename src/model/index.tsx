@@ -4,6 +4,7 @@ import signupReducer from './User/slice/signupSlice';
 import memberDataReducer from './User/slice/memberDataSlice';
 import petBreedReducer from './Pet/slice/petBreedSlice';
 import petDataReducer from './Pet/slice/petDataSlice';
+import petObesityReducer from './PetObesity/slice/petObesitySlice';
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
         singup: signupReducer,
         memberData: memberDataReducer,
         petData: petDataReducer,
+        petObesityData : petObesityReducer,
         petBreed: petBreedReducer,
     }
 });

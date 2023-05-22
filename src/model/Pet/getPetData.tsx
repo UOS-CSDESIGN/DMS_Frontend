@@ -1,6 +1,7 @@
 import { getPetDataFailure, getPetDataRequest, getPetDataSuccess } from "./slice/petDataSlice";
 import axios from "axios";
 import Pet from "./Pet";
+
 import petDataMapper from "./mapper/petDataMapper";
 import Config from "react-native-config";
 
@@ -22,7 +23,6 @@ const getPetData = async (dispatch:any, token:any) => {
         console.log("success get pet data");
         console.log(res.data);
         return petDataMapper(res.data);
-
     }).catch((error) => {
         dispatch(getPetDataFailure());
         console.log("failed get pet data");

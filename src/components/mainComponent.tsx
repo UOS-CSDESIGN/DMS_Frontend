@@ -1,5 +1,6 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {
+  Animated,
   Alert,
   Pressable,
   StyleSheet,
@@ -10,6 +11,7 @@ import {
   Button,
   Image,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -17,7 +19,6 @@ import Swiper from 'react-native-swiper';
 import Picture from './PictureComponent';
 
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
-
 
 function Main({navigation} : MainScreenProps){
   const [isPicture, setIsPicture] = useState<boolean>(false);
@@ -28,8 +29,6 @@ function Main({navigation} : MainScreenProps){
   const [weight, setWeight] = useState<number>(0);
   const [obesity, setObesity] = useState<number>(0);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-
-
   
   const onChangeEdit = useCallback(() => {
     setIsEdit(true);
@@ -104,13 +103,9 @@ function Main({navigation} : MainScreenProps){
   const onChangeWeightText = useCallback((weight : string) => {
     setTempWeight(weight);
   },[])
-
-
   const onChangeObesity = useCallback(() => {
 
   }, []);
-
-
     return(
       <View>
         <View>
