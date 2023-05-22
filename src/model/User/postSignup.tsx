@@ -13,6 +13,9 @@ const postSignup = async (user: User, dispatch:any, toLogin:any) => {
                 'Access-Control-Allow-Origin': `${Config.SPRING_API}`,
             },
             transformRequest: (data, headers) => {
+                console.log(data);
+                console.log(user.imageUrl);
+                console.log(user.imageName);
                 return data;
             },
         }

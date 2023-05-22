@@ -29,6 +29,7 @@ const postUserModify = async (user: User, token:any) => {
         } else {
             console.log("another error");
             console.log(error);
+            console.log(user.modifiedData);
         }
     })
 }

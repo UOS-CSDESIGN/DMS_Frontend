@@ -14,7 +14,9 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
-import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Swiper from 'react-native-swiper';
+import Picture from './PictureComponent';
 
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
 
@@ -27,10 +29,17 @@ function Main({navigation} : MainScreenProps){
   const [weight, setWeight] = useState<number>(0);
   const [obesity, setObesity] = useState<number>(0);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-
+  
   const onChangeEdit = useCallback(() => {
     setIsEdit(true);
   }, []);
+
+  const onChangePicture = useCallback((picture : string) => {
+    setPicture(picture);
+  }, [picture]);
+  const toAlbum = useCallback(() => {
+    navigation.navigate('Album')
+  }, [navigation])
 
   const [isEditName, setIsEditName] = useState<boolean>(false);
   const [tempName, setTempName] = useState<string>('');
@@ -94,14 +103,19 @@ function Main({navigation} : MainScreenProps){
   const onChangeWeightText = useCallback((weight : string) => {
     setTempWeight(weight);
   },[])
+  const onChangeObesity = useCallback(() => {
 
-
+  }, []);
     return(
       <View>
         <View>
-        {picture ? <Image 
+          <Text style = {styles.description}>사진</Text>
+          <Picture onPictureSelected={onChangePicture}/>
+          <Pressable onPress = {toAlbum}>
+          {picture ? <Image 
           source = {{uri : picture}}
           style = {styles.image}/> : null}
+          </Pressable>
         </View>
         <View style = {styles.wrapper}>
           <View style = {styles.descriptionView}>

@@ -1,32 +1,38 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createDrawerNavigator, DrawerItem, DrawerToggleButton} from '@react-navigation/drawer'
-import {useState} from 'react';
-import Login from './components/LoginComponent';
-import SignUp from './components/SignUpComponent';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { useState, useEffect } from 'react';
+import LoginPage from './pages/loginPage';
+import SignUpPage from './pages/signUpPage';
 import Main from './components/mainComponent';
-import MyPage from './components/MyPageComponent';
 import SocialMyPage from './components/SocialMyPageComponent';
 import Animal from './components/AnimalComponent';
 import SocialGoogle from './components/socialGoogle';
+import Find from './components/FindComponent';
+import MultiProfile from './components/MultiProfileComponent';
+import Album from './components/AlbumComponent';
 import NonSocialMyPage from './components/NonSocialMyPageComponent';
 import NonSocialWithdrawal from './components/NonSocialWithdrawalComponent';
 import SocialWithdrawal from './components/SocialWithdrawalComponent';
 
 
 export type RootStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
+
+  LoginPage : undefined;
+  SignUpPage : undefined;
   SocialMyPage : undefined;
   NonSocialMyPage : undefined;
   googleSignUp : undefined;
+
   Find : undefined;
   Animal : undefined;
   Main : undefined;
   SocialGoogle : undefined;
+
   NonSocialWithdrawal : undefined;
   SocialWithdrawal : undefined;
+
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -34,6 +40,7 @@ const Drawer = createDrawerNavigator();
 
 function AppInner() {
   const [isLoggedIn, setLoggedIn] = useState(false);
+  
   return (
     <NavigationContainer>
       {isLoggedIn ? (
@@ -47,13 +54,13 @@ function AppInner() {
       ) : (
         <Stack.Navigator>
           <Stack.Screen
-            name="Login"
-            component={Login}
+            name="LoginPage"
+            component={LoginPage}
             options={{title: '로그인'}}
           />
           <Stack.Screen
-            name="SignUp"
-            component={SignUp}
+            name="SignUpPage"
+            component={SignUpPage}
             options={{title: '회원가입'}}
           />
           <Stack.Screen
@@ -85,7 +92,6 @@ function AppInner() {
             name = "SocialWithdrawal"
             component = {SocialWithdrawal}
             options = {{title : '소셜회원탈퇴'}}/>
-          
         </Stack.Navigator>
         
       )}
