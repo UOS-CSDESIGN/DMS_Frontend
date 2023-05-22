@@ -60,12 +60,11 @@ function ObesityModal(props : ObesityModalProps){
 
 const styles = StyleSheet.create({
     Modal: {
-        height: '80%', 
         width: '80%', 
         backgroundColor: 'white',
         borderRadius: 10,
         alignSelf: 'center',
-        marginTop: '20%', 
+        margin: '50%', 
     },
     Text: {
         fontWeight: '600',
