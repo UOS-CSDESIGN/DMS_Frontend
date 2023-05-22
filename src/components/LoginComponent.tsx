@@ -73,7 +73,7 @@ function Login({navigation}: LogInScreenProps){
   }, [navigation]);
 
   const toObesity = useCallback(() => {
-    navigation.navigate('Obesity')
+    navigation.navigate('ObesityPage')
   },[navigation]);
 
   const toMain = useCallback(() => {
@@ -148,31 +148,6 @@ function Login({navigation}: LogInScreenProps){
       </View>
       
         <SocialLoginComponent />
-      
-      <View style={styles.buttonZone}>
-        <Pressable style={styles.loginButton}
-          onPress={onSubmitToken}>
-          <Text style={styles.loginButtonText}>버튼</Text>
-        </Pressable>
-      </View>
-      <View style={styles.buttonZone}>
-        <Pressable style={styles.loginButton}
-          onPress={toAnimal}>
-          <Text style={styles.loginButtonText}>애완견</Text>
-        </Pressable>
-      </View>
-      <View style={styles.buttonZone}>
-        <Pressable style={styles.loginButton}
-          onPress={toObesity}>
-          <Text style={styles.loginButtonText}>비만도</Text>
-        </Pressable>
-      </View>
-      <View style = {styles.buttonZone}>
-      <Pressable style={styles.loginButton}
-          onPress={toMain}>
-          <Text style={styles.loginButtonText}>메인</Text>
-        </Pressable>
-      </View>
     </View>
   );
 }
