@@ -31,6 +31,8 @@ const loginSlice = createSlice({
         },
         logoutSuccess: (state) => {
             state.accessToken = null;
+            state.refreshToken = null;
+            state.expTime = null;
             state.loading = false;
         },
         logoutFailure: (state) => {
