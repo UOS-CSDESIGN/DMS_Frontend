@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createDrawerNavigator, DrawerToggleButton} from '@react-navigation/drawer'
+import {createDrawerNavigator, DrawerItem, DrawerToggleButton} from '@react-navigation/drawer'
 import {useState} from 'react';
 import Login from './components/LoginComponent';
 import SignUp from './components/SignUpComponent';
@@ -12,8 +12,9 @@ import SocialGoogle from './components/socialGoogle';
 import Find from './components/FindComponent';
 import MultiProfile from './components/MultiProfileComponent';
 import ObesityPage from './pages/obesityPage';
-import { Pressable } from 'react-native';
-import {Text} from 'react-native'
+import ObesityDetailPage from './pages/obesityDetailPage';
+import CommunityPage from './pages/communityPage';
+import { Alert, Pressable, Text, View } from 'react-native'
 
 
 export type RootStackParamList = {
@@ -26,117 +27,153 @@ export type RootStackParamList = {
   SocialGoogle : undefined;
   MultiProfile : undefined;
   Shop : undefined;
-  Community : undefined;
   ObesityPage : undefined;
   MapPage : undefined;
-  navbar : undefined;
+  Root : undefined;
+  ObesityDetailPage : undefined;
+  CommunityPage : undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator();
 
-const option = {
+const optionDrawer = {
   headerLeft : () => null,
-  headerRight : () => <DrawerButton/>,
-  headerBackVisible : true 
+  headerRight : () => <DrawerToggleButton/>,
+  headerBackVisible : true,
+}
+const optionStack = {
+  headerShown : false
 }
 
+/* function CustomDrawerContent(props : any) {
+  const { navigation } = props;
 
-
-function DrawerButton(){
-  return(
-    <Pressable onPress = {MainDrawerNavigator}>
-      <Text>메뉴</Text>
-    </Pressable>
-  )
-}
-
+  const handleLogout = () => {
+    Alert.alert(
+      '로그아웃',
+      '로그아웃 하시겠습니까?',
+      [
+        {
+          text: '아니오',
+          style: 'cancel',
+        },
+        {
+          text: '예',
+          onPress: () => {
+            // 로그아웃 로직 처리
+            // 필요한 상태 업데이트 및 화면 이동 등을 수행
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+} */
 
 function MainStackNavigator(){
   return(
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName='Root'>
+      <Stack.Screen
+          name="Root"
+          component={MainDrawerNavigator}
+          options={{...optionStack}}/>
       <Stack.Screen
         name="Login"
         component={Login}
-        options={{...option}}
-      />
+        options={{...optionStack}}/>
       <Stack.Screen
         name="SignUp"
         component={SignUp}
-        options={{...option}}
-      />
+        options={{...optionStack}}/>
       <Stack.Screen
         name = "MyPage"
         component = {MyPage}
-        options={{...option}}
-      />
+        options={{...optionStack}}/>
       <Stack.Screen
         name = "Animal"
         component = {Animal}
-        options={{...option}}
-        />
+        options={{...optionStack}}/>
       <Stack.Screen
         name = "Main"
         component = {Main}
-        options={{
-          headerLeft : () => null,
-          headerRight : () => <DrawerToggleButton/>,
-          headerBackVisible : true }}/>
+        options={{...optionStack}}/>
       <Stack.Screen
         name = "SocialGoogle"
         component = {SocialGoogle}
-        options={{
-          headerLeft : () => null,
-          headerRight : () => <DrawerToggleButton/>,
-          headerBackVisible : true }}/>
+        options={{...optionStack}}/>
       <Stack.Screen
         name = "Find"
         component = {Find}
-        options={{
-          headerLeft : () => null,
-          headerRight : () => <DrawerToggleButton/>,
-          headerBackVisible : true }}/>
+        options={{...optionStack}}/>
       <Stack.Screen
         name = "MultiProfile"
         component = {MultiProfile}
-        options={{
-          headerLeft : () => null,
-          headerRight : () => <DrawerToggleButton/>,
-          headerBackVisible : true }}/>
+        options={{...optionStack}}/>
       <Stack.Screen
         name = "ObesityPage"
         component = {ObesityPage}
-        options={{
-          headerLeft : () => null,
-          headerRight : () => <DrawerToggleButton/>,
-          headerBackVisible : true }}/>
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "ObesityDetailPage"
+        component = {ObesityDetailPage}
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "CommunityPage"
+        component = {CommunityPage}
+        options={{...optionStack}}/>
   </Stack.Navigator>
   )
 }
 
 
 
+
+
 function MainDrawerNavigator(){
   return(
     <Drawer.Navigator
-     backBehavior="history"
+     backBehavior='history'
      screenOptions={{
       drawerPosition : 'right',
-      headerShown : false,
      }}>
-      <Drawer.Screen name = "MyPage" component={MyPage}/>
-      {/* <Drawer.Screen name = "ObesityPage" component={ObesityPage}/> */}
-
+      <Drawer.Screen
+        name = "MultiProfile"
+        component = {MultiProfile}
+        options={{...optionDrawer}}/>
+      <Drawer.Screen
+        name = "MyPage"
+        component = {MyPage}
+        options={{...optionDrawer}}
+      />
+      <Drawer.Screen
+        name = "ObesityPage"
+        component = {ObesityPage}
+        options={{...optionDrawer}}/>
+      <Drawer.Screen
+        name = "ObesityDetailPage"
+        component = {ObesityDetailPage}
+        options={{...optionDrawer}}/>
     </Drawer.Navigator>
   )
 }
 
 function AppInner() {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   return (
     <NavigationContainer>
-      <MainStackNavigator/>
+        <MainStackNavigator/> 
     </NavigationContainer>
-  );
+  )
 }
+
+{/* <NavigationContainer>
+{isLoggedIn? 
+  <MainStackNavigator/> : 
+  <Stack.Navigator>
+    <Stack.Screen name = "Login" component={Login}/>
+  </Stack.Navigator>
+}
+</NavigationContainer> */}
 
 export default AppInner;
