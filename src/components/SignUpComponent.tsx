@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Alert,
   Platform,
@@ -35,10 +35,10 @@ function SignUp({navigation}: SignUpScreenProps) {
   const [birth, setBirth] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phoneNo, setPhoneNo] = useState<string>('');
+  const [isSocial, setIsSocial] = useState<boolean>(false);
   const [zipcode, setZipcode] = useState<string>('');
   const [street, setStreet] = useState<string>('');
   const [addressDetail, setAddressDetail] = useState<string>('');
-  const [provider, setProvider] = useState<string>('');
   const [imageUrl, setImageUrl] = useState<string>('');
   const [imageName, setImageName] = useState<string>('');
 
@@ -84,37 +84,30 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangeImage = useCallback((selectedImage : any)=>{
     if (selectedImage!==null) {
       setImageUrl(selectedImage);
-      if(imageUrl!==undefined){
-        const tempName = imageUrl.split("/").pop();
-        setImageName(tempName || '');
+      if(selectedImage){
+        setImageName(imageUrl.split("/").pop()||'');
       }
     } else {
       console.log('Selected image does not have assets');
     }
   },[imageUrl, imageName]);
+  useEffect(() => {
+    setZipcode(zipcode);
+    setImageName(imageName);
+    console.log(imageName);
+  }, [imageName]);
 
   const [token, setToken] = useState('');
+  const toLogin = async () => {
+    navigation.navigate('Login');
+  }
   const onSubmit = useCallback(async () => { 
     const user  = new User(
-      userId, username, password, nickname, gender, birth, email, phoneNo, false, zipcode, 
-      street, addressDetail, provider, imageUrl, imageName
+      userId, username, password, nickname, gender, birth, email, phoneNo, isSocial, "",zipcode, 
+      street, addressDetail, imageUrl, imageName
     );
-    /*
-    if (
-      !/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(
-        userId,
-      )
-    ) {
-      return Alert.alert('알림', '올바른 아이디 형식이 아닙니다.');
-    }
-    if (!/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@^!%*#?&]).{8,50}$/.test(password)) {
-      return Alert.alert(
-        '알림',
-        '비밀번호는 영문,숫자,특수문자($@^!%*#?&)를 모두 포함하여 8자 이상 입력해야합니다.',
-      );
-    }*/
     postSignup(user, dispatch);
-  }, [navigation, userId, username, password, nickname, gender, birth, email, false, phoneNo, zipcode, street, addressDetail, imageUrl, imageName]);
+  }, [userId, username, password, nickname, gender, birth, email, phoneNo, zipcode, street, addressDetail, imageUrl, imageName]);
 
   const canGoNext = userId && password && nickname && email && phoneNo && zipcode && street && addressDetail;
   return (

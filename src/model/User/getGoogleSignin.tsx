@@ -1,45 +1,60 @@
-import { User } from "@react-native-google-signin/google-signin";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import getMemberData from "./getMemberData";
 import { loginFailure, loginRequest, loginSuccess } from "./slice/loginSlice";
-import { RootStackParamList } from "../../AppInner";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import Config from "react-native-config";
+import { User } from "@react-native-google-signin/google-signin";
+
 /**
  * @param userInfo : google social infomation
  * @param dispatch : login redux dispatcher
  * @param user : user store
  * @param token : access toek store
- * @returns true-no more info needed false-get more info needed
+ * @returns 200: already exist mail, 201: default goolge social, 202: need more info
  */
+interface tokens{
+    idToken: string,
+    accessToken: string
+}
 //get accessToken by passing id_Token and checking if needs signup.
-const getGoogleSignin = async (userInfo: User, dispatch: any, user:any, token:string, navigation:any) => {
+const getGoogleSignin = async (tokens: tokens, dispatch: any, user:User) => {
 
     dispatch(loginRequest());
-    await axios.get(`http://25.12.74.132:8080/api/oauth2/google?id_token=${userInfo.idToken}`,
+    
+    console.log("token : ", tokens.idToken);
+    console.log("userinto : ", user.idToken);
+    console.log(`${Config.SPRING_API}/api/oauth2/google?id_token=${tokens.idToken}`);
+    const url = `${Config.SPRING_API}/api/oauth2/google?id_token=${tokens.idToken}`;
+    
+    return await axios.get(url,
         {
             withCredentials: true,
             headers: {
-                "Access-Control-Allow-Origin":"http://25.12.74.132:8080",
+                "Access-Control-Allow-Origin":`${Config.SPRING_API}`,
             }
         })
         .then((res) => {
             dispatch(loginSuccess(JSON.stringify(res.data.accessToken)));
             getMemberData(dispatch, JSON.stringify(res.data.accessToken));
-            //add implement of signup
-            //checking status code
-            if (user.addressDetail === null) {
-                navigation.navigate('SocialGoogle');
+            console.log(res.data);
+            if (res.status === 200) {
+                //go to main
+                return 200;
             }
-    
-        //add branch to signup if info more needs
-        //if not to main
-
-            //must be checking 23.03.16 user object get from server
-            console.log(user);
+            else if (res.status === 201) {
+                //not signed
+                console.log('is here');
+                return 201;
+            }
+            else if (res.status === 202) {
+                //alert
+                //link to google social 
+                return 200;
+            }
         })
-        .catch((error) => {
+        .catch((error:AxiosError) => {
             dispatch(loginFailure());
             console.log(error);
+            console.log(error.message);
             throw error;
         });
 }

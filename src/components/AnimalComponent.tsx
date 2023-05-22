@@ -15,7 +15,7 @@ import {
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import * as Animatable from 'react-native-animatable';
-import GenderComponent from './genderComponent';
+import PetGenderComponent from './PetGenderComponent';
 import BirthComponent from './BirthComponent';
 import Picture from './PictureComponent';
 
@@ -91,7 +91,7 @@ function Animal({navigation}: AnimalScreenProps) {
       <Animatable.View animation = "slideInLeft"
        style = {styles.wrapper}>
         <Text style = {styles.text}>성별</Text>
-        <GenderComponent onGenderChange={onChangeGender}/>
+        <PetGenderComponent onGenderChange={onChangeGender}/>
       </Animatable.View>}
       {showBreed &&
       <View style = {styles.wrapper}>

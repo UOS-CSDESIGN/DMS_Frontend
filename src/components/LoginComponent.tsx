@@ -1,28 +1,23 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {
-  Alert,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
   ActivityIndicator,
-  Linking
 } from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
-import axios, {AxiosError} from 'axios';
-import SignUp from './SignUpComponent';
 import CheckBox from '@react-native-community/checkbox';
-import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import User from '../model/User/User';
 import postLogin from '../model/User/postLogin';
 import { useDispatch, useSelector } from 'react-redux';
 import getMemberData from '../model/User/getMemberData';
 import { RootState } from '../model';
 import SocialLoginComponent from './SocialLoginComponent';
-
+import deleteLogout from '../model/User/deleteMemberData';
+import deleteMemberData from '../model/User/deleteMemberData';
 
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -32,8 +27,9 @@ function Login({navigation}: LogInScreenProps){
     const [password, setPassword] = useState<string>('');
     const [selected, isSelected] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
-
+    const dispatch = useDispatch();
+    const token = useSelector((state: RootState) => state.login.accessToken);
+    const user = useSelector((state: RootState) => state.memberData.userData);
 
     const userIdRef = useRef<TextInput | null>(null);
     const passwordRef = useRef<TextInput | null>(null);
@@ -41,43 +37,51 @@ function Login({navigation}: LogInScreenProps){
     const canGoNext = userId && password;
 
     const onChangeUserId = useCallback((text: string)=> {
-      setUserId(text.trim());
+      setUserId(text);
     }, []);
     const onChangePassword = useCallback((text: string) => {
-      setPassword(text.trim());
+      setPassword(text);
     }, []);
 
-    const onSubmit = useCallback(() => {
-      const user = new FormData();
-      user.append("userId", userId);
-      user.append("password", password);
-      postLogin(user, dispatch);
-      navigation.navigate('MyPage');
-    },[userId, password, dispatch])
-      
-  const token = useSelector((state: RootState) => state.login.accessToken);
-  const user = useSelector((state: RootState) => state.memberData.userData);
-    const onSubmitToken = useCallback(()=>{
-      getMemberData(dispatch, token);
-    },[dispatch, token]);
+  const onSubmit = useCallback(async () => {
+    const user = new FormData();
+    user.append("userId", userId);
+    user.append("password", password);
+    await postLogin(user, dispatch)
+      .then((value) => {
+        navigation.navigate("Animal");
+      })
+      .catch((error) => {
+        //alert
+        navigation.navigate("Login");
+      });
+  }, [userId, password, dispatch, navigation]);
+  
+  const onDeleteMember = useCallback(async () => {
+    deleteMemberData(dispatch, token, "");
+  }, [dispatch, token]);
     
   const toSignUp = useCallback(() => {
     navigation.navigate('SignUp');
   }, [navigation]);  
-
   const toFind = useCallback(() => {
     navigation.navigate('Find');
   }, [navigation]);
   const toAnimal = useCallback(() => {
+    console.log('in animal');
     navigation.navigate('Animal');
   }, [navigation]);
-
-  const toObesity = useCallback(() => {
-    navigation.navigate('ObesityPage')
-  },[navigation]);
-
-  const toMain = useCallback(() => {
-    navigation.navigate('MultiProfile')
+  const toSocialMyPage = useCallback(() => {
+    navigation.navigate('SocialMyPage');
+  }, [navigation]);
+  const toNonSocialMyPage = useCallback(() => {
+    navigation.navigate('NonSocialMyPage');
+  }, [navigation]);
+  const toSocialSignUp = useCallback(() => {
+    navigation.navigate('SocialGoogle');
+  }, [navigation]);
+  const toWithdrawal = useCallback(() => {
+    navigation.navigate('SocialWithdrawal');
   }, [navigation]);
   return (
     <View style={styles.loginPage}>
@@ -146,8 +150,31 @@ function Login({navigation}: LogInScreenProps){
           <Text style={styles.signUpAndFindText}>아이디 · 비밀번호 찾기</Text>
         </Pressable>
       </View>
-      
-        <SocialLoginComponent />
+      <SocialLoginComponent toAnimal={toAnimal} toSignup={toSocialSignUp}/>
+      <View style={styles.buttonZone}>
+        <Pressable style={styles.loginButton}
+          onPress={toSocialMyPage}>
+          <Text style={styles.loginButtonText}>소셜</Text>
+        </Pressable>
+      </View>
+      <View style = {styles.buttonZone}>
+        <Pressable style = {styles.loginButton}
+          onPress ={toNonSocialMyPage}>
+          <Text style = {styles.loginButtonText}>비소셜</Text>
+        </Pressable>
+      </View>
+      <View style={styles.buttonZone}>
+        <Pressable style={styles.loginButton}
+          onPress={toAnimal}>
+          <Text style={styles.loginButtonText}>애완견</Text>
+        </Pressable>
+      </View>
+      <View style={styles.buttonZone}>
+        <Pressable style={styles.loginButton}
+          onPress={toWithdrawal}>
+          <Text style={styles.loginButtonText}>회원탈퇴</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -166,6 +193,22 @@ const styles = StyleSheet.create({
     fontSize : 20,
     fontWeight : "500",
     color : 'black',
+  },
+  kakaoButtonZone : {
+    marginTop : 6,
+    justifyContent : 'center',
+    backgroundColor : '#FEE500',
+    marginHorizontal : 28,
+    height : 35,
+  },
+  kakaoButton : {
+    flexDirection : 'row',
+    marginLeft : 6,
+  },
+  kakaoText : {
+    marginLeft : 40,
+    fontSize : 17,
+    color : '#343000',
   },
   textInput: {
     paddingHorizontal: 10,

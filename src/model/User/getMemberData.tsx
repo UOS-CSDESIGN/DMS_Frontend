@@ -1,5 +1,6 @@
 import axios from "axios";
 import { memberDataFailure, memberDataRequest, memberDataSuccess } from "./slice/memberDataSlice";
+import Config from "react-native-config";
 
 //get signed member data
 const getMemberData = async (dispatch:any, token:any) => {
@@ -7,7 +8,9 @@ const getMemberData = async (dispatch:any, token:any) => {
 
     const bearer = `Bearer ${JSON.parse(token)}`;
 
-    await axios.get("http://localhost:8080/member/getMemberData",
+    const url = `${Config.SPRING_API}/member/getMemberData`;
+    await axios.get(
+        url,
         {
             headers: {
                 //Authorization key value must be assigned literal
