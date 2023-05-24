@@ -1,8 +1,8 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { RootStackParamList } from "../AppInner"
+import { DrawerScreenProps } from "@react-navigation/drawer"
+import { RootDrawerParamList } from "../AppInner"
 import {View, Text, Pressable} from "react-native"
 
-type CommunityScreenProps = NativeStackScreenProps<RootStackParamList, 'CommunityPage'>
+type CommunityScreenProps = DrawerScreenProps<RootDrawerParamList, 'CommunityPage'>
 
 function CommunityPage({navigation} : CommunityScreenProps){
     return(
