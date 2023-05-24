@@ -2,9 +2,9 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator, DrawerItem, DrawerToggleButton} from '@react-navigation/drawer'
-import {useState} from 'react';
+import { useState } from 'react';
 import LoginPage from './pages/loginPage';
-import SignUp from './components/SignUpComponent';
+import SignUpPage from './pages/signUpPage';
 import Main from './components/mainComponent';
 import MyPage from './components/MyPageComponent';
 import Animal from './components/AnimalComponent';
@@ -18,24 +18,30 @@ import { Alert, Pressable, Text, View } from 'react-native'
 
 
 export type RootStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
-  MyPage : undefined;
-  Find : undefined;
+  LoginPage: undefined;
+  SignUpPage: undefined;
+  FindPage : undefined;
   Animal : undefined;
   Main : undefined;
   SocialGoogle : undefined;
-  MultiProfile : undefined;
   Shop : undefined;
-  ObesityPage : undefined;
   MapPage : undefined;
-  Root : undefined;
-  ObesityDetailPage : undefined;
-  CommunityPage : undefined;
+  Root: undefined;
+  NonSocialMyPage: undefined;
+  SocialMyPage: undefined;
+  SocialWithdrawal: undefined;
 };
 
+export type RootDrawerParamList = {
+  MultiProfilePage : undefined;
+  MyPage : undefined;
+  ObesityPage : undefined;
+  ObesityDetailPage : undefined;
+  CommunityPage : undefined;
+}
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<RootDrawerParamList>();
 
 const optionDrawer = {
   headerLeft : () => null,
@@ -71,24 +77,35 @@ const optionStack = {
   };
 } */
 
+function LoginStackNavigator(){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen
+        name = "LoginPage"
+        component = {LoginPage}
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "SignUpPage"
+        component = {SignUpPage}
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "FindPage"
+        component = {Find}
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "SocialGoogle"
+        component = {SocialGoogle}
+        options={{...optionStack}}/>
+    </Stack.Navigator>
+  )
+}
+
 function MainStackNavigator(){
   return(
     <Stack.Navigator initialRouteName='Root'>
       <Stack.Screen
-          name="Root"
-          component={MainDrawerNavigator}
-          options={{...optionStack}}/>
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{...optionStack}}/>
-      <Stack.Screen
-        name="SignUp"
-        component={SignUp}
-        options={{...optionStack}}/>
-      <Stack.Screen
-        name = "MyPage"
-        component = {MyPage}
+        name="Root"
+        component={MainDrawerNavigator}
         options={{...optionStack}}/>
       <Stack.Screen
         name = "Animal"
@@ -98,35 +115,9 @@ function MainStackNavigator(){
         name = "Main"
         component = {Main}
         options={{...optionStack}}/>
-      <Stack.Screen
-        name = "SocialGoogle"
-        component = {SocialGoogle}
-        options={{...optionStack}}/>
-      <Stack.Screen
-        name = "Find"
-        component = {Find}
-        options={{...optionStack}}/>
-      <Stack.Screen
-        name = "MultiProfile"
-        component = {MultiProfile}
-        options={{...optionStack}}/>
-      <Stack.Screen
-        name = "ObesityPage"
-        component = {ObesityPage}
-        options={{...optionStack}}/>
-      <Stack.Screen
-        name = "ObesityDetailPage"
-        component = {ObesityDetailPage}
-        options={{...optionStack}}/>
-      <Stack.Screen
-        name = "CommunityPage"
-        component = {CommunityPage}
-        options={{...optionStack}}/>
   </Stack.Navigator>
   )
 }
-
-
 
 
 
@@ -138,7 +129,7 @@ function MainDrawerNavigator(){
       drawerPosition : 'right',
      }}>
       <Drawer.Screen
-        name = "MultiProfile"
+        name = "MultiProfilePage"
         component = {MultiProfile}
         options={{...optionDrawer}}/>
       <Drawer.Screen
@@ -154,30 +145,29 @@ function MainDrawerNavigator(){
         name = "ObesityDetailPage"
         component = {ObesityDetailPage}
         options={{...optionDrawer}}/>
+      <Drawer.Screen
+        name = "CommunityPage"
+        component = {CommunityPage}
+        options ={{...optionDrawer}}/>
     </Drawer.Navigator>
   )
 }
 
 function AppInner() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  //Login했을 때 token을 받아와서 setIsLoogedIn을 true로 변환
   return (
     <NavigationContainer>
-      {isLoggedIn? 
-      <MainStackNavigator/> : 
-      <Stack.Navigator>
-        <Stack.Screen name = "Login" component={LoginPage}/>
-      </Stack.Navigator>}
+      <MainStackNavigator/>
     </NavigationContainer>
-  )
+  );
 }
 
-{/* <NavigationContainer>
-{isLoggedIn? 
-  <MainStackNavigator/> : 
-  <Stack.Navigator>
-    <Stack.Screen name = "Login" component={Login}/>
-  </Stack.Navigator>
-}
-</NavigationContainer> */}
+/* {isLoggedIn ?
+  <MainStackNavigator /> :
+  <LoginStackNavigator/>
+} */
+
+
 
 export default AppInner;
