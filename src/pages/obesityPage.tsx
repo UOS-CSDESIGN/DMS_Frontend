@@ -1,5 +1,5 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { RootStackParamList } from "../AppInner"
+import { DrawerScreenProps } from "@react-navigation/drawer";
+import { RootDrawerParamList } from "../AppInner"
 import { Text, View, Pressable, StyleSheet, ScrollView, TextInput} from 'react-native'
 import { useCallback, useEffect, useState } from "react";
 import Obesity from "../components/ObesityComponent";
@@ -8,7 +8,7 @@ import NoticeModal from "../components/NoticeModalComponent";
 import ObesityChart from "../components/ObesityChartComponent";
 import ObesityModal from "../components/ObesityModalComponent";
 
-type ObesityScreenProps = NativeStackScreenProps<RootStackParamList, 'ObesityPage'>
+type ObesityScreenProps = DrawerScreenProps<RootDrawerParamList, 'ObesityPage'>
 
 interface WeightData{
     date : string[];
@@ -125,17 +125,17 @@ function ObesityPage({navigation} : ObesityScreenProps){
                  showModal = {showModal}/>
             </View>
             <View>
-            {enableModal?
-            <ObesityModal
-                modalVisible = {modalVisible}
-                closeModal={closeModal}
-                frequency={frequency}
-                onChangeButton1={onChangeButton1}
-                onChangeButton2={onChangeButton2}
-                onChangeButton3={onChangeButton3}
-                onChangeButton4={onChangeButton4}
-                onSubmit={onSubmitFrequency}
-                /> : null}
+                {enableModal?
+                <ObesityModal
+                    modalVisible = {modalVisible}
+                    closeModal={closeModal}
+                    frequency={frequency}
+                    onChangeButton1={onChangeButton1}
+                    onChangeButton2={onChangeButton2}
+                    onChangeButton3={onChangeButton3}
+                    onChangeButton4={onChangeButton4}
+                    onSubmit={onSubmitFrequency}
+                    /> : null}
             </View>
         </ScrollView>
     )
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         justifyContent : 'space-between',
         alignItems : 'center',
         borderBottomWidth : 1,
-    }
+    },
 })
 
 
