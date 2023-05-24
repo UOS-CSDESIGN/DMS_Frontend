@@ -1,8 +1,8 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { DrawerScreenProps } from "@react-navigation/drawer";
+import { RootDrawerParamList } from "../AppInner";
 import { useCallback, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Swiper from 'react-native-swiper';
-import { RootStackParamList } from "../AppInner";
 import Main from "./mainComponent";
 import Animal from "./AnimalComponent";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -11,7 +11,7 @@ import { Dimensions} from "react-native";
 
 const height = Dimensions.get('screen').height;
 
-type MultiProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'MultiProfile'>;
+type MultiProfileScreenProps = DrawerScreenProps<RootDrawerParamList, 'MultiProfilePage'>;
 
 
 function MultiProfile({navigation} : MultiProfileScreenProps){
