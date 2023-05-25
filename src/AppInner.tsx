@@ -15,6 +15,8 @@ import ObesityPage from './pages/obesityPage';
 import ObesityDetailPage from './pages/obesityDetailPage';
 import CommunityPage from './pages/communityPage';
 import { Alert, Pressable, Text, View } from 'react-native'
+import { useSelector } from 'react-redux';
+import { RootState } from './model';
 
 
 export type RootStackParamList = {
@@ -154,13 +156,22 @@ function MainDrawerNavigator(){
 }
 
 function AppInner() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  //Login했을 때 token을 받아와서 setIsLoogedIn을 true로 변환
+
+  const token = useSelector((state: RootState) => state.login.accessToken);
+  
+  const isLogged = token ? true : false;
+  //checking accessToken
+  //  not login: null
+  //  login    : stirng
   return (
+    
     <NavigationContainer>
-      <MainStackNavigator/>
+      {isLogged ?
+        <MainStackNavigator /> :
+        <LoginStackNavigator/>
+      }
     </NavigationContainer>
-  );
+  ); 
 }
 
 /* {isLoggedIn ?
