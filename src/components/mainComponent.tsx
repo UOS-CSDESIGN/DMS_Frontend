@@ -13,8 +13,6 @@ import {
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Swiper from 'react-native-swiper';
 import Picture from './PictureComponent';
 
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
