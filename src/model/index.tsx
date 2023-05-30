@@ -5,6 +5,7 @@ import memberDataReducer from './User/slice/memberDataSlice';
 import petBreedReducer from './Pet/slice/petBreedSlice';
 import petDataReducer from './Pet/slice/petDataSlice';
 import petObesityReducer from './PetObesity/slice/petObesitySlice';
+import categoryReducer from './Community/slice/categorySlice';
 
 export const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
         petData: petDataReducer,
         petObesityData : petObesityReducer,
         petBreed: petBreedReducer,
+        category: categoryReducer,
     }
 });
 export type RootState = ReturnType<typeof store.getState>;
