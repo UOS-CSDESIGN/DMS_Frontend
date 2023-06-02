@@ -11,7 +11,6 @@ import {
   Button,
   Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import Picture from './PictureComponent';

@@ -6,11 +6,10 @@ import { getObesityFailure, getObesityRequest, getObesitySuccess } from "./slice
 async function getObesity(PetObesity: PetObesity, token: string, dispatch: any):Promise<any> {
     
     const bearer = `Bearer ${JSON.parse(token)}`;
-    const url = `${Config}/`
+    const url = `${Config.SPRING_API}/`
 
     dispatch(getObesityRequest());
-    await axios.post(url,
-        PetObesity.postData,
+    await axios.get(url,
         {
             headers: {
                 'Content-type': 'multipart/form-data',
