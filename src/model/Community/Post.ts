@@ -7,7 +7,20 @@ interface postImage{
     type: 'multipart/form-data';
     name: string;
 }
-class Post{
+export interface postType{
+    postId: number;
+    categoryId: number;
+    title: string;
+    content: string;
+    modifiedTime: Date;
+    like: number;
+    views: number;
+    author: string;
+    isModified: boolean;
+    isImage: number;
+    Image: image[];
+}
+export default class Post{
     postId: number;
     categoryId: number;
     title: string;
