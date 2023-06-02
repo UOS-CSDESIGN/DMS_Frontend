@@ -47,7 +47,7 @@ function LoginPage({navigation} : LogInScreenProps){
         navigation.navigate('SignUpPage');
     },[])
     const toFind = useCallback(() => {
-        navigation.navigate('Find');
+        navigation.navigate('FindPage');
     },[])
 
     const [canGoNext,setCanGoNext] = useState<boolean>(false);
