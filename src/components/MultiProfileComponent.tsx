@@ -4,7 +4,6 @@ import { useCallback, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Swiper from 'react-native-swiper';
 import Main from "./mainComponent";
-import Animal from "./AnimalComponent";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Dimensions} from "react-native";

@@ -23,6 +23,7 @@ import Pet from '../model/Pet/Pet';
 import postPetRegister from '../model/Pet/postPetRegister';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../model';
+import Config from 'react-native-config';
 
 type AnimalScreenProps = NativeStackScreenProps<RootStackParamList, 'Animal'>;
 
@@ -84,7 +85,8 @@ function Animal({ navigation }: AnimalScreenProps) {
     setShowButton(true),[imageUrl, imageName]
   }
   const dispatch = useDispatch();
-  const token = useSelector((state:RootState)=>state.login.accessToken)
+  const token = useSelector((state:RootState)=>state.login.accessToken);
+  
 
   const onSubmit = useCallback(async () => {
     console.log(breed);
@@ -99,11 +101,11 @@ function Animal({ navigation }: AnimalScreenProps) {
       .catch(() => {
         navigation.navigate('Animal');
       });
-
+      
     console.log(pet.registerFormData);
   }, [animalID, name, birth, gender, breed, weight, imageUrl, imageName]);
 
-
+  
   return (
     <ScrollView
       nestedScrollEnabled={true}
@@ -162,7 +164,7 @@ function Animal({ navigation }: AnimalScreenProps) {
         <Text style = {styles.text}>사진</Text>
         <Picture onPictureSelected={onChangePicture}/>
         {picture ? <Image 
-        source = {{uri : picture}}
+        source = {{uri : `${Config.SPRING_API}/api/member?uuid=`}}
         style = {styles.image}/> : null}
       </Animatable.View>}
       {showButton &&
