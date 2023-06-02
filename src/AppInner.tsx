@@ -15,6 +15,8 @@ import ObesityPage from './pages/obesityPage';
 import ObesityDetailPage from './pages/obesityDetailPage';
 import CommunityPage from './pages/communityPage';
 import { Alert, Pressable, Text, View } from 'react-native'
+import ObesityRegisterPage from './pages/obesityRegisterPage';
+import ObesityTimePage from './pages/obesityTimePage';
 
 
 export type RootStackParamList = {
@@ -27,6 +29,8 @@ export type RootStackParamList = {
   Shop : undefined;
   MapPage : undefined;
   Root: undefined;
+  ObesityRegisterPage : undefined;
+  ObesityTimePage : undefined;
   NonSocialMyPage: undefined;
   SocialMyPage: undefined;
   SocialWithdrawal: undefined;
@@ -114,6 +118,14 @@ function MainStackNavigator(){
       <Stack.Screen
         name = "Main"
         component = {Main}
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "ObesityRegisterPage"
+        component = {ObesityRegisterPage}
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "ObesityTimePage"
+        component = {ObesityTimePage}
         options={{...optionStack}}/>
   </Stack.Navigator>
   )
