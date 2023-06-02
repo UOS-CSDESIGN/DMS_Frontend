@@ -16,24 +16,16 @@ interface WeightData{
 }
 
 function ObesityPage({navigation} : ObesityScreenProps){
-    const [goal, setGoal] = useState<string>('');
-    const [weight, setWeight] = useState<string>('');
+    const [picture, setPicture] = useState<string>(''); //서버에 사진이 있으면 여기에 저장
+    const [goal, setGoal] = useState<string>('5.0');
+    const [weight, setWeight] = useState<string>('5.8');
     const [obesity, setObesity] = useState<number>(0);
-    const [isEditWeight, setIsEditWeight] = useState<boolean>(false);
-    const [tempWeight, setTempWeight] = useState<string>('');
-    const onChangeWeight = useCallback(() => {
-        setWeight('0');
-        setIsEditWeight(true);
-      }, [weight]);
-      const onSaveWeight = useCallback(() => {
-        setWeight(tempWeight);
-        setIsEditWeight(false);
-        setTempWeight('');
-        //서버로 변경된 최신몸무게 전송
-      }, [tempWeight]);
-      const onChangeWeightText = useCallback((weight : string) => {
-        setTempWeight(weight);
-      },[])
+    const toObesityRegister = useCallback(()=>{
+        navigation.navigate("ObesityRegisterPage")
+    },[navigation])
+    useEffect(()=>{
+    //서버로부터 weight, goal, obesity 받아서 각각 setWeight, setObesity, setGoal하기
+    },[]) 
 
     const [isEditGoal, setIsEditGoal] = useState<boolean>(false); 
     const [tempGoal, setTempGoal] = useState<string>('');
@@ -51,7 +43,7 @@ function ObesityPage({navigation} : ObesityScreenProps){
         setTempGoal(goal);
     },[]);
 
-    const [modalVisible, setModalVisible] = useState<boolean>(false);
+    const [modalVisible, setModalVisible] = useState<boolean>(false); //회수 modal
     const [enableModal, setEnableModal] = useState<boolean>(false);
     const showModal = () => {
         setModalVisible(true);
@@ -105,19 +97,16 @@ function ObesityPage({navigation} : ObesityScreenProps){
             </View>
             <View>
                 <Obesity
+                 picture = {picture}
                  goal = {goal}
                  tempGoal={tempGoal}
                  isEditGoal = {isEditGoal}
                  weight = {weight}
-                 tempWeight={tempWeight}
-                 isEditWeight = {isEditWeight}
                  obesity = {obesity}
+                 toObesityRegister={toObesityRegister}
                  onChangeGoalText={onChangeGoalText}
-                 onChangeWeightText={onChangeWeightText}
                  onSaveGoal={onSaveGoal}
-                 onSaveWeight={onSaveWeight}
-                 onChangeGoal ={onChangeGoal}
-                 onChangeWeight={onChangeWeight}/>
+                 onChangeGoal ={onChangeGoal}/>
             </View>
             <View>
                 <ObesityChart
