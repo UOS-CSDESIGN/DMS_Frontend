@@ -9,6 +9,7 @@ import { StyleSheet } from "react-native";
 type ObesityRegisterScreenProps = NativeStackScreenProps<RootStackParamList, "ObesityRegisterPage">
 
 function ObesityRegisterPage({navigation} : ObesityRegisterScreenProps){
+    const [name, setName] = useState<string>('');
     const [sidePicture, setSidePicture] = useState<string>('');
     const [upPicture, setUpPicture] = useState<string>('');
     const onChangeSidePicture = useCallback((picture : string) => {
@@ -44,6 +45,10 @@ function ObesityRegisterPage({navigation} : ObesityRegisterScreenProps){
     }
     return(
         <ScrollView style ={styles.ObesityRegisterPage}>
+            <View>
+                <Text>이름</Text>
+                <Text>{name}</Text>
+            </View>
             <View>
                 <ObesityRegister
                     sidePicture = {sidePicture}
