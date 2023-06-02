@@ -12,7 +12,6 @@ const petObesitySlice = createSlice({
         },
         getObesitySuccess: (state, action) => {
             state.loading = false;
-            state.petObesityData = [];
             state.petObesityData = state.petObesityData.concat(action.payload);
         },
         getObesityFailure: (state) => {

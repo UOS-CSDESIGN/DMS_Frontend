@@ -5,8 +5,8 @@ import { postObesityRequeset, postObesitySuccess, postObestiyFailure } from "./s
 
 async function postObesity(petObesity:PetObesity, token: string, dispatch: any): Promise<any> {
     
-    const url = `${Config.SRPING_API}/`;
-    const bearer = `Bearer${JSON.parse(token)}`;
+    const url = `${Config.SRPING_API}/obesity/register`;
+    const bearer = `Bearer ${JSON.parse(token)}`;
 
     dispatch(postObesityRequeset());
     await axios.post(url,

@@ -1,16 +1,30 @@
 class PetObesity{
     petId: number;
     date: number;
-    survey: number;
+    weight: number;
+    touchRip: number;
+    seeRip: number;
+    touchBelly: number;
+    seeWeistUp: number;
+    seeWeistSide: number;
     imageUrl: string;
     imageName: string;
 
     constructor(
-        petId:number, date:number, survey:number, imageUrl:string, imageName:string
+        petId: number, date: number, weight: number,
+        touchRip: number, seeRip: number, touchBelly: number, seeWeistUp: number, seeWeistSide: number,
+        imageUrl: string, imageName: string
     ) {
         this.petId = petId;
         this.date = date;
-        this.survey = survey;
+        this.weight = weight;
+
+        this.touchRip = touchRip;
+        this.seeRip = seeRip;
+        this.touchBelly = touchBelly;
+        this.seeWeistUp = seeWeistUp;
+        this.seeWeistSide = seeWeistSide;
+
         this.imageUrl = imageUrl;
         this.imageName = imageName;
     }
@@ -21,14 +35,18 @@ class PetObesity{
         let file = {};
 
         data.append("petId", this.petId);
-        data.append("date", this.date);
-        data.append("survey", this.survey);
+        data.append("weight", this.weight);
+        data.append("touchRip", this.touchRip);
+        data.append("seeRip", this.seeRip);
+        data.append("touchBelly", this.touchBelly);
+        data.append("seeWeistUp", this.seeWeistUp);
+        data.append("seeWeistSide", this.seeWeistSide);
         file = {
             uri: this.imageUrl,
             type: "multipart/form-data",
             name: this.imageName,
         }
-        data.append("obesityImage", file);
+        data.append("images", file);
 
         return data;
     }

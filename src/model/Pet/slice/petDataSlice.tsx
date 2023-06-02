@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import toPet from "../mapper/toPet";
 
 const petDataSlice = createSlice({
     name: "petData",
@@ -13,7 +14,9 @@ const petDataSlice = createSlice({
         },
         getPetDataSuccess: (state, action) => {
             state.loading = false;
-            state.petData = action.payload.petList;
+            state.petData = action.payload.map((item: any) => (
+                toPet(item)
+            ));
         },
         getPetDataFailure: (state) => {
             state.loading = false;
@@ -27,7 +30,7 @@ const petDataSlice = createSlice({
         },
         postPetDataFailure: (state) => {
             state.loading = false;
-        }
+        },
     }
 });
 
