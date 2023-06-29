@@ -6,8 +6,8 @@
     setOpen : Dispatch<SetStateAction<boolean>>;
     items : Array<{value : string, label : string}>;
     setItems : Dispatch<SetStateAction<Array<{value : string, label : string}>>>;
-    selectedItem : string;
-    setSelectedItem : Dispatch<SetStateAction<string>>;
+    value : string[];
+    setValue : Dispatch<SetStateAction<string[]>>;
     text : string;
  }
 
@@ -18,9 +18,9 @@
             setOpen = {props.setOpen}
             items = {props.items}
             setItems = {props.setItems}
-            value = {props.selectedItem}
-            onChangeValue={(value : any) => props.setSelectedItem(value)}
-            setValue={props.setSelectedItem}
+            value = {props.value}
+            onChangeValue={(value : any) => props.setValue(value)}
+            setValue={props.setValue}
             placeholder= {props.text}
             multiple = {false}
             mode = "BADGE"
