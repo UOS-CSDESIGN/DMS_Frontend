@@ -17,9 +17,7 @@ function ObesityDetailPage({navigation} : ObesityDetailScreenProps){
     const [weight ,setWeight] = useState<string>('0');
     const [obesity, setObesity] = useState<number>(0);
     useEffect(() => {
-        //날짜가 바뀌면 몸무게 바꿔줌
-        //날짜가 바뀌면 몸무게변화량 바꿔줌
-        //날짜가 바뀌면 비만도 바꿔줌
+        //가장 최신 날짜의 모든 비만도 데이터를 업데이트해줌
     },[date])
 
     const [surveyIndex, setSurveyIndex] = useState<number[]>([]);
