@@ -1,3 +1,4 @@
+AppInner.tsx
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -17,6 +18,7 @@ import CommunityPage from './pages/communityPage';
 import { Alert, Pressable, Text, View } from 'react-native'
 import { useSelector } from 'react-redux';
 import { RootState } from './model';
+import PostPage from './pages/postPage';
 
 
 export type RootStackParamList = {
@@ -29,9 +31,12 @@ export type RootStackParamList = {
   Shop : undefined;
   MapPage : undefined;
   Root: undefined;
+  ObesityRegisterPage : undefined;
+  ObesityTimePage : undefined;
   NonSocialMyPage: undefined;
   SocialMyPage: undefined;
   SocialWithdrawal: undefined;
+  PostPage : undefined;
 };
 
 export type RootDrawerParamList = {
@@ -117,6 +122,11 @@ function MainStackNavigator(){
         name = "Main"
         component = {Main}
         options={{...optionStack}}/>
+      <Stack.Screen
+        name = "PostPage"
+        component = {PostPage}
+        options={{...optionStack}}
+      />
   </Stack.Navigator>
   )
 }
@@ -166,10 +176,7 @@ function AppInner() {
   return (
     
     <NavigationContainer>
-      {isLogged ?
-        <MainStackNavigator /> :
-        <LoginStackNavigator/>
-      }
+      <MainStackNavigator/>
     </NavigationContainer>
   ); 
 }
