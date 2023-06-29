@@ -1,7 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../AppInner";
 import {View, Text, StyleSheet} from 'react-native'
-import ObesityTimeComponent from "../components/ObesityTimeComponent";
 import { useCallback, useEffect, useState } from "react";
 import DropDownComponent from "../components/DropDownComponent";
 
@@ -12,10 +11,9 @@ function ObesityTimePage({navigation} : ObesityTimeScreenProps){
     const [open, setOpen] = useState<boolean>(false);
     const [items, setItems] = useState<Array<{label : string, value : string}>>([]);
     const text = "연도 선택"
-    const [selectedYear, setSelectedYear] = useState<string>('');
+    const [value, setValue] = useState<string[]>([]);
     useEffect(() => {
-        const data = ["2022-12-10 1회차", "2022-12-17 2회차", "2023-05-03 1회차", "2023-05-10 2회차",
-         "2023-05-17 3회차", "2023-05-24 4회차", "2023-05-31 5회차"];
+        const data = ["2020-12-10 1회차", "2021-12-17 2회차", "2022-05-03 3회차", "2023-05-10 4회차"];
         const items = data.map((item) => {
             const [date, count] = item.split(' ');
             const year = date.split('-')[0];
@@ -24,21 +22,13 @@ function ObesityTimePage({navigation} : ObesityTimeScreenProps){
                 value : count
             }
         })
-        setObesityData(items);
+        console.log(items);
+        setItems(items);
     },[])
 
     useEffect(() => {
-        const year = Array.from(new Set(obesityData.map((data) => data.label)));
-        const years = year.map(label => {
-            const value = obesityData.find(item => item.label === label)?.value;
-            return {label, value};
-        })
-        setItems(prevItems => [
-            ...prevItems,
-            {label : "2022", value : "1회차"},
-            {label : "2023", value : "2회차"}
-        ]);
-        console.log(items);
+        const year = Array.from(new Set(items.map((data) => data.label)));
+        setValue(year);
     },[obesityData])
 
     return(
@@ -47,18 +37,34 @@ function ObesityTimePage({navigation} : ObesityTimeScreenProps){
                 <Text style = {styles.ObesityTimePageNameText}>회차 선택</Text>
             </View>
             <View style = {styles.ObesityTimeDescriptionWrapper}>
-                <Text style = {styles.ObesityTimeDescriptionText}>연도와 회차를 선택해 주세요.</Text>
+                <Text style = {styles.ObesityTimeDescriptionText}>연도를 선택해주세요</Text>
             </View>
             <View style = {styles.ObesityTimeWrapper}>
                 <DropDownComponent
                     open = {open}
                     setOpen = {setOpen}
-                    items = {obesityData}
-                    setItems = {setObesityData}
-                    selectedItem = {selectedYear}
-                    setSelectedItem={setSelectedYear}
+                    items = {items}
+                    setItems = {setItems}
+                    value = {value}
+                    setValue={setValue}
                     text = {text}
                     />
+            </View>
+            <View style = {styles.ObesityTimeDescriptionWrapper}>
+                <View>
+                    <Text style = {styles.ObesityTimeDescriptionText}>달을 선택해주세요</Text>
+                </View>
+                <View style = {styles.ObesityTimeWrapper}>
+                    {/*<DropDownComponent
+                     open = {open}
+                     setOpen = {setOpen}
+                     items = {items}
+                     setItems = {setItems}
+                     value = {value}
+                     setValue = {setValue}
+                     text = {text}
+                    /> */}
+                </View>
             </View>
         </View>
     )
@@ -82,7 +88,8 @@ const styles = StyleSheet.create({
     },
     ObesityTimeDescriptionWrapper : {
         flexDirection : 'row',
-        paddingHorizontal : '3%'
+        paddingHorizontal : '3%',
+        paddingVertical : '2%',
     },
     ObesityTimeDescriptionText : {
         color : 'black',
@@ -90,8 +97,11 @@ const styles = StyleSheet.create({
         fontSize : 16,
     },
     ObesityTimeWrapper : {
-
-    }
+        paddingLeft : '3%',
+        justifyContent : 'center',
+        alignItems : 'center',
+        paddingVertical : '2%',
+    },
 })
 
 export default ObesityTimePage;
