@@ -19,6 +19,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from './model';
 import PostBoardPage from './pages/postBoardPage';
 import PostPage from './pages/postPage';
+import PostAddPage from './pages/postAddPage';
+import InstructionPage from './pages/instructionPage';
 
 
 export type RootStackParamList = {
@@ -38,6 +40,8 @@ export type RootStackParamList = {
   SocialWithdrawal: undefined;
   PostBoardPage : undefined;
   PostPage : undefined;
+  PostAddPage : undefined;
+  InstructionPage : undefined;
 };
 
 export type RootDrawerParamList = {
@@ -131,6 +135,14 @@ function MainStackNavigator(){
       <Stack.Screen
         name = "PostPage"
         component = {PostPage}
+        options = {{...optionStack}}/>
+      <Stack.Screen
+        name = "PostAddPage"
+        component = {PostAddPage}
+        options = {{...optionStack}}/>
+      <Stack.Screen
+        name = "InstructionPage"
+        component = {InstructionPage}
         options = {{...optionStack}}/>
   </Stack.Navigator>
   )
