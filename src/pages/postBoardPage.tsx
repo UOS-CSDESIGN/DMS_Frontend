@@ -4,6 +4,7 @@ import {View, Text, Pressable, StyleSheet, SafeAreaView, FlatList} from "react-n
 import { useCallback } from "react";
 import Icon from 'react-native-vector-icons/Ionicons'
 import { postType } from "../model/Community/Post";
+import PostAddButtonComponent from "../components/PostAddButtonComponent";
 
 type PostBoardScreenProps = NativeStackScreenProps<RootStackParamList, 'PostBoardPage'>
 
@@ -34,6 +35,9 @@ function PostBoardPage({navigation} : PostBoardScreenProps){
     },[navigation])
 
     const keyExtractor = (item : any) => item.id.toString();
+    const onPress = useCallback(() => {
+        navigation.navigate("PostAddPage")
+    },[])
 
     return(
         <SafeAreaView style = {styles.PostBoardPage}>
@@ -46,6 +50,9 @@ function PostBoardPage({navigation} : PostBoardScreenProps){
                     renderItem = {renderItem}
                     keyExtractor = {keyExtractor}
                 />
+            </View>
+            <View>
+                <PostAddButtonComponent onPress = {onPress}/>
             </View>
         </SafeAreaView>
     )
