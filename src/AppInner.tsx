@@ -1,4 +1,3 @@
-AppInner.tsx
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -18,6 +17,7 @@ import CommunityPage from './pages/communityPage';
 import { Alert, Pressable, Text, View } from 'react-native'
 import { useSelector } from 'react-redux';
 import { RootState } from './model';
+import PostBoardPage from './pages/postBoardPage';
 import PostPage from './pages/postPage';
 
 
@@ -36,6 +36,7 @@ export type RootStackParamList = {
   NonSocialMyPage: undefined;
   SocialMyPage: undefined;
   SocialWithdrawal: undefined;
+  PostBoardPage : undefined;
   PostPage : undefined;
 };
 
@@ -123,10 +124,14 @@ function MainStackNavigator(){
         component = {Main}
         options={{...optionStack}}/>
       <Stack.Screen
-        name = "PostPage"
-        component = {PostPage}
+        name = "PostBoardPage"
+        component = {PostBoardPage}
         options={{...optionStack}}
       />
+      <Stack.Screen
+        name = "PostPage"
+        component = {PostPage}
+        options = {{...optionStack}}/>
   </Stack.Navigator>
   )
 }

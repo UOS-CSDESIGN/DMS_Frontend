@@ -13,12 +13,12 @@ interface Breed {
 }
 
 function CommunityPage({navigation} : CommunityScreenProps){
-    const [breedData, setBreedData] = useState<Breed[]>([])
+    const [breedData, setBreedData] = useState<Breed[]>([{boardId : 1, boardName : '리트리버'}])
     const onSearch = useCallback(() => {
 
     },[])
     const toPost = useCallback(() => {
-        navigation.navigate("PostPage")
+        navigation.navigate("PostBoardPage")
     },[navigation])
 
 
