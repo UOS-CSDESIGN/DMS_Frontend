@@ -1,8 +1,8 @@
 import Category from "../Category";
 
-function toCategory(categoryId: number, name: string) {
+function toCategory(boardId: number, boardName: string) {
     return (
-        new Category(categoryId, name)
+        new Category(boardId, boardName)
     );
 }
 export default toCategory;
