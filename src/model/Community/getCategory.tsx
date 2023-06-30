@@ -4,20 +4,14 @@ import { getCategoryRequest, getCategorySuccess, getCategoryFailure } from "./sl
 
 async function getCategory(token:string, dispatch:any):Promise<any> {
     
-    const bearer = `Bearer ${JSON.parse(token)}`;
-    const url = `${Config.SPRING_API}/`;
+    //const bearer = `Bearer ${JSON.parse(token)}`;
+    const url = `${Config.SPRING_API}/board/list`;
 
     dispatch(getCategoryRequest());
     await axios.get(
         url,
-        {
-            headers: {
-                Authorization: bearer,
-            }
-        },
     ).then((res) => {
         dispatch(getCategorySuccess(res.data));
-        
         return Promise.resolve();
     }).catch((error) => {
         dispatch(getCategoryFailure());
