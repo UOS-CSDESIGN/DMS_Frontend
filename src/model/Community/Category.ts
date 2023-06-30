@@ -1,23 +1,23 @@
-export interface categoryInterface{
-    categoryId: number,
-    name: string
+export interface Borad{
+    boardId: number,
+    boardName: string
 };
 class Category{
-    categoryId: number;
-    name: string;
+    boardId: number;
+    boardName: string;
 
     constructor(
-        categoryId: number, name: string
+        boardId: number, boardName: string
     ) {
-        this.categoryId = categoryId;
-        this.name = name;
+        this.boardId = boardId;
+        this.boardName = boardName;
     }
-    get categoryInfo() {
-        const info = {
-            id: this.categoryId,
-            name: this.name
+    get categoryInfo():Borad {
+        
+        return {
+            boardId: this.boardId,
+            boardName: this.boardName
         };
-        return info;
     }
 }
 export default Category;
