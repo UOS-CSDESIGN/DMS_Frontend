@@ -3,6 +3,7 @@ import toCategory from "../mapper/toCategory";
 import { postType } from "../Post";
 import toPost from "../mapper/toPost";
 
+
 const categorySlice = createSlice({
     name: 'category',
     initialState: {
@@ -18,16 +19,15 @@ const categorySlice = createSlice({
         getCategorySuccess: (state, action) => {
 
             state.categoryList = action.payload.map((item: any) => (
-                toCategory(item.categoryId, item.name)
+                 toCategory(item.boardId, item.boardName)
             ));
-
             console.log(state.categoryList);
-            state.loading = false;
         },
         getCategoryFailure: (state) => {
             console.log("failed get category");
             state.loading = false;
         },
+
         getFavoriteCategoryRequest: (state) => {
             state.loading = true;
         },
