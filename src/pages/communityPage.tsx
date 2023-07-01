@@ -2,18 +2,21 @@ import { DrawerScreenProps } from "@react-navigation/drawer"
 import { RootDrawerParamList } from "../AppInner"
 import {View, Text, Pressable, StyleSheet, ScrollView} from "react-native"
 import Icon from 'react-native-vector-icons/EvilIcons'
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import BoardComponent from "../components/BoardComponent"
+import { Borad } from "../model/Community/Category"
+import getCategory from "../model/Community/getCategory"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../model"
 
 type CommunityScreenProps = DrawerScreenProps<RootDrawerParamList, 'CommunityPage'>
 
-interface Breed {
-    boardId : number;
-    boardName: string;
-}
 
 function CommunityPage({navigation} : CommunityScreenProps){
-    const [breedData, setBreedData] = useState<Breed[]>([{boardId : 1, boardName : '리트리버'}])
+    const [boardData, setBoarddData] = useState<Borad[]>([]);
+    const [isSet, setIsSet] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const list = useSelector((state: RootState) => state.board.items);
     const onSearch = useCallback(() => {
 
     },[])
@@ -21,7 +24,24 @@ function CommunityPage({navigation} : CommunityScreenProps){
         navigation.navigate("PostBoardPage")
     },[navigation])
 
+    useEffect(() => {
+        async function func() {
+            await getCategory('', dispatch)
+                .then((res) => {
+                    setIsSet(true);
+                })
+                .catch((error) => {
+                    setIsSet(false);
+                });
+        }
+        func();
+    }, []);
 
+    useEffect(()=> { 
+        setBoarddData(list.map((item: Borad) => (
+            { boardId: item.boardId, boardName: item.boardName }
+        )));
+    }, [isSet]);
 
     return(
         <ScrollView style = {styles.CommunityPage}>
@@ -36,7 +56,7 @@ function CommunityPage({navigation} : CommunityScreenProps){
                 </View>
             </View>
             <View style = {styles.BoardWrapper}>
-                {breedData.map((breed) => (
+                {boardData.map((breed) => (
                     <BoardComponent
                      name = {breed.boardName}
                      onPress = {toPost}/>

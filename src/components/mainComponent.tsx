@@ -14,7 +14,12 @@ import {
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import Picture from './PictureComponent';
-
+import postPosting from '../model/Community/postPosting';
+import { Dimensions } from 'react-native';
+import ButtonComponent from '../components/ButtonComponent';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../model';
+const width = Dimensions.get('window').width;
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
 
 function Main({navigation} : MainScreenProps){
@@ -103,6 +108,16 @@ function Main({navigation} : MainScreenProps){
   const onChangeObesity = useCallback(() => {
 
   }, []);
+  const dispatch = useDispatch();
+  const token = useSelector((state: RootState) => state.login.accessToken);
+  const onTest = () => {
+    let data = new FormData();
+    data.append("title", "집보내줭");
+    data.append("content", "개 피곤해");
+    postPosting(token, dispatch, data)
+      .then((res) => { console.log(res) })
+      .catch((err) => { console.log(err) });
+      }
     return(
       <View>
         <View>
@@ -204,6 +219,12 @@ function Main({navigation} : MainScreenProps){
             <Text style = {styles.editButtonText}>수정</Text>
           </Pressable>
         </View>
+        <View style = {styles.ButtonWrapper}>
+              <ButtonComponent
+            canGoNext={true}
+              onSubmit={onTest}
+              buttonName='테스트'/>
+            </View>
       </View>
     )
 }
@@ -257,7 +278,11 @@ const styles = StyleSheet.create({
     color : 'black',
     borderRadius : 5,
     backgroundColor : 'gray',
-  }
+  },
+  ButtonWrapper : {
+    height : 30,
+    marginHorizontal : width/30,
+},
 })
 
 export default Main;
