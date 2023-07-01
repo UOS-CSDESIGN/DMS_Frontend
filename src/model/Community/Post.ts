@@ -7,18 +7,14 @@ interface postImage{
     type: 'multipart/form-data';
     name: string;
 }
-export interface postType{
+export interface PreviewType{
     postId: number;
-    categoryId: number;
     title: string;
-    content: string;
-    modifiedTime: Date;
-    like: number;
-    views: number;
-    author: string;
-    isModified: boolean;
-    isImage: number;
-    Image: image[];
+    modifiedDate: string;
+    likeCounts: number;
+    writerName: string;
+    writerId: string;
+    commentCount: number;
 }
 export default class Post{
     postId: number;
