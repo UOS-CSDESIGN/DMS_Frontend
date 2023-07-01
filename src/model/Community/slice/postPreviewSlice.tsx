@@ -26,9 +26,11 @@ const postPreviewSlice = createSlice({
                 }
             ));
         },
-        getPostFailure: (state, action){
+        getPostFailure: (state, action) => {
             console.log("error occured");
             console.log(action.payload);
+            console.log('list of preview');
+            console.log(state.items);
         }
     }
 });
