@@ -7,7 +7,7 @@ import { PreviewType } from "../model/Community/Post";
 import PostAddButtonComponent from "../components/PostAddButtonComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
-import getPost from "../model/Community/getPost";
+import getPost from "../model/Community/getPreviewPost";
 
 type PostBoardScreenProps = NativeStackScreenProps<RootStackParamList, 'PostBoardPage'>
 
