@@ -1,4 +1,4 @@
-export interface Borad{
+export interface Board{
     boardId: number,
     boardName: string
 };
@@ -12,7 +12,7 @@ class Category{
         this.boardId = boardId;
         this.boardName = boardName;
     }
-    get categoryInfo():Borad {
+    get categoryInfo():Board {
         
         return {
             boardId: this.boardId,
