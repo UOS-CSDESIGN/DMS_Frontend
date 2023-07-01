@@ -1,27 +1,28 @@
 import axios from "axios";
+import { PostType } from "./Post";
 import Config from "react-native-config";
-import { getPostFailure, getPostSuccess } from "./slice/postPreviewSlice";
 
-async function getPost(boardId:number,token: string|null, dispatch: any): Promise<any>{
+
+async function getPost(postId: number, token: string | null, dispatch: any): Promise<PostType|string>{
     
-    const url = `${Config.SPRING_API}/board/${boardId}/list`;
+    const url: string = `${Config.SPRING_API}/`
+    
+    axios.get(url)
+        .then((res) => {
+            console.log(res.data);
+            const data = {
 
-    if (token == null) {
-        return Promise.reject();
-    }
-
-    await axios.get(
-        url,
-    ).then((res) => {
-        console.log(res.data);
-        dispatch(getPostSuccess(res.data));
-
-        return Promise.resolve();
-    }).catch((error) => {
-        console.log("error");
-        dispatch(getPostFailure(error));
-
-        return Promise.reject();
-    });
+            }; 
+            return new Promise<PostType>(function (resolve, reject) {
+                resolve(data);
+            })
+        })
+        .catch((err) => {
+            console.log(err);
+            
+        });
+    return new Promise<PostType>(function (resolve, reject) {
+        reject("error");
+    })
+    
 }
-export default getPost;
