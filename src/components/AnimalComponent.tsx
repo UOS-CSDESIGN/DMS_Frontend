@@ -1,109 +1,39 @@
-import React, {useCallback, useState} from 'react';
-import {
-  Alert,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  ScrollView,
-  Button,
-  Image,
-  NativeSyntheticEvent,
-  TextInputChangeEventData
-} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import { RootStackParamList } from '../AppInner';
+import React from 'react';
+import {Pressable, StyleSheet,Text,TextInput, View, ScrollView, Image} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import PetGenderComponent from './PetGenderComponent';
 import BirthComponent from './BirthComponent';
 import Picture from './PictureComponent';
 import BreedAuto from './breedAutoComponent';
-import Pet from '../model/Pet/Pet';
-import postPetRegister from '../model/Pet/postPetRegister';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../model';
 
-type AnimalScreenProps = NativeStackScreenProps<RootStackParamList, 'Animal'>;
+type AnimalAddProps = {
+  name : string;
+  birth : string;
+  showBirth : boolean;
+  gender : number;
+  showGender : boolean;
+  breed : string;
+  showBreed : boolean;
+  weight : string;
+  showWeight : boolean;
+  animalID : string;
+  showAnimalID : boolean;
+  picture : string;
+  showPicture : boolean;
+  imageUrl : string;
+  imageName : string;
+  showButton : boolean;
+  onChangeName : (name : string) => void;
+  onChangeBirth : (birth : string) => void;
+  onChangeGender : (gender : number) => void;
+  onChangeBreed : (breed : string) => void;
+  onChangeWeight : (weight : string) => void;
+  onChangeAnimalId : (animalID : string) => void;
+  onChangePicture : (picture : string) => void;
+  onSubmit : () => void;  
+}
 
-
-function Animal({ navigation }: AnimalScreenProps) {
-  const [name, setName] = useState<string>('');
-  const [birth, setBirth] = useState<string>('');
-  const [showBirth, setShowBirth] = useState<boolean>(false);
-  const [gender, setGender] = useState<number>(0);
-  const [showGender, setShowGender] = useState<boolean>(false);
-  const [breed, setBreed] = useState<string>('');
-  const [showBreed, setShowBreed] = useState<boolean>(false);
-  const [weight, setWeight] = useState<string>('');
-  const [showWeight, setShowWeight] = useState<boolean>(false);
-  const [animalID, setAnimalID] = useState<string>('');
-  const [showAnimalID, setShowAnimalID] = useState<boolean>(false);
-  const [picture, setPicture] = useState<string>('');
-  const [imageUrl, setImageUrl] = useState<string>('');
-  const [imageName, setImageName] = useState<string>('');
-  const [showPicture, setShowPicture] = useState<boolean>(false);
-  const [showButton, setShowButton] = useState<boolean>(false);
-
-  const onChangeName = (value: string) => {
-    setName(value);
-    setShowBirth(true);
-  }
-  const onChangeBirth = (value: string) => {
-    setBirth(value);
-    setShowGender(true);
-  }
-  const onChangeGender = useCallback((gender: number) => {
-    setGender(gender);
-    setShowBreed(true);
-    console.log(gender);
-  }, []);
-  const onChangeBreed = (value: string) => {
-    setBreed(value);
-    setShowWeight(true);
-  }
-  const onChangeWeight = (value: string) => {
-    setWeight(value);
-    setShowAnimalID(true);
-  }
-  const onChangeAnimalId = (value: string) => {
-    setAnimalID(value);
-    setShowPicture(true);
-  }
-  const onChangePicture = (value: string) => {
-    setPicture(value);
-    if (value !== null) {
-      setImageUrl(value);
-      if (imageUrl !== undefined) {
-        const tempName = imageUrl.split("/").pop();
-        setImageName(tempName || '');
-      }
-    } else {
-      console.log('Selected image does not have assets');
-    }
-    setShowButton(true),[imageUrl, imageName]
-  }
-  const dispatch = useDispatch();
-  const token = useSelector((state:RootState)=>state.login.accessToken)
-
-  const onSubmit = useCallback(async () => {
-    console.log(breed);
-    const pet = new Pet(
-      Number(animalID), name, birth, gender, 1,
-      0, 0, 0, imageUrl, imageName
-    );
-    await postPetRegister(pet, dispatch, token)
-      .then(() => {
-        navigation.navigate('MultiProfile');
-      })
-      .catch(() => {
-        navigation.navigate('Animal');
-      });
-
-    console.log(pet.registerFormData);
-  }, [animalID, name, birth, gender, breed, weight, imageUrl, imageName]);
-
-
+function Animal(props : AnimalAddProps) {
   return (
     <ScrollView
       nestedScrollEnabled={true}
@@ -113,64 +43,64 @@ function Animal({ navigation }: AnimalScreenProps) {
         <Text style = {styles.text}>이름</Text>
         <TextInput 
           style = {styles.textInput}
-          value = {name}
-          onChangeText = {onChangeName}/>
+          value = {props.name}
+          onChangeText = {props.onChangeName}/>
       </View>
-      {showBirth &&
+      {props.showBirth &&
       <Animatable.View animation = "slideInLeft"
        style = {styles.wrapper}>
         <Text style = {styles.text}>생일</Text>
         <View style = {styles.innerWrapper}>
-          <Text style = {styles.innerText}>생일 : {birth}</Text>
-          <BirthComponent onBirthSelected={onChangeBirth}/> 
+          <Text style = {styles.innerText}>생일 : {props.birth}</Text>
+          <BirthComponent onBirthSelected={props.onChangeBirth}/> 
         </View>
       </Animatable.View>}
-      {showGender &&
+      {props.showGender &&
       <Animatable.View animation = "slideInLeft"
        style = {styles.wrapper}>
         <Text style = {styles.text}>성별</Text>
-        <PetGenderComponent onGenderChange={onChangeGender}/>
+        <PetGenderComponent onGenderChange={props.onChangeGender}/>
       </Animatable.View>}
-      {showBreed &&
+      {props.showBreed &&
       <View style = {styles.wrapper}>
         <Text style = {styles.text}>견종</Text>
-          <BreedAuto onSelectItem={onChangeBreed} />
+          <BreedAuto onSelectItem={props.onChangeBreed} />
       </View>}
-      {showWeight &&
+      {props.showWeight &&
       <Animatable.View animation = "slideInLeft"
        style = {styles.wrapper}>
         <Text style = {styles.text}>몸무게</Text>
         <TextInput
           style = {styles.textInput}
-          value = {weight}
-          onChangeText = {onChangeWeight}
+          value = {props.weight}
+          onChangeText = {props.onChangeWeight}
           keyboardType = 'numeric'/>
       </Animatable.View>}
-      {showAnimalID &&
+      {props.showAnimalID &&
       <Animatable.View animation = "slideInLeft"
        style = {styles.wrapper}>
         <Text style = {styles.text}>강아지 등록번호</Text>
         <TextInput
           style = {styles.textInput}
-          value = {animalID}
-          onChangeText = {onChangeAnimalId}
+          value = {props.animalID}
+          onChangeText = {props.onChangeAnimalId}
           keyboardType = 'decimal-pad'/>
       </Animatable.View>}
-      {showPicture &&
+      {props.showPicture &&
       <Animatable.View animation = "slideInLeft"
        style = {styles.wrapper}>
         <Text style = {styles.text}>사진</Text>
-        <Picture onPictureSelected={onChangePicture}/>
-        {picture ? <Image 
-        source = {{uri : picture}}
+        <Picture onPictureSelected={props.onChangePicture}/>
+        {props.picture ? <Image 
+        source = {{uri : props.picture}}
         style = {styles.image}/> : null}
       </Animatable.View>}
-      {showButton &&
+      {props.showButton &&
       <Animatable.View animation= "fadeIn"
        style = {styles.button}>
         <Pressable
          style = {styles.submit}
-         onPress = {onSubmit}>
+         onPress = {props.onSubmit}>
           <Text style = {styles.submitButton}>완료</Text>
         </Pressable>
       </Animatable.View>}

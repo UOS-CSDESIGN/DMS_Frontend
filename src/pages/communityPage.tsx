@@ -4,7 +4,7 @@ import {View, Text, Pressable, StyleSheet, ScrollView} from "react-native"
 import Icon from 'react-native-vector-icons/EvilIcons'
 import { useCallback, useEffect, useState } from "react"
 import BoardComponent from "../components/BoardComponent"
-import { Borad } from "../model/Community/Category"
+import { Board } from "../model/Community/Category"
 import getCategory from "../model/Community/getCategory"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../model"
@@ -13,7 +13,7 @@ type CommunityScreenProps = DrawerScreenProps<RootDrawerParamList, 'CommunityPag
 
 
 function CommunityPage({navigation} : CommunityScreenProps){
-    const [boardData, setBoarddData] = useState<Borad[]>([]);
+    const [boardData, setBoarddData] = useState<Board[]>([]);
     const [isSet, setIsSet] = useState<boolean>(false);
     const dispatch = useDispatch();
     const list = useSelector((state: RootState) => state.board.items);
@@ -38,7 +38,7 @@ function CommunityPage({navigation} : CommunityScreenProps){
     }, []);
 
     useEffect(()=> { 
-        setBoarddData(list.map((item: Borad) => (
+        setBoarddData(list.map((item: Board) => (
             { boardId: item.boardId, boardName: item.boardName }
         )));
     }, [isSet]);
