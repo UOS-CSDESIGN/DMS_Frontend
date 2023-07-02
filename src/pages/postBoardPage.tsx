@@ -24,8 +24,14 @@ function PostBoardPage({navigation} : PostBoardScreenProps){
                 <Text style = {styles.PostDataTitle}>{item.title}</Text>
                 <Text style = {styles.PostDataText}>{item.content}</Text>
                 <View style = {styles.IconAndCountWrapper}>
-                    <Icon name = 'chatbox' size = {18}/>
-                    <Text style = {styles.CountText}>3</Text>
+                    <View style = {styles.CountWrapper}>
+                        <Icon name = "thumbs-up-outline" size = {18} color = "red"/>
+                        <Text style = {styles.CountText}>5</Text> 
+                    </View>
+                    <View style = {styles.CountWrapper}>
+                        <Icon name = 'chatbox' size = {18}/>
+                        <Text style = {styles.CountText}>3</Text>
+                    </View>
                 </View>
             </View>
         </Pressable>
@@ -90,6 +96,10 @@ const styles = StyleSheet.create({
         fontSize : 13,
     },
     IconAndCountWrapper : {
+        flexDirection : 'row',
+        alignItems : 'center',
+    },
+    CountWrapper : {
         flexDirection : 'row',
         alignItems : 'center',
     },
