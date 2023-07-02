@@ -1,16 +1,18 @@
-import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native';
+import {View, Text, StyleSheet, Pressable, TextInput, Image} from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import { useCallback, useState } from 'react';
+import Picture from '../components/PictureComponent';
 
 type PostAddScreenProps = NativeStackScreenProps<RootStackParamList, 'PostAddPage'>
 
 function PostAddPage({navigation} : PostAddScreenProps){
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<string>('');
+    const [picture, setPicture] = useState<string[]>([]);
 
     const onSubmit = useCallback(() => {
-        //데이터 전송
+        //title이랑 content에 게시판 ID, 게시물 ID 추가해서 보내기
     },[])
 
     const onChangeTitle = useCallback((text : string) => {
@@ -24,6 +26,10 @@ function PostAddPage({navigation} : PostAddScreenProps){
     const toInstruction = useCallback(()=> {
         navigation.navigate("InstructionPage");
     },[navigation])
+
+    const onChangePicture = useCallback((picture : string) => {
+        setPicture(prevPicture => [...prevPicture, picture]);
+    },[picture])
     return(
         <View style = {styles.PostAddPage}>
             <View style = {styles.PostAddTopWrapper}>
@@ -44,13 +50,21 @@ function PostAddPage({navigation} : PostAddScreenProps){
                     />
             </View>
             <View style = {styles.PostAddContentWrapper}>
-                <TextInput
-                    style = {styles.ContentTextInput}
-                    placeholder = '내용을 입력하세요'
-                    value = {content}
-                    onChangeText = {onChangeContent}
-                    keyboardType = 'email-address'
-                    multiline/>
+                <View style = {styles.PostAddContentInnerWrapper}>
+                    <TextInput
+                        style = {styles.ContentTextInput}
+                        placeholder = '내용을 입력하세요'
+                        value = {content}
+                        onChangeText = {onChangeContent}
+                        keyboardType = 'email-address'
+                        multiline/>
+                </View>
+                {picture ?
+                    <View style = {styles.PictureWrapper}>
+                        {picture.map((image : string, index : number) => (
+                            <Image key = {index} source = {{uri : image}} style = {styles.image}/> 
+                        ))}
+                    </View> : null}
             </View>
             <View style = {styles.PostInstructionWrapper}>
                 <View>
@@ -60,6 +74,9 @@ function PostAddPage({navigation} : PostAddScreenProps){
                         <Text style = {styles.InstructionButton}>커뮤니티 이용규칙 전체 보기</Text>
                     </Pressable>
                 </View>
+            </View>
+            <View>
+                <Picture onPictureSelected={onChangePicture}/>
             </View>
         </View>
     )
@@ -100,6 +117,12 @@ const styles = StyleSheet.create({
     PostAddContentWrapper : {
 
     },
+    PostAddContentInnerWrapper : {
+
+    },
+    PictureWrapper : {
+
+    },
     TitleTextInput : {
 
     },
@@ -118,6 +141,10 @@ const styles = StyleSheet.create({
         textAlign : 'center',
         justifyContent : 'center',
         color : 'black',
+    },
+    image : {
+        width : '40%',
+        height : '60%'
     }
 })
 
