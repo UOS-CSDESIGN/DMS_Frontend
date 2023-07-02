@@ -2,19 +2,29 @@ import Config from "react-native-config";
 import Post from "./Post";
 import axios from "axios";
 
-async function postPosting(token: string, dispatch: any, post: Post):Promise<any> {
+async function postPosting(token: string, dispatch: any,
+    //post: Post
+    data:FormData
+): Promise<any> {
     
-    const uri = `${Config.SPRING_API}/`;
-    const bearer = `bearer ${JSON.parse(token)}`;
-
+    console.log(token);
+    const uri = `${Config.SPRING_API}/board/1/register`;
+    const bearer = `bearer ${token}`;
+    console.log(uri);
+    console.log(bearer);
+    
     await axios.post(
         uri,
-        post.postItem,
+        data,
         {
             headers: {
                 Authorization: bearer,
+            },
+            transformRequest: (data, header) => {
+                return data;
             }
-        }
+        },
+        
     ).then((res) => {
         console.log("post Posting success");
 

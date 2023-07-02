@@ -15,9 +15,11 @@ import { RootState } from '../model';
 import SocialLoginComponent from '../components/SocialLoginComponent';
 import deleteMemberData from '../model/User/deleteMemberData';
 import CheckBox from '@react-native-community/checkbox';
-import ButtonComponent from '../components/ButtonComponent';
 import postLogin from '../model/User/postLogin';
 import { Dimensions } from 'react-native';
+import postPosting from '../model/Community/postPosting';
+import Post from '../model/Community/Post';
+import { Image } from 'react-native-svg';
 
 type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginPage'>;
 const width = Dimensions.get('window').width;
@@ -79,7 +81,12 @@ function LoginPage({navigation} : LogInScreenProps){
       const onDeleteMember = useCallback(async () => {
         deleteMemberData(dispatch, token, "");
       }, [dispatch, token]);
-
+  const onTest = () => {
+    let data = new FormData();
+    data.append("title", "집보내줭");
+    data.append("content", "개 피곤해");
+    postPosting('', dispatch, data);
+      }
     return(
         <ScrollView style = {styles.LoginPage}>
           <View style={styles.GreetingWrapper}>
@@ -126,7 +133,7 @@ function LoginPage({navigation} : LogInScreenProps){
               <SocialLoginComponent
                 toAnimal = {toAnimal}
                 toSignup = {toSocialSignUp}/>
-            </View>
+        </View>
         </ScrollView>
     )
 }

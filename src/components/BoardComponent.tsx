@@ -9,7 +9,7 @@ function BoardComponent(props : BoardProps){
     return(
         <View style = {styles.BoardWrapper}>
             <Pressable onPress = {props.onPress}>
-                <Text style = {styles.Text}>{props.name}게시판</Text>
+                <Text style = {styles.Text}>{props.name}</Text>
             </Pressable>
         </View>
     )
