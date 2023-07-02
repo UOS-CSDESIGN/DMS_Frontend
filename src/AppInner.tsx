@@ -2,12 +2,13 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator, DrawerItem, DrawerToggleButton} from '@react-navigation/drawer'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { useState } from 'react';
 import LoginPage from './pages/loginPage';
 import SignUpPage from './pages/signUpPage';
 import Main from './components/mainComponent';
 import MyPage from './components/MyPageComponent';
-import Animal from './components/AnimalComponent';
+import AnimalAddPage from './pages/animalAddPage';
 import SocialGoogle from './components/socialGoogle';
 import Find from './components/FindComponent';
 import MultiProfile from './components/MultiProfileComponent';
@@ -21,13 +22,15 @@ import PostBoardPage from './pages/postBoardPage';
 import PostPage from './pages/postPage';
 import PostAddPage from './pages/postAddPage';
 import InstructionPage from './pages/instructionPage';
+import Icon from 'react-native-vector-icons/Fontisto';
+import CommunityMyPage from './pages/communityMyPage';
 
 
 export type RootStackParamList = {
   LoginPage: undefined;
   SignUpPage: undefined;
   FindPage : undefined;
-  Animal : undefined;
+  AnimalAddPage : undefined;
   Main : undefined;
   SocialGoogle : undefined;
   Shop : undefined;
@@ -52,8 +55,14 @@ export type RootDrawerParamList = {
   CommunityPage : undefined;
 }
 
+export type RootBottomParamList = {
+  Community : undefined;
+  CommunityMyPage : undefined;
+}
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
+const BottomTab = createBottomTabNavigator();
 
 const optionDrawer = {
   headerLeft : () => null,
@@ -120,8 +129,8 @@ function MainStackNavigator(){
         component={MainDrawerNavigator}
         options={{...optionStack}}/>
       <Stack.Screen
-        name = "Animal"
-        component = {Animal}
+        name = "AnimalAddPage"
+        component = {AnimalAddPage}
         options={{...optionStack}}/>
       <Stack.Screen
         name = "Main"
@@ -176,9 +185,33 @@ function MainDrawerNavigator(){
         options={{...optionDrawer}}/>
       <Drawer.Screen
         name = "CommunityPage"
-        component = {CommunityPage}
+        component = {BottomTabNavigator}
         options ={{...optionDrawer}}/>
     </Drawer.Navigator>
+  )
+}
+
+function BottomTabNavigator(){
+  return(
+    <BottomTab.Navigator initialRouteName='CoummunityPage'>
+      <BottomTab.Screen
+        name = "Community"
+        component = {CommunityPage}
+        options = {{
+          tabBarIcon : () => (
+            <Icon name = "home" size = {24} color = "black"/>
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name = "CommunityMyPage"
+        component = {CommunityMyPage}
+        options = {{
+          tabBarIcon : () => (
+            <Icon name = "person" size = {24} color = "black"/>
+          ),
+        }}/>
+    </BottomTab.Navigator>
   )
 }
 
