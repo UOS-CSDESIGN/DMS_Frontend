@@ -1,14 +1,17 @@
-import { View, Text, StyleSheet} from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, FlatList} from 'react-native'
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../AppInner";
 import Post from '../model/Community/Post';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ChatComponent from '../components/ChatComponent';
 
 type PostScreenProps = NativeStackScreenProps<RootStackParamList, 'PostPage'>
 
 
 function PostPage({navigation} : PostScreenProps){
     const postData : Post = [];
+    const data : any = [];
+    const keyExtractor = (item : any) => item.id.toString(); 
     return(
         <View style = {styles.PostPage}>
             <View>
@@ -29,6 +32,14 @@ function PostPage({navigation} : PostScreenProps){
                     <Text style = {styles.PostDescriptionText}>간장치킨 vs 후라이드</Text>
                 </View>
             </View>
+            <SafeAreaView>
+                <FlatList
+                 data = {data}
+                 renderItem = {({item : any}) => (
+                    <ChatComponent/>
+                 )}
+                 keyExtractor = {keyExtractor}/>
+            </SafeAreaView>
         </View>
     )
 }
