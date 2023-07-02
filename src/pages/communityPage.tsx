@@ -39,7 +39,8 @@ function CommunityPage({navigation} : CommunityScreenProps){
                 {breedData.map((breed) => (
                     <BoardComponent
                      name = {breed.boardName}
-                     onPress = {toPost}/>
+                     onPress = {toPost}
+                     key = {breed.boardId}/>
                 ))}
             </View>
         </ScrollView>
