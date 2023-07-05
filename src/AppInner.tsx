@@ -193,14 +193,16 @@ function MainDrawerNavigator(){
 
 function BottomTabNavigator(){
   return(
-    <BottomTab.Navigator initialRouteName='CoummunityPage'>
+    <BottomTab.Navigator initialRouteName='CoummunityPage'
+     screenOptions={{ tabBarLabel: () => null}}>
       <BottomTab.Screen
-        name = "Community"
+        name = "Community" 
         component = {CommunityPage}
         options = {{
           tabBarIcon : () => (
             <Icon name = "home" size = {24} color = "black"/>
           ),
+          headerShown : false,
         }}
       />
       <BottomTab.Screen
@@ -210,6 +212,7 @@ function BottomTabNavigator(){
           tabBarIcon : () => (
             <Icon name = "person" size = {24} color = "black"/>
           ),
+          headerShown : false,
         }}/>
     </BottomTab.Navigator>
   )
