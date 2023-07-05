@@ -7,6 +7,8 @@ import petDataReducer from './Pet/slice/petDataSlice';
 import petObesityReducer from './PetObesity/slice/petObesitySlice';
 import boardReducer from './Community/slice/boardSlice';
 import postPreviewReducer from './Community/slice/postPreviewSlice';
+import postReducer from './Community/slice/postSlice';
+import replyReducer from './Community/slice/replySlice';
 
 export const store = configureStore({
     reducer: {
@@ -18,6 +20,8 @@ export const store = configureStore({
         petBreed: petBreedReducer,
         board: boardReducer,
         postPreview: postPreviewReducer,
+        post: postReducer,
+        reply: replyReducer,
     }
 });
 export type RootState = ReturnType<typeof store.getState>;

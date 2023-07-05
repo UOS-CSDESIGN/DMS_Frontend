@@ -22,7 +22,7 @@ function CommunityPage({navigation} : CommunityScreenProps){
 
     },[])
     const toPost = useCallback(() => {
-        navigation.navigate("PostBoardPage")
+        navigation.navigate("PostBoardPage");
     },[navigation])
 
     const onChangeBookMark = useCallback(() => {
@@ -46,6 +46,7 @@ function CommunityPage({navigation} : CommunityScreenProps){
         setBoarddData(list.map((item: Board) => (
             { boardId: item.boardId, boardName: item.boardName }
         )));
+        setIsSet(false);
     }, [isSet]);
 
     return(

@@ -16,7 +16,6 @@ const boardSlice = createSlice({
             state.items = action.payload.map((element: any) => (
                 { boardId: element.boardId, boardName: element.boardName }
             ));
-            console.log("getBoard Success");
         },
         getBoardFailure: (state, action) => {
             console.log("error occured");

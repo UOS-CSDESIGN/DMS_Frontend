@@ -3,6 +3,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import { useCallback, useState } from 'react';
 import Picture from '../components/PictureComponent';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../model';
+import postPosting from '../model/Community/postPosting';
 
 type PostAddScreenProps = NativeStackScreenProps<RootStackParamList, 'PostAddPage'>
 
@@ -11,9 +14,30 @@ function PostAddPage({navigation} : PostAddScreenProps){
     const [content, setContent] = useState<string>('');
     const [picture, setPicture] = useState<string[]>([]);
 
+    const token = useSelector((state: RootState) => state.login.accessToken);
+    const boardId = useSelector((state: RootState) => state.postPreview.boardInfo.boardId);
+
+    const dispatch = useDispatch();
+
     const onSubmit = useCallback(() => {
         //title이랑 content에 게시판 ID, 게시물 ID 추가해서 보내기
-    },[])
+        let data = new FormData();
+
+        const pictureList = picture.map((item) => ({
+            uri: item,
+            type: 'multipart/form-data',
+            name: item.split('/').pop()
+        }));
+        console.log(pictureList);
+        data.append("title", title);
+        data.append("content", content);
+        pictureList.map((item, idx) => (
+            data.append(`images[${idx}]`, item)
+        ));
+
+        postPosting(token, dispatch, boardId, data);
+
+    },[title, content, picture, token, dispatch])
 
     const onChangeTitle = useCallback((text : string) => {
         setTitle(text);
@@ -35,8 +59,8 @@ function PostAddPage({navigation} : PostAddScreenProps){
             <View style = {styles.PostAddTopWrapper}>
                 <Text style = {styles.PostAddTopText}>글쓰기</Text>
                 <Pressable
-                 style = {styles.PostAddButton}
-                 onPress = {onSubmit}>
+                    style = {styles.PostAddButton}
+                    onPress = {onSubmit}>
                     <Text style = {styles.SubmitText}>완료</Text>
                 </Pressable>
             </View>

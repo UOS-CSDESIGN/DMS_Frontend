@@ -222,14 +222,17 @@ function AppInner() {
 
   const token = useSelector((state: RootState) => state.login.accessToken);
   
-  const isLogged = token ? true : false;
+  const isLoggedIn = token ? true : false;
   //checking accessToken
   //  not login: null
   //  login    : stirng
   return (
     
     <NavigationContainer>
-      <MainStackNavigator/>
+      {isLoggedIn ?
+        <MainStackNavigator /> :
+        <LoginStackNavigator /> 
+      }
     </NavigationContainer>
   ); 
 }

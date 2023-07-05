@@ -1,24 +1,17 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {
-  Animated,
-  Alert,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
-  ScrollView,
-  Button,
   Image,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import Picture from './PictureComponent';
-import postPosting from '../model/Community/postPosting';
 import { Dimensions } from 'react-native';
-import ButtonComponent from '../components/ButtonComponent';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../model';
+import Icon from 'react-native-vector-icons/EvilIcons';
 const width = Dimensions.get('window').width;
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
 
@@ -131,7 +124,7 @@ function Main({navigation} : MainScreenProps){
           </View>
           {isEdit ? <Pressable
           onPress = {onChangeName}
-          style = {styles.pencil}>
+            style={styles.pencil}>
             <Icon name = 'pencil' size = {20} color = '#000'/>
           </Pressable> : null}
         </View>

@@ -1,14 +1,19 @@
 import { Text, View, Pressable, StyleSheet, GestureResponderEvent} from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
+import { handlingBoradPress } from '../model/Community/slice/postPreviewSlice';
+import { useDispatch } from 'react-redux';
+import { Board } from '../model/Community/Category';
 
 type BoardProps = {
+    boardData: Board;
     name : string;
     isBookMark : boolean
     onPressBookMark : (event : GestureResponderEvent) => void;
     onPress : (event : GestureResponderEvent) => void;
 }
 
-function BoardComponent(props : BoardProps){
+function BoardComponent(props: BoardProps) {
+    const dispatch = useDispatch();
     return(
         <View style = {styles.BoardWrapper}>
             <Pressable

@@ -9,11 +9,13 @@ async function getPreviewPost(boardId:number,token: string|null, dispatch: any):
     if (token == null) {
         return Promise.reject();
     }
+    if (boardId === 0) {
+        return Promise.reject();
+    }
 
     await axios.get(
         url,
     ).then((res) => {
-        console.log(res.data);
         dispatch(getPostSuccess(res.data));
 
         return Promise.resolve();

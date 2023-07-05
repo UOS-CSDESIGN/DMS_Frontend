@@ -17,6 +17,7 @@ import deleteMemberData from '../model/User/deleteMemberData';
 import CheckBox from '@react-native-community/checkbox';
 import postLogin from '../model/User/postLogin';
 import { Dimensions } from 'react-native';
+import ButtonComponent from '../components/ButtonComponent';
 import postPosting from '../model/Community/postPosting';
 import Post from '../model/Community/Post';
 import { Image } from 'react-native-svg';
@@ -65,12 +66,13 @@ function LoginPage({navigation} : LogInScreenProps){
     const token = useSelector((state : RootState) => state.login.accessToken);
     const user = useSelector((state : RootState) => state.memberData.userData);
     const onSubmit = useCallback(async () => {
+      
         const user = new FormData();
         user.append("userId", userId);
         user.append("password", password);
         await postLogin(user, dispatch)
           .then((value) => {
-            navigation.navigate("Main");
+            navigation.navigate("MultiProfilePage");
           })
           .catch((error) => {
             //alert
@@ -81,12 +83,6 @@ function LoginPage({navigation} : LogInScreenProps){
       const onDeleteMember = useCallback(async () => {
         deleteMemberData(dispatch, token, "");
       }, [dispatch, token]);
-  const onTest = () => {
-    let data = new FormData();
-    data.append("title", "집보내줭");
-    data.append("content", "개 피곤해");
-    postPosting('', dispatch, data);
-      }
     return(
         <ScrollView style = {styles.LoginPage}>
           <View style={styles.GreetingWrapper}>
