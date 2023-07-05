@@ -16,6 +16,19 @@ export interface PreviewType{
     writerId: string;
     commentCount: number;
 }
+export interface PostType{
+    postId: number,
+    boardId: number,
+    title: string,
+    content: string,
+    modifiedDate: string,
+    likeCounts: number,
+    viewCounts: number,
+    writerId: string,
+    writerName: string,
+    image: string[],
+    modified: boolean
+}
 export default class Post{
     postId: number;
     categoryId: number;

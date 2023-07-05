@@ -1,15 +1,29 @@
 import { Text, View, Pressable, StyleSheet, GestureResponderEvent} from 'react-native'
+import { handlingBoradPress } from '../model/Community/slice/postPreviewSlice';
+import { useDispatch } from 'react-redux';
+import { Board } from '../model/Community/Category';
 
 type BoardProps = {
-    name : string;
+    boardData: Board;
     onPress : (event : GestureResponderEvent) => void;
 }
 
-function BoardComponent(props : BoardProps){
+function BoardComponent(props: BoardProps) {
+    const dispatch = useDispatch();
     return(
         <View style = {styles.BoardWrapper}>
-            <Pressable onPress = {props.onPress}>
-                <Text style = {styles.Text}>{props.name}</Text>
+            <Pressable
+                onPress={() => {
+                    dispatch(handlingBoradPress(
+                        {
+                            id: props.boardData.boardId,
+                            name: props.boardData.boardName
+                        }
+                    ));
+                    props.onPress();
+                }}
+            >
+                <Text style = {styles.Text}>{props.boardData.boardName}</Text>
             </Pressable>
         </View>
     )

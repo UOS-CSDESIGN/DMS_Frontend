@@ -21,7 +21,7 @@ function CommunityPage({navigation} : CommunityScreenProps){
 
     },[])
     const toPost = useCallback(() => {
-        navigation.navigate("PostBoardPage")
+        navigation.navigate("PostBoardPage");
     },[navigation])
 
     useEffect(() => {
@@ -41,6 +41,7 @@ function CommunityPage({navigation} : CommunityScreenProps){
         setBoarddData(list.map((item: Board) => (
             { boardId: item.boardId, boardName: item.boardName }
         )));
+        setIsSet(false);
     }, [isSet]);
 
     return(
@@ -57,10 +58,10 @@ function CommunityPage({navigation} : CommunityScreenProps){
             </View>
             <View style = {styles.BoardWrapper}>
                 {boardData.map((breed) => (
-                    <BoardComponent
-                     name = {breed.boardName}
-                     onPress = {toPost}
-                     key = {breed.boardId}/>
+                    <BoardComponent key={breed.boardId}
+                        boardData={breed}
+                        onPress={toPost}
+                    />
                 ))}
             </View>
         </ScrollView>

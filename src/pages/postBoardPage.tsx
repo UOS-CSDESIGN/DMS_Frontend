@@ -7,77 +7,71 @@ import { PreviewType } from "../model/Community/Post";
 import PostAddButtonComponent from "../components/PostAddButtonComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model";
-import getPost from "../model/Community/getPreviewPost";
+import getPreviewPost from "../model/Community/getPreviewPost";
+import { handlingPostPress } from "../model/Community/slice/postPreviewSlice";
 
 type PostBoardScreenProps = NativeStackScreenProps<RootStackParamList, 'PostBoardPage'>
 
 
-function PostBoardPage({navigation} : PostBoardScreenProps){
+function PostBoardPage({ navigation }: PostBoardScreenProps) {
     //게시판 data postData로 가져오기
     const [postData, setPostData] = useState<PreviewType[]>([]);
-    const data = [
-        { id : 1, title : '안녕', content : '반가워'},
-        { id : 2, title : '뭐해', content : '아무것도 안해'},
-        { id : 3, title : '그래', content : '그래'},
-        { id : 4, title : '오늘 뭐해', content : '글쎄'},
-    ]
-
+    
     const token = useSelector((state: RootState) => state.login.accessToken);
+    const boardId = useSelector((state: RootState) => state.postPreview.boardInfo.boardId);
     const dispatch = useDispatch();
 
     const [isSet, setIsSet] = useState<boolean>(false);
-    const postList:PreviewType[] = useSelector((state: RootState) => state.postPreview.items);
+    const postList: PreviewType[] = useSelector((state: RootState) => state.postPreview.items);
     useEffect(() => {
+        setPostData([]);
         async function func() {
-            await getPost(1, token, dispatch)
+            await getPreviewPost(boardId, token, dispatch)
                 .then(() => {
-                    console.log('in success at post page');
+                    console.log('infunc');
                     setIsSet(true);
                 })
                 .catch(() => {
-                    console.log('in failure at post page');
                     setIsSet(false);
                 });
         }
+        func();
     }, []);
     
     useEffect(() => {
-        if (isSet === true) {
-            setPostData(postList.map((item: PreviewType) => (
-                {
-                    postId: item.postId,
-                    title: item.title,
-                    modifiedDate: item.modifiedDate,
-                    likeCounts: item.likeCounts,
-                    writerName: item.writerName,
-                    writerId: item.writerId,
-                    commentCount: item.commentCount
-                }
-            )));
-        }
-        else {
-            console.log('asdf');
-        }
-    }, [isSet]);
+        setPostData(prev => {
+            return (
+                prev.concat(postList)
+            );
+        });
+    }, [postList]);
 
-    const renderItem = ({item} : any) => (
-        <Pressable onPress = {toPost}>
-            <View style = {styles.PostDataWrapper}>
-                <Text style = {styles.PostDataTitle}>{item.title}</Text>
-                <Text style = {styles.PostDataText}>{item.content}</Text>
-                <View style = {styles.IconAndCountWrapper}>
-                    <View style = {styles.CountWrapper}>
-                        <Icon name = "thumbs-up-outline" size = {18} color = "red"/>
-                        <Text style = {styles.CountText}>5</Text> 
+    const renderItem = ({ item }: any) => (
+        <Pressable onPress={() => {
+            dispatch(handlingPostPress({
+                id: item.postId,
+                name: item.title
+            }));
+            toPost();
+            
+        }}>
+            <View style={styles.PostDataWrapper}>
+                <Text style={styles.PostDataTitle}>{item.title}</Text>
+                <Text style={styles.PostDataText}>{item.content}</Text>
+                <View style={styles.IconAndCountWrapper}>
+                    <View style={styles.CountWrapper}>
+                        <Icon name="thumbs-up-outline" size={18} color="red" />
+                        <Text style={styles.CountText}>{item.likeCounts}</Text>
                     </View>
-                    <View style = {styles.CountWrapper}>
-                        <Icon name = 'chatbox' size = {18}/>
-                        <Text style = {styles.CountText}>3</Text>
+                    <View style={styles.CountWrapper}>
+                        <Icon name='chatbox' size={18} />
+                        <Text style={styles.CountText}>{item.commentCount}</Text>
                     </View>
                 </View>
             </View>
         </Pressable>
-    )
+    );
+    
     const toPost = useCallback(() => {
         navigation.navigate('PostPage')
     },[navigation])
@@ -94,9 +88,10 @@ function PostBoardPage({navigation} : PostBoardScreenProps){
             </View>
             <View style = {styles.PostWrapper}>
                 <FlatList
-                    data = {data}
-                    renderItem = {renderItem}
-                    keyExtractor = {keyExtractor}
+                    data = {postData}
+                    renderItem={renderItem}
+                    onEndReachedThreshold={0.01}
+                    //keyExtractor = {keyExtractor}
                 />
             </View>
             <View>

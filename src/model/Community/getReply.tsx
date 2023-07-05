@@ -3,32 +3,29 @@ import Config from "react-native-config";
 import { getReplyFailure, getReplySuccess } from "./slice/replySlice";
 
 
-async function getReply(token:string|null, dispatch:any, id:number):Promise<number> {
+async function getReply(boardId: number, postId:number, token:string|null, dispatch:any):Promise<any> {
     
-    const url = `${Config.SPRING_API}/`;
+    const url = `${Config.SPRING_API}/board/${boardId}/readComment?boardId=${boardId}&postId=${postId}`;
 
-    axios.get(url)
-        .then((res: AxiosResponse) => {
-            console.log(res.data);
+    if (boardId === 0) {
+        return Promise.reject();
+    }
+    if (postId === 0) {
+        return Promise.reject();
+    }
+    await axios.get(url)
+        .then((res) => {
             
             dispatch(getReplySuccess(res.data));
-
-            return new Promise<number>(function (resolve, reject) {
-                resolve(200);
-            })
+            
+            return Promise.resolve();
         })
         .catch((err: AxiosError) => {
             console.log(err);
 
             dispatch(getReplyFailure(err.message));
-            return new Promise<number>(function (resolve, reject) {
-                reject(400);
-            })
+            return Promise.reject();
         });
-    
-    return new Promise<number>(function (resolve, reject) {
-        reject(300);
-    })
 }
 
 export default getReply;

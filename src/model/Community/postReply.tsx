@@ -1,25 +1,44 @@
-import PostReply from './PostReply';
-import COnfig from 'react-native-config';
-import axios from 'axios';
+import { ReplyType } from './slice/replySlice';
+import Config from 'react-native-config';
+import axios, { AxiosError } from 'axios';
 
-async function postReply (reply:PostReply, token:string, dispatch:any):Promise<any>{
+async function postReply(boardId: number, postId: number,
+    token: string|null, dispatch: any, reply: any): Promise<any>{
 
-    const bearer = `Bearer ${JSON.parse(token)}`;
-    const url = `${COnfig.SPRING_API}/`;
+    if (token === null) {
+        return Promise.reject();
+    }
+    const bearer = `Bearer ${token}`;
+    let data: FormData = new FormData();
 
+    data.append('content', reply.content);
+    data.append('writerId', reply.writerId);
+    data.append('postId', reply.postId);
+
+    if (reply.commentId !== 0) {
+        data.append('parentId', reply.commentId);
+    } else {
+        console.log("root comment input");
+    }
+    const url = `${Config.SPRING_API}/board/${boardId}/comment/add?boardId=${boardId}&postId=${postId}`;
+
+    console.log(data);
     await axios.post(url,
-        reply.jsonData,
+        data,
         {
             headers: {
                 Authorization: bearer,
+                'Content-Type':'multipart/form-data'
             }
         }).then((res) => {
             console.log("post reply success");
 
             return Promise.resolve();
-        }).catch((err) => {
+        }).catch((err:AxiosError) => {
             console.log("post reply error");
-
+            console.log(err.code);
+            console.log(err)
+            console.log(err.message);
             return Promise.reject();
         });
 };

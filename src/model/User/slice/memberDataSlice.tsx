@@ -16,8 +16,7 @@ const memberDataSlice = createSlice({
             provider : "",
             street: "",
             addressDetail: "",
-            imageUrl: "",
-            imageName: ""
+            imageId:""
         },
         loading: false,
     },
@@ -39,9 +38,8 @@ const memberDataSlice = createSlice({
                 zipcode: action.payload.zipcode,
                 street: action.payload.street,
                 addressDetail: action.payload.addressDetail,
-                imageUrl: action.payload.memberImage.fileUrl,
-                imageName: action.payload.memberImage.fileName,
-                gender:action.payload.gender,
+                gender: action.payload.gender,
+                imageId: action.payload.uid
             };
         },
         memberDataFailure: (state) => {
