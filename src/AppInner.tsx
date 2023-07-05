@@ -15,16 +15,20 @@ import MultiProfile from './components/MultiProfileComponent';
 import ObesityPage from './pages/obesityPage';
 import ObesityDetailPage from './pages/obesityDetailPage';
 import CommunityPage from './pages/communityPage';
-import { Alert, Pressable, Text, View } from 'react-native'
 import { useSelector } from 'react-redux';
 import { RootState } from './model';
+import NonSocialMyPage from './components/NonSocialMyPageComponent';
+import SocialMyPage from './components/SocialMyPageComponent';
 import PostBoardPage from './pages/postBoardPage';
 import PostPage from './pages/postPage';
 import PostAddPage from './pages/postAddPage';
 import InstructionPage from './pages/instructionPage';
 import Icon from 'react-native-vector-icons/Fontisto';
 import CommunityMyPage from './pages/communityMyPage';
+import NonSocialWithdrawal from './components/NonSocialWithdrawalComponent';
 
+
+export type RootParamList = RootStackParamList & RootDrawerParamList & RootBottomParamList
 
 export type RootStackParamList = {
   LoginPage: undefined;
@@ -39,8 +43,9 @@ export type RootStackParamList = {
   ObesityRegisterPage : undefined;
   ObesityTimePage : undefined;
   NonSocialMyPage: undefined;
+  NonSocialWithdrawalPage : undefined;
   SocialMyPage: undefined;
-  SocialWithdrawal: undefined;
+  SocialWithdrawalPage: undefined;
   PostBoardPage : undefined;
   PostPage : undefined;
   PostAddPage : undefined;
@@ -60,9 +65,9 @@ export type RootBottomParamList = {
   CommunityMyPage : undefined;
 }
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
-const Drawer = createDrawerNavigator<RootDrawerParamList>();
-const BottomTab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator<RootParamList>();
+const Drawer = createDrawerNavigator<RootParamList>();
+const BottomTab = createBottomTabNavigator<RootParamList>();
 
 const optionDrawer = {
   headerLeft : () => null,
@@ -131,6 +136,18 @@ function MainStackNavigator(){
       <Stack.Screen
         name = "AnimalAddPage"
         component = {AnimalAddPage}
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "SocialMyPage"
+        component = {SocialMyPage}
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "NonSocialMyPage"
+        component = {NonSocialMyPage}
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "NonSocialWithdrawalPage"
+        component = {NonSocialWithdrawal}
         options={{...optionStack}}/>
       <Stack.Screen
         name = "Main"
@@ -229,10 +246,7 @@ function AppInner() {
   return (
     
     <NavigationContainer>
-      {isLoggedIn ?
-        <MainStackNavigator /> :
-        <LoginStackNavigator /> 
-      }
+      <MainStackNavigator/>
     </NavigationContainer>
   ); 
 }

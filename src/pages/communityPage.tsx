@@ -1,5 +1,5 @@
 import { DrawerScreenProps } from "@react-navigation/drawer"
-import { RootDrawerParamList } from "../AppInner"
+import { RootParamList } from "../AppInner"
 import {View, Text, Pressable, StyleSheet, ScrollView} from "react-native"
 import Icon from 'react-native-vector-icons/EvilIcons'
 import { useCallback, useEffect, useState } from "react"
@@ -9,7 +9,7 @@ import getCategory from "../model/Community/getCategory"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../model"
 
-type CommunityScreenProps = DrawerScreenProps<RootDrawerParamList, 'CommunityPage'>
+type CommunityScreenProps = DrawerScreenProps<RootParamList, 'CommunityPage'>
 
 
 function CommunityPage({navigation} : CommunityScreenProps){

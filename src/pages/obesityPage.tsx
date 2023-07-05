@@ -1,5 +1,5 @@
 import { DrawerScreenProps } from "@react-navigation/drawer";
-import { RootDrawerParamList } from "../AppInner"
+import { RootParamList } from "../AppInner"
 import { Text, View, Pressable, StyleSheet, ScrollView, TextInput} from 'react-native'
 import { useCallback, useEffect, useState } from "react";
 import Obesity from "../components/ObesityComponent";
@@ -8,7 +8,7 @@ import NoticeModal from "../components/NoticeModalComponent";
 import ObesityChart from "../components/ObesityChartComponent";
 import ObesityModal from "../components/ObesityModalComponent";
 
-type ObesityScreenProps = DrawerScreenProps<RootDrawerParamList, 'ObesityPage'>
+type ObesityScreenProps = DrawerScreenProps<RootParamList, 'ObesityPage'>
 
 interface WeightData{
     date : string[];

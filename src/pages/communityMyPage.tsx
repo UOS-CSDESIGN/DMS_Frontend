@@ -1,10 +1,10 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootBottomParamList } from "../AppInner";
+import { RootParamList } from "../AppInner";
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useCallback, useState } from "react";
 
-type CommunityMyPageScreenProps = NativeStackScreenProps<RootBottomParamList, 'CommunityMyPage'>
+type CommunityMyPageScreenProps = NativeStackScreenProps<RootParamList, 'CommunityMyPage'>
 
 function CommunityMyPage({navigation} : CommunityMyPageScreenProps){
     const [userData, setUserData] = useState<string[]>([]);

@@ -12,7 +12,7 @@ import {
   Button
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import { RootStackParamList } from '../AppInner';
+import { RootParamList } from '../AppInner';
 import MyPage from './MyPageComponent';
 import getMemberData from '../model/User/getMemberData';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +22,7 @@ import postUserModify from '../model/User/postUserModify';
 import SocialLoginComponent from './SocialLoginComponent';
 import { Switch } from 'react-native-switch'; 
 
-type NonSocialMyPageScreenProps  = NativeStackScreenProps<RootStackParamList, 'NonSocialMyPage'>
+type NonSocialMyPageScreenProps  = NativeStackScreenProps<RootParamList, 'NonSocialMyPage'>
 
 function NonSocialMyPage({navigation} : NonSocialMyPageScreenProps){
   const [myPageProps, setMyPageProps] = useState({

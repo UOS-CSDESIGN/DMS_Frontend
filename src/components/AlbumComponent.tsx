@@ -1,8 +1,8 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../AppInner";
+import { RootParamList } from "../AppInner";
 import { Text, View } from "react-native-animatable";
 
-type AlbumScreenProps = NativeStackScreenProps<RootStackParamList, 'Album'>
+type AlbumScreenProps = NativeStackScreenProps<RootParamList, 'Album'>
 
 function Album({navigation} : AlbumScreenProps){
     return(

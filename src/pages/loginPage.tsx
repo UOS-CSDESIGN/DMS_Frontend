@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Login from '../components/LoginComponent';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import { RootStackParamList } from '../AppInner';
+import { RootParamList } from '../AppInner';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../model';
 import SocialLoginComponent from '../components/SocialLoginComponent';
@@ -22,7 +22,7 @@ import postPosting from '../model/Community/postPosting';
 import Post from '../model/Community/Post';
 import { Image } from 'react-native-svg';
 
-type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginPage'>;
+type LogInScreenProps = NativeStackScreenProps<RootParamList, 'LoginPage'>;
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -40,7 +40,7 @@ function LoginPage({navigation} : LogInScreenProps){
     },[])
 
     const toAnimal = useCallback(() => {
-        navigation.navigate('Animal');
+        navigation.navigate('AnimalAddPage');
     },[navigation])
     const toSocialSignUp = useCallback(() => {
         navigation.navigate('SocialGoogle');
@@ -49,7 +49,7 @@ function LoginPage({navigation} : LogInScreenProps){
         navigation.navigate('SignUpPage');
     },[navigation])
     const toFind = useCallback(() => {
-        navigation.navigate('Find');
+        navigation.navigate('FindPage');
     },[navigation])
 
     const [canGoNext,setCanGoNext] = useState<boolean>(false);

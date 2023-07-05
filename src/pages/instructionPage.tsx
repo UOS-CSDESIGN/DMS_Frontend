@@ -1,8 +1,8 @@
 import {Text, View} from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../AppInner';
+import { RootParamList } from '../AppInner';
 
-type InstructionScreenProps = NativeStackScreenProps<RootStackParamList, 'InstructionPage'>
+type InstructionScreenProps = NativeStackScreenProps<RootParamList, 'InstructionPage'>
 
 function InstructionPage({navigation} : InstructionScreenProps){
     return(

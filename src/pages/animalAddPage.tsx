@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../AppInner";
+import { RootParamList } from "../AppInner";
 import {Text, View} from 'react-native'
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import postPetRegister from "../model/Pet/postPetRegister";
 import Animal from "../components/AnimalComponent";
 import Pet from "../model/Pet/Pet";
 
-type AnimalScreenProps = NativeStackScreenProps<RootStackParamList, 'AnimalAddPage'>;
+type AnimalScreenProps = NativeStackScreenProps<RootParamList, 'AnimalAddPage'>;
 
 function AnimalAddPage({navigation} : AnimalScreenProps){
     const [name, setName] = useState<string>('');

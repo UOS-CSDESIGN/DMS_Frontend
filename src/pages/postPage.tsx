@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, SafeAreaView, FlatList, TextInput, Pressable} from 'react-native'
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../AppInner";
+import { RootParamList } from "../AppInner";
 import { PostType } from '../model/Community/Post';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ChatComponent from '../components/ChatComponent';
@@ -12,7 +12,7 @@ import { RootState } from '../model';
 import { ReplyType } from '../model/Community/slice/replySlice';
 import postReply from '../model/Community/postReply';
 
-type PostScreenProps = NativeStackScreenProps<RootStackParamList, 'PostPage'>
+type PostScreenProps = NativeStackScreenProps<RootParamList, 'PostPage'>
 
 
 function PostPage({navigation} : PostScreenProps){

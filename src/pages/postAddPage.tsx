@@ -1,13 +1,13 @@
 import {View, Text, StyleSheet, Pressable, TextInput, Image} from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../AppInner';
+import { RootParamList } from '../AppInner';
 import { useCallback, useState } from 'react';
 import Picture from '../components/PictureComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../model';
 import postPosting from '../model/Community/postPosting';
 
-type PostAddScreenProps = NativeStackScreenProps<RootStackParamList, 'PostAddPage'>
+type PostAddScreenProps = NativeStackScreenProps<RootParamList, 'PostAddPage'>
 
 function PostAddPage({navigation} : PostAddScreenProps){
     const [title, setTitle] = useState<string>('');

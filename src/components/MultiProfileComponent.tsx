@@ -1,5 +1,5 @@
 import { DrawerScreenProps } from "@react-navigation/drawer";
-import { RootDrawerParamList } from "../AppInner";
+import { RootParamList } from "../AppInner";
 import { useCallback, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Swiper from 'react-native-swiper';
@@ -11,7 +11,7 @@ import { Dimensions} from "react-native";
 
 const height = Dimensions.get('screen').height;
 
-type MultiProfileScreenProps = DrawerScreenProps<RootDrawerParamList, 'MultiProfilePage'>;
+type MultiProfileScreenProps = DrawerScreenProps<RootParamList, 'MultiProfilePage'>;
 
 
 function MultiProfile({navigation} : MultiProfileScreenProps){

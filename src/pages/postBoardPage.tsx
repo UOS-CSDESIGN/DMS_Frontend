@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { RootStackParamList } from "../AppInner"
+import { RootParamList } from "../AppInner"
 import {View, Text, Pressable, StyleSheet, SafeAreaView, FlatList} from "react-native"
 import { useCallback, useEffect, useState } from "react";
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -10,7 +10,7 @@ import { RootState } from "../model";
 import getPreviewPost from "../model/Community/getPreviewPost";
 import { handlingPostPress } from "../model/Community/slice/postPreviewSlice";
 
-type PostBoardScreenProps = NativeStackScreenProps<RootStackParamList, 'PostBoardPage'>
+type PostBoardScreenProps = NativeStackScreenProps<RootParamList, 'PostBoardPage'>
 
 
 function PostBoardPage({ navigation }: PostBoardScreenProps) {
