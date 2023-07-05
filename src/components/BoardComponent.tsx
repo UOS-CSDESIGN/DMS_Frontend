@@ -1,14 +1,26 @@
-import { Text, View, Pressable, StyleSheet, GestureResponderEvent} from 'react-native'
+import { Text, View, Pressable, StyleSheet, GestureResponderEvent} from 'react-native';
+import Icon from 'react-native-vector-icons/Fontisto';
 
 type BoardProps = {
     name : string;
+    isBookMark : boolean
+    onPressBookMark : (event : GestureResponderEvent) => void;
     onPress : (event : GestureResponderEvent) => void;
 }
 
 function BoardComponent(props : BoardProps){
     return(
         <View style = {styles.BoardWrapper}>
-            <Pressable onPress = {props.onPress}>
+            <Pressable
+             style = {styles.BookMarkWrapper}
+             onPress = {props.onPressBookMark}>
+                {props.isBookMark ?
+                    <Icon name = "bookmark-alt" size = {18} color = "#ecde13"/> :
+                    <Icon name = "bookmark" size = {18}/>}
+            </Pressable>
+            <Pressable
+             onPress = {props.onPress}
+             style = {styles.BoardInnerWrapper}>
                 <Text style = {styles.Text}>{props.name}</Text>
             </Pressable>
         </View>
@@ -18,10 +30,25 @@ function BoardComponent(props : BoardProps){
 const styles = StyleSheet.create({
     BoardWrapper : {
         paddingVertical : '1%',
+        flexDirection : 'row',
+        alignItems : 'center',
+    },
+    BookMarkWrapper : {
+        paddingRight : '4%',
+        justifyContent : 'center',
+        alignItems : 'center',
+    },
+    BoardInnerWrapper : {
+        paddingVertical : '1%',
+    },
+    BookMarkIcon : {
+        justifyContent : 'center',
+        alignItems : 'center',
     },
     Text : {
         color : 'black',
-        fontWeight : '600',
+        fontWeight : '500',
+        fontSize : 18,
     }
 })
 
