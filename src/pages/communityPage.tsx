@@ -14,6 +14,7 @@ type CommunityScreenProps = DrawerScreenProps<RootDrawerParamList, 'CommunityPag
 
 function CommunityPage({navigation} : CommunityScreenProps){
     const [boardData, setBoarddData] = useState<Board[]>([]);
+    const [isBookMark, setIsBookMark] = useState<boolean>(false);
     const [isSet, setIsSet] = useState<boolean>(false);
     const dispatch = useDispatch();
     const list = useSelector((state: RootState) => state.board.items);
@@ -23,6 +24,10 @@ function CommunityPage({navigation} : CommunityScreenProps){
     const toPost = useCallback(() => {
         navigation.navigate("PostBoardPage")
     },[navigation])
+
+    const onChangeBookMark = useCallback(() => {
+        setIsBookMark(true);
+    },[])
 
     useEffect(() => {
         async function func() {
@@ -56,12 +61,16 @@ function CommunityPage({navigation} : CommunityScreenProps){
                 </View>
             </View>
             <View style = {styles.BoardWrapper}>
-                {boardData.map((breed) => (
-                    <BoardComponent
-                     name = {breed.boardName}
-                     onPress = {toPost}
-                     key = {breed.boardId}/>
-                ))}
+                <View style = {styles.BoardInnerWrapper}>
+                    {boardData.map((breed) => (
+                        <BoardComponent
+                        isBookMark = {isBookMark}
+                        onPressBookMark = {onChangeBookMark}
+                        name = {breed.boardName}
+                        onPress = {toPost}
+                        key = {breed.boardId}/>
+                    ))}
+                </View>
             </View>
         </ScrollView>
     )
@@ -93,7 +102,11 @@ const styles = StyleSheet.create({
         paddingVertical : '3%',
         borderWidth : 1,
         borderRadius : 5,
+        borderColor : 'gray'
     },
+    BoardInnerWrapper : {
+        paddingHorizontal : '4%',
+    }
 })
 
 export default CommunityPage
