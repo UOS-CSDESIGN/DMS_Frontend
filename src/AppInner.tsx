@@ -189,10 +189,7 @@ function AppInner() {
   return (
     
     <NavigationContainer>
-   {isLogged ?
-    <MainStackNavigator /> :
-    <LoginStackNavigator/>
-  } 
+    <MainStackNavigator />  
     </NavigationContainer>
   ); 
 }
