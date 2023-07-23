@@ -8,6 +8,7 @@ import { Board } from "../model/Community/Category"
 import getCategory from "../model/Community/getCategory"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../model"
+import getPreviewPost from "../model/Community/getPreviewPost"
 
 type CommunityScreenProps = DrawerScreenProps<RootParamList, 'CommunityPage'>
 
@@ -18,12 +19,18 @@ function CommunityPage({navigation} : CommunityScreenProps){
     const [isSet, setIsSet] = useState<boolean>(false);
     const dispatch = useDispatch();
     const list = useSelector((state: RootState) => state.board.items);
+
+    const boardId = useSelector((state: RootState) => state.postPreview.boardInfo.boardId);
+    const token = useSelector((state: RootState) => state.login.accessToken);
     const onSearch = useCallback(() => {
 
     },[])
     const toPost = useCallback(() => {
+        console.log("boardId", boardId);
+        console.log("token", token);
+        getPreviewPost(boardId, token, dispatch);
         navigation.navigate("PostBoardPage");
-    },[navigation])
+    },[boardId, token, dispatch,navigation])
 
     const onChangeBookMark = useCallback(() => {
         setIsBookMark(true);
@@ -65,11 +72,12 @@ function CommunityPage({navigation} : CommunityScreenProps){
                 <View style = {styles.BoardInnerWrapper}>
                     {boardData.map((breed) => (
                         <BoardComponent
-                        isBookMark = {isBookMark}
-                        onPressBookMark = {onChangeBookMark}
-                        name = {breed.boardName}
-                        onPress = {toPost}
-                        key = {breed.boardId}/>
+                            id={breed.boardId}
+                            name={breed.boardName}
+                            isBookMark={isBookMark}
+                            onPressBookMark={onChangeBookMark}
+                            onPress={toPost}
+                        />
                     ))}
                 </View>
             </View>

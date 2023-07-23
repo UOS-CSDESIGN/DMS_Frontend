@@ -2,13 +2,20 @@ import {View, Text, GestureResponderEvent, StyleSheet, Pressable} from 'react-na
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch } from 'react-redux';
 import { handlingonPress } from '../model/Community/slice/replySlice';
-
+import postReply from '../model/Community/postReply';
+import { useCallback } from 'react';
+import getReply from '../model/Community/getReply';
 
 type ChatProps = {
     name : string;
     content: string;
     id: number;
     modifiedDate: string;
+    token: string|null;
+    input: string;
+    boardId: number;
+    postId: number;
+    writerId: string;
     onPressReChat : (event : GestureResponderEvent) => void;
     onPressRecommend : (event : GestureResponderEvent) => void;
     onPressOptions : (event : GestureResponderEvent) => void;
@@ -17,6 +24,31 @@ type ChatProps = {
 function ChatComponent(props: ChatProps) {
     const dispatch = useDispatch();
 
+    const reComment = async() =>{
+        const data:any={
+            content: props.input,
+            writerId: props.writerId,
+            parentCommentId: props.id,
+            postId: props.postId
+        };
+        console.log(props.id);
+         await postReply(props.boardId, props.postId, props.token, dispatch,data)
+         .then(() => {
+           async function func() {
+             await getReply(props.boardId, props.postId, props.token, dispatch)
+               .then(() => {
+                 console.log("reply recomment");
+               })
+               .catch((err) => {
+                 console.log("can't reply recommnet");
+               });
+           }
+           func();
+         })
+         .catch(() => {
+           console.log('f');
+         });
+    }
     return(
         <View style = {styles.ChatWrapper}>
             <View style = {styles.ChatTextWrapper}>
@@ -32,16 +64,7 @@ function ChatComponent(props: ChatProps) {
                 </View>
             </View>
             <View style = {styles.OptionWrapper}>
-                <Pressable onPress={() => {
-                    const id: number = props.id;
-                    dispatch(handlingonPress(
-                        {
-                            id: id,
-                            content:'',
-                        }
-                    ));
-                    props.onPressReChat();
-                }}>
+                <Pressable onPress={reComment}>
                     <Icon name = 'chatbox' size = {18}/>
                 </Pressable>
                 <Pressable onPress = {props.onPressRecommend}>
@@ -56,8 +79,8 @@ function ChatComponent(props: ChatProps) {
 }
 
 const styles = StyleSheet.create({
-    ChatWrapper : {
-
+    ChatWrapper: {
+        flexDirection : 'row'
     },
     ChatTextWrapper : {
     },

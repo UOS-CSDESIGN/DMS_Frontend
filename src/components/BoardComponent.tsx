@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Board } from '../model/Community/Category';
 
 type BoardProps = {
-    boardData: Board;
+    id: number;
     name : string;
     isBookMark : boolean
     onPressBookMark : (event : GestureResponderEvent) => void;
@@ -18,13 +18,22 @@ function BoardComponent(props: BoardProps) {
         <View style = {styles.BoardWrapper}>
             <Pressable
              style = {styles.BookMarkWrapper}
-             onPress = {props.onPressBookMark}>
+                onPress={ props.onPressBookMark }>
                 {props.isBookMark ?
                     <Icon name = "bookmark-alt" size = {18} color = "#ecde13"/> :
                     <Icon name = "bookmark" size = {18}/>}
             </Pressable>
             <Pressable
-             onPress = {props.onPress}
+                onPress={() => {
+                    console.log(props.id);
+                    dispatch(handlingBoradPress(
+                        {
+                            id: props.id,
+                            name: props.name
+                        }
+                    ));
+                    props.onPress();
+                }}
              style = {styles.BoardInnerWrapper}>
                 <Text style = {styles.Text}>{props.name}</Text>
             </Pressable>
