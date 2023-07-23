@@ -4,7 +4,7 @@ import Config from "react-native-config";
 // code
 // 200: OK
 // 400: id modified
-const postUserModify = async (user: User, token:any) => {
+const postUserModify = async (user: User, token: any) => {
 
     const bearer = `Bearer ${JSON.parse(token)}`;
     console.log(user);
@@ -23,7 +23,7 @@ const postUserModify = async (user: User, token:any) => {
         }
     ).then((res) => {
         console.log("success modify data");
-    }).catch((error:AxiosError) => {
+    }).catch((error: AxiosError) => {
         if (error.status === 400) {
             console.log("modified id");
         } else {
@@ -31,6 +31,6 @@ const postUserModify = async (user: User, token:any) => {
             console.log(error);
             console.log(user.modifiedData);
         }
-    })
-}
+    });
+};
 export default postUserModify;

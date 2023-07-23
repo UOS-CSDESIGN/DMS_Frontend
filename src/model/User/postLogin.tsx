@@ -3,12 +3,15 @@ import { loginFailure, loginRequest, loginSuccess } from "./slice/loginSlice";
 import Config from "react-native-config";
 import jwt_decode from "jwt-decode";
 import postRefresh from "./postRefresh";
+import getMemberData from "./getMemberData";
+import { useState } from "react";
 
 async function postLogin(user: FormData, dispatch: any):Promise<any> {
     //Hooks must be top of the component
     //So, useDispatch passed from parameter dispatch
     dispatch(loginRequest());
-    const url = `${Config.SPRING_API}/member/login`
+    const url = `${Config.SPRING_API}/member/login`;
+    let token = '';
     await axios.post(url,
         user,
         {
@@ -22,9 +25,9 @@ async function postLogin(user: FormData, dispatch: any):Promise<any> {
             },
         }
     ).then((res) => {
-        const auth = res.headers.authorization.substring(7);
+        const auth: string = res.headers.authorization.substring(7);
         const data = jwt_decode(auth);
-        
+        token = auth;
         const currTime = new Date();
         const utc = currTime.getTime() +
             (currTime.getTimezoneOffset() * 60 * 1000);
@@ -39,13 +42,20 @@ async function postLogin(user: FormData, dispatch: any):Promise<any> {
         };
         dispatch(loginSuccess(loginInfo));
         
-        return Promise.resolve(0);
+        
+        //return Promise.resolve(0);
     }).catch((error: AxiosError) => {
         dispatch(loginFailure());
         console.log("login error");
         console.log(error);
         return Promise.reject(1);
     });
+    await getMemberData(dispatch, token)
+        .then((res) => {
+            return Promise.resolve();
+        }).catch((err) => {
+            return Promise.reject();
+        });
     
 };
 export default postLogin;

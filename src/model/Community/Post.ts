@@ -26,6 +26,7 @@ export interface PostType{
     viewCounts: number,
     writerId: string,
     writerName: string,
+    imageUuid: string[],
     image: string[],
     modified: boolean
 }

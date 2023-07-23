@@ -11,6 +11,7 @@ const initialState: PostType = {
     viewCounts: 0,
     writerId: '',
     writerName: '',
+    imageUuid: [],
     image: [],
     modified: false,
 };
@@ -29,10 +30,13 @@ const postSlice = createSlice({
             state.viewCounts = action.payload.viewCounts;
             state.writerId = action.payload.writerId;
             state.writerName = action.payload.writerName;
-            state.image = action.payload.image;
+            state.imageUuid = action.payload.imageUuid;
             state.modified = action.payload.modified;
             console.log("in reducer");
             console.log(state);
+        },
+        getPostImageSuccess: (state,action)=>{
+            state.image.concat(action.payload);
         }
     }
 });
@@ -40,3 +44,4 @@ const postSlice = createSlice({
 export default postSlice.reducer;
 
 export const getPostItemSuccess = postSlice.actions.getPostItemSuccess;
+export const getPostImageSuccess = postSlice.actions.getPostImageSuccess;

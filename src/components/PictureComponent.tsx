@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, PermissionsAndroid, Platform, Pressable, StyleSheet, Text} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {Alert} from 'react-native';
+import Icon from 'react-native-vector-icons/EvilIcons'
 
 interface PictureProps {
   onPictureSelected : (url : string) => void;
@@ -91,8 +92,9 @@ function Picture({onPictureSelected} : PictureProps){
   return(
     <View style = {styles.wrapper}>
       <Pressable
+        style = {styles.IconWrapper}
         onPress = {handlePress}>
-        <Text style = {styles.pictureText}>사진 가져오기</Text>
+        <Icon name = "camera" size = {30} color = "black"/>
       </Pressable>
     </View>
     )
@@ -100,11 +102,10 @@ function Picture({onPictureSelected} : PictureProps){
 
 const styles = StyleSheet.create({
   wrapper : {
-    backgroundColor : 'snow',
+    
   },
-  pictureText : {
-    fontSize : 16,
-    fontWeight : 'bold',
+  IconWrapper : {
+
   }
 })
 

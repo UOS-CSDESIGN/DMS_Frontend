@@ -1,7 +1,7 @@
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native"
 import { useCallback, useState } from "react"
 import { NativeStackScreenProps} from "@react-navigation/native-stack"
-import { RootStackParamList } from "../AppInner"
+import { RootParamList } from "../AppInner"
 import BirthComponent from "./BirthComponent";
 import GenderComponent from "./genderComponent";
 import ZipCode from "./ZipCodeComponent";
@@ -12,7 +12,7 @@ import User from "../model/User/User";
 import postUserModify from "../model/User/postUserModify";
 import getMemberData from "../model/User/getMemberData";
 
-type SocialScreenProps = NativeStackScreenProps<RootStackParamList, 'SocialGoogle'>;
+type SocialScreenProps = NativeStackScreenProps<RootParamList, 'SocialGoogle'>;
 
 interface ISocial {
     gender : number;

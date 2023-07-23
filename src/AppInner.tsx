@@ -3,11 +3,13 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator, DrawerItem, DrawerToggleButton} from '@react-navigation/drawer'
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { useState } from 'react';
 import LoginPage from './pages/loginPage';
 import SignUpPage from './pages/signUpPage';
 import Main from './components/mainComponent';
 import MyPage from './components/MyPageComponent';
-import Animal from './components/AnimalComponent';
+import AnimalAddPage from './pages/animalAddPage';
 import SocialGoogle from './components/socialGoogle';
 import Find from './components/FindComponent';
 import ObesityPage from './pages/obesityPage';
@@ -19,7 +21,18 @@ import ObesityTimePage from './pages/obesityTimePage';
 import { useSelector } from 'react-redux';
 import { RootState } from './model';
 import MultiProfilePage from './pages/multiProfilePage';
+import NonSocialMyPage from './components/NonSocialMyPageComponent';
+import SocialMyPage from './components/SocialMyPageComponent';
+import PostBoardPage from './pages/postBoardPage';
+import PostPage from './pages/postPage';
+import PostAddPage from './pages/postAddPage';
+import InstructionPage from './pages/instructionPage';
+import Icon from 'react-native-vector-icons/Fontisto';
+import CommunityMyPage from './pages/communityMyPage';
+import NonSocialWithdrawal from './components/NonSocialWithdrawalComponent';
 
+
+export type RootParamList = RootStackParamList & RootDrawerParamList & RootBottomParamList
 
 export type RootStackParamList = {
   LoginPage: undefined;
@@ -33,8 +46,13 @@ export type RootStackParamList = {
   ObesityRegisterPage : undefined;
   ObesityTimePage : undefined;
   NonSocialMyPage: undefined;
+  NonSocialWithdrawalPage : undefined;
   SocialMyPage: undefined;
-  SocialWithdrawal: undefined;
+  SocialWithdrawalPage: undefined;
+  PostBoardPage : undefined;
+  PostPage : undefined;
+  PostAddPage : undefined;
+  InstructionPage : undefined;
 };
 
 export type RootDrawerParamList = {
@@ -50,9 +68,15 @@ export type RootTabParamList = {
   세부사항 : undefined;
 }
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
-const Drawer = createDrawerNavigator<RootDrawerParamList>();
+const Stack = createNativeStackNavigator<RootParamList>();
+const Drawer = createDrawerNavigator<RootParamList>();
+const BottomTab = createBottomTabNavigator<RootParamList>();
 const Tab = createMaterialTopTabNavigator<RootTabParamList>();
+export type RootBottomParamList = {
+  Community : undefined;
+  CommunityMyPage : undefined;
+}
+
 
 const optionDrawer = {
   headerLeft : () => null,
@@ -119,8 +143,20 @@ function MainStackNavigator(){
         component={MainDrawerNavigator}
         options={{...optionStack}}/>
       <Stack.Screen
-        name = "Animal"
-        component = {Animal}
+        name = "AnimalAddPage"
+        component = {AnimalAddPage}
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "SocialMyPage"
+        component = {SocialMyPage}
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "NonSocialMyPage"
+        component = {NonSocialMyPage}
+        options={{...optionStack}}/>
+      <Stack.Screen
+        name = "NonSocialWithdrawalPage"
+        component = {NonSocialWithdrawal}
         options={{...optionStack}}/>
       <Stack.Screen
         name = "ObesityRegisterPage"
@@ -130,6 +166,23 @@ function MainStackNavigator(){
         name = "ObesityTimePage"
         component = {ObesityTimePage}
         options={{...optionStack}}/>
+      <Stack.Screen
+        name = "PostBoardPage"
+        component = {PostBoardPage}
+        options={{...optionStack}}
+      />
+      <Stack.Screen
+        name = "PostPage"
+        component = {PostPage}
+        options = {{...optionStack}}/>
+      <Stack.Screen
+        name = "PostAddPage"
+        component = {PostAddPage}
+        options = {{...optionStack}}/>
+      <Stack.Screen
+        name = "InstructionPage"
+        component = {InstructionPage}
+        options = {{...optionStack}}/>
   </Stack.Navigator>
   )
 }
@@ -158,7 +211,7 @@ function MainDrawerNavigator(){
         options={{...optionDrawer}}/>
       <Drawer.Screen
         name = "CommunityPage"
-        component = {CommunityPage}
+        component = {BottomTabNavigator}
         options ={{...optionDrawer}}/>
     </Drawer.Navigator>
   )
@@ -178,11 +231,38 @@ function ObesityTabNavigator(){
   )
 }
 
+function BottomTabNavigator(){
+  return(
+    <BottomTab.Navigator initialRouteName='CoummunityPage'
+     screenOptions={{ tabBarLabel: () => null}}>
+      <BottomTab.Screen
+        name = "Community" 
+        component = {CommunityPage}
+        options = {{
+          tabBarIcon : () => (
+            <Icon name = "home" size = {24} color = "black"/>
+          ),
+          headerShown : false,
+        }}
+      />
+      <BottomTab.Screen
+        name = "CommunityMyPage"
+        component = {CommunityMyPage}
+        options = {{
+          tabBarIcon : () => (
+            <Icon name = "person" size = {24} color = "black"/>
+          ),
+          headerShown : false,
+        }}/>
+    </BottomTab.Navigator>
+  )
+}
+
 function AppInner() {
 
   const token = useSelector((state: RootState) => state.login.accessToken);
   
-  const isLogged = token ? true : false;
+  const isLoggedIn = token ? true : false;
   //checking accessToken
   //  not login: null
   //  login    : stirng

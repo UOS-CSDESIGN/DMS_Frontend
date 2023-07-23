@@ -6,14 +6,14 @@ import {
   StyleSheet,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import { RootStackParamList } from '../AppInner';
+import { RootParamList } from '../AppInner';
 import User from '../model/User/User';
 import { useDispatch } from 'react-redux';
 import postSignup from '../model/User/postSignup';
 import SignUp from '../components/SignUpComponent';
 import ButtonComponent from '../components/ButtonComponent';
 
-type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUpPage'>
+type SignUpScreenProps = NativeStackScreenProps<RootParamList, 'SignUpPage'>
 
 function SignUpPage({navigation} : SignUpScreenProps){
     const [userId, setUserId] = useState<string>('');

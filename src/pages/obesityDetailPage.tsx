@@ -1,11 +1,11 @@
 import { DrawerScreenProps } from '@react-navigation/drawer';
-import { RootDrawerParamList } from '../AppInner';
 import { Text, View, Pressable, StyleSheet, ScrollView, TextInput, Alert} from 'react-native'
+import { RootParamList } from '../AppInner';
 import { useCallback, useEffect, useState } from "react";
 import ObesityDetailListComponent from "../components/ObesityDetailListComponent";
 import ObesityDateComponent from "../components/ObesityDateComponent";
 
-type ObesityDetailScreenProps = DrawerScreenProps<RootDrawerParamList, 'ObesityDetailPage'>
+type ObesityDetailScreenProps = DrawerScreenProps<RootParamList, 'ObesityDetailPage'>
 
 function ObesityDetailPage({navigation} : ObesityDetailScreenProps){
     const [date, setDate] = useState<string>('2023/05/29');

@@ -12,10 +12,10 @@ import {
   Button
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import { RootStackParamList } from '../AppInner';
+import { RootParamList } from '../AppInner';
 import MyPage from './MyPageComponent';
 
-type SocialMyPageScreenProps  = NativeStackScreenProps<RootStackParamList, 'SocialMyPage'>
+type SocialMyPageScreenProps  = NativeStackScreenProps<RootParamList, 'SocialMyPage'>
 
 function SocialMyPage({navigation} : SocialMyPageScreenProps){
     return(

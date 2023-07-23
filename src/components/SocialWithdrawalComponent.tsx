@@ -1,10 +1,10 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../AppInner";
+import { RootParamList } from "../AppInner";
 import { Text, View } from "react-native";
 import { useEffect, useState } from "react";
 import Withdrawl from "./WithdrawalComponent";
 
-type SocialWithdrawalScreenProps = NativeStackScreenProps<RootStackParamList, 'SocialWithdrawal'>
+type SocialWithdrawalScreenProps = NativeStackScreenProps<RootParamList, 'SocialWithdrawal'>
 
 function SocialWithdrawal({navigation} : SocialWithdrawalScreenProps){
     const [password, setPassword] = useState<boolean>(false);

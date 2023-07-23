@@ -9,17 +9,20 @@ import {
 } from 'react-native';
 import Login from '../components/LoginComponent';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import { RootStackParamList } from '../AppInner';
+import { RootParamList } from '../AppInner';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../model';
 import SocialLoginComponent from '../components/SocialLoginComponent';
 import deleteMemberData from '../model/User/deleteMemberData';
 import CheckBox from '@react-native-community/checkbox';
-import ButtonComponent from '../components/ButtonComponent';
 import postLogin from '../model/User/postLogin';
 import { Dimensions } from 'react-native';
+import ButtonComponent from '../components/ButtonComponent';
+import postPosting from '../model/Community/postPosting';
+import Post from '../model/Community/Post';
+import { Image } from 'react-native-svg';
 
-type LogInScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginPage'>;
+type LogInScreenProps = NativeStackScreenProps<RootParamList, 'LoginPage'>;
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -37,7 +40,7 @@ function LoginPage({navigation} : LogInScreenProps){
     },[])
 
     const toAnimal = useCallback(() => {
-        navigation.navigate('Animal');
+        navigation.navigate('AnimalAddPage');
     },[navigation])
     const toSocialSignUp = useCallback(() => {
         navigation.navigate('SocialGoogle');
@@ -47,7 +50,7 @@ function LoginPage({navigation} : LogInScreenProps){
     },[navigation])
     const toFind = useCallback(() => {
         navigation.navigate('FindPage');
-    },[])
+    },[navigation])
 
     const [canGoNext,setCanGoNext] = useState<boolean>(false);
     useEffect(() => {
@@ -63,12 +66,13 @@ function LoginPage({navigation} : LogInScreenProps){
     const token = useSelector((state : RootState) => state.login.accessToken);
     const user = useSelector((state : RootState) => state.memberData.userData);
     const onSubmit = useCallback(async () => {
+      
         const user = new FormData();
         user.append("userId", userId);
         user.append("password", password);
         await postLogin(user, dispatch)
           .then((value) => {
-            navigation.navigate("Main");
+            navigation.navigate("MultiProfilePage");
           })
           .catch((error) => {
             //alert
@@ -79,7 +83,6 @@ function LoginPage({navigation} : LogInScreenProps){
       const onDeleteMember = useCallback(async () => {
         deleteMemberData(dispatch, token, "");
       }, [dispatch, token]);
-
     return(
         <ScrollView style = {styles.LoginPage}>
           <View style={styles.GreetingWrapper}>
@@ -126,7 +129,7 @@ function LoginPage({navigation} : LogInScreenProps){
               <SocialLoginComponent
                 toAnimal = {toAnimal}
                 toSignup = {toSocialSignUp}/>
-            </View>
+        </View>
         </ScrollView>
     )
 }
