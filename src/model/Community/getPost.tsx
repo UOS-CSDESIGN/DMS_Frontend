@@ -26,9 +26,9 @@ async function getPost(
   if (postId === 0) {
     return Promise.reject();
   }
-  await axios
-    .get(url)
-    .then(res => {
+  await axios.get(url)
+    .then((res) => {
+      dispatch(getPostItemSuccess(res.data));
       const uuids:string[] = res.data.imageUuid;
       uuids.map((item)=>{
         getImage(item);
