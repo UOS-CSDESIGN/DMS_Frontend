@@ -2,7 +2,7 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator, DrawerItem, DrawerToggleButton} from '@react-navigation/drawer'
-import { useState } from 'react';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs'
 import LoginPage from './pages/loginPage';
 import SignUpPage from './pages/signUpPage';
 import Main from './components/mainComponent';
@@ -10,7 +10,6 @@ import MyPage from './components/MyPageComponent';
 import Animal from './components/AnimalComponent';
 import SocialGoogle from './components/socialGoogle';
 import Find from './components/FindComponent';
-import MultiProfile from './components/MultiProfileComponent';
 import ObesityPage from './pages/obesityPage';
 import ObesityDetailPage from './pages/obesityDetailPage';
 import CommunityPage from './pages/communityPage';
@@ -19,6 +18,7 @@ import ObesityRegisterPage from './pages/obesityRegisterPage';
 import ObesityTimePage from './pages/obesityTimePage';
 import { useSelector } from 'react-redux';
 import { RootState } from './model';
+import MultiProfilePage from './pages/multiProfilePage';
 
 
 export type RootStackParamList = {
@@ -26,7 +26,6 @@ export type RootStackParamList = {
   SignUpPage: undefined;
   FindPage : undefined;
   Animal : undefined;
-  Main : undefined;
   SocialGoogle : undefined;
   Shop : undefined;
   MapPage : undefined;
@@ -46,8 +45,14 @@ export type RootDrawerParamList = {
   CommunityPage : undefined;
 }
 
+export type RootTabParamList = {
+  비만도 : undefined;
+  세부사항 : undefined;
+}
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
+const Tab = createMaterialTopTabNavigator<RootTabParamList>();
 
 const optionDrawer = {
   headerLeft : () => null,
@@ -118,10 +123,6 @@ function MainStackNavigator(){
         component = {Animal}
         options={{...optionStack}}/>
       <Stack.Screen
-        name = "Main"
-        component = {Main}
-        options={{...optionStack}}/>
-      <Stack.Screen
         name = "ObesityRegisterPage"
         component = {ObesityRegisterPage}
         options={{...optionStack}}/>
@@ -144,7 +145,7 @@ function MainDrawerNavigator(){
      }}>
       <Drawer.Screen
         name = "MultiProfilePage"
-        component = {MultiProfile}
+        component = {MultiProfilePage}
         options={{...optionDrawer}}/>
       <Drawer.Screen
         name = "MyPage"
@@ -153,17 +154,27 @@ function MainDrawerNavigator(){
       />
       <Drawer.Screen
         name = "ObesityPage"
-        component = {ObesityPage}
-        options={{...optionDrawer}}/>
-      <Drawer.Screen
-        name = "ObesityDetailPage"
-        component = {ObesityDetailPage}
+        component = {ObesityTabNavigator}
         options={{...optionDrawer}}/>
       <Drawer.Screen
         name = "CommunityPage"
         component = {CommunityPage}
         options ={{...optionDrawer}}/>
     </Drawer.Navigator>
+  )
+}
+
+function ObesityTabNavigator(){
+  return(
+    <Tab.Navigator
+     backBehavior='history'>
+      <Tab.Screen
+        name = "비만도"
+        component = {ObesityPage}/>
+      <Tab.Screen
+        name = "세부사항"
+        component = {ObesityDetailPage}/>
+    </Tab.Navigator>
   )
 }
 
@@ -178,10 +189,10 @@ function AppInner() {
   return (
     
     <NavigationContainer>
-      {isLogged ?
-        <MainStackNavigator /> :
-        <LoginStackNavigator/>
-      }
+   {isLogged ?
+    <MainStackNavigator /> :
+    <LoginStackNavigator/>
+  } 
     </NavigationContainer>
   ); 
 }

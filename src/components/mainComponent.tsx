@@ -1,125 +1,50 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {
-  Animated,
   Alert,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
-  ScrollView,
-  Button,
   Image,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppInner';
 import Picture from './PictureComponent';
+import Icon from 'react-native-vector-icons/Ionicons'
 
-type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>
+type MainPageProps = {
+  isPicture : boolean;
+  picture : string;
+  name : string;
+  age : number;
+  weight : number;
+  obesity : number;
+  isEdit : boolean;
+  onChangeEdit : () => void;
+  onChangePicture : (picture : string) => void;
+  onChangeName : (name : string) => void;
+  onChangeAge : (age : number) => void;
+  onChangeWeight : (weight : number) => void;
+  onChangeObesity : (obesity : number) => void;
+}
 
-function Main({navigation} : MainScreenProps){
-  const [isPicture, setIsPicture] = useState<boolean>(false);
-  const [picture, setPicture] = useState<string>('');
-  const [name, setName] = useState<string>('');
-  const [age , setAge] = useState<number>(0);
-  const [gender, setGender] = useState<string>('');
-  const [weight, setWeight] = useState<number>(0);
-  const [obesity, setObesity] = useState<number>(0);
-  const [isEdit, setIsEdit] = useState<boolean>(false);
-  
-  const onChangeEdit = useCallback(() => {
-    setIsEdit(true);
-  }, []);
-
-  const onChangePicture = useCallback((picture : string) => {
-    setPicture(picture);
-  }, [picture]);
-  const toAlbum = useCallback(() => {
-    navigation.navigate('Album')
-  }, [navigation])
-
-  const [isEditName, setIsEditName] = useState<boolean>(false);
-  const [tempName, setTempName] = useState<string>('');
-  const onChangeName = useCallback(() => {
-    setName('');
-    setIsEditName(true);
-  },[name])
-  const onSaveName = useCallback(() =>{
-    setName(tempName);
-    setIsEditName(false);
-    setTempName('');
-  }, [tempName])
-  const onChangeNameText = useCallback((name : string) => {
-    setTempName(name)
-  },[])
-
-
-  const [isEditAge, setisEditAge] = useState<boolean>(false);
-  const [tempAge, setTempAge] = useState<string>('');
-  const onChangeAge = useCallback(() => {
-    setAge(0);
-    setisEditAge(true);
-  }, [age]);
-  const onSaveAge = useCallback(() => {
-    setAge(parseInt(tempAge));
-    setisEditAge(false);
-    setTempAge('');
-  },[tempAge])
-  const onChangeAgeText = useCallback((age : string) =>{
-    setTempAge(age);
-  },[])
-
-
-  const [isEditGender, setIsEditGender] = useState<boolean>(false);
-  const [tempGender, setTempGender] = useState<string>('');
-  const onChangeGender = useCallback(() => {
-    setGender('');
-    setIsEditGender(true);
-  }, [gender]);
-  const onSaveGender = useCallback(() => {
-    setGender(tempGender);
-    setIsEditGender(false);
-    setTempGender('');
-  }, [tempGender]);
-  const onChangeGenderText = useCallback((gender : string) => {
-    setTempGender(gender);
-  },[])
-
-
-  const [isEditWeight, setIsEditWeight] = useState<boolean>(false);
-  const [tempWeight, setTempWeight] = useState<string>('');
-  const onChangeWeight = useCallback(() => {
-    setWeight(0);
-    setIsEditWeight(true);
-  }, [weight]);
-  const onSaveWeight = useCallback(() => {
-    setWeight(parseInt(tempWeight));
-    setIsEditWeight(false);
-    setTempWeight('');
-  }, [tempWeight]);
-  const onChangeWeightText = useCallback((weight : string) => {
-    setTempWeight(weight);
-  },[])
-  const onChangeObesity = useCallback(() => {
-
-  }, []);
+function Main(props : MainPageProps){
     return(
       <View>
         <View>
           <Text style = {styles.description}>사진</Text>
-          <Picture onPictureSelected={onChangePicture}/>
-          <Pressable onPress = {toAlbum}>
-          {picture ? <Image 
-          source = {{uri : picture}}
+          <Picture onPictureSelected={props.onChangePicture}/>
+          {props.picture ? <Image 
+          source = {{uri : props.picture}}
           style = {styles.image}/> : null}
-          </Pressable>
         </View>
         <View style = {styles.wrapper}>
           <View style = {styles.descriptionView}>
             <Text style = {styles.description}>이름 : </Text>
           </View>
           <View style = {styles.descriptionView2}>
-            {isEditName ? (
+            {props.isEditName ? (
               <TextInput
               style = {styles.textInput}
               value = {tempName}
